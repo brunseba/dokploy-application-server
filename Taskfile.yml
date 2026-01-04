@@ -291,6 +291,126 @@ tasks:
         echo "    --label-add 'traefik.http.services.<name>.loadbalancer.server.port=PORT'"
     silent: false
 
+  traefik:create:docker:
+    desc: Create Traefik container with standalone Docker (no Swarm)
+    prompt: This will create a new Traefik container. Continue?
+    cmds:
+      - |
+        echo "Creating Traefik container (standalone Docker)..."
+        echo ""
+        
+        # Create required directories
+        sudo mkdir -p {{.TRAEFIK_DIR}}/dynamic
+        
+        # Copy configuration files from inputs/ directory
+        if [ -d inputs/etc/dokploy/traefik ]; then
+          echo "Copying Traefik configuration from inputs/..."
+          
+          # Copy traefik.yml if it doesn't exist
+          if [ ! -f {{.TRAEFIK_DIR}}/traefik.yml ]; then
+            sudo cp inputs/etc/dokploy/traefik/traefik.yml {{.TRAEFIK_DIR}}/traefik.yml
+            # Update config to disable swarm provider for standalone mode
+            sudo sed -i.bak '/swarm:/,/watch: true/d' {{.TRAEFIK_DIR}}/traefik.yml
+            echo "✓ Copied and configured traefik.yml (Swarm provider disabled)"
+            echo "  Note: Update email in {{.TRAEFIK_DIR}}/traefik.yml"
+          else
+            echo "⊚ traefik.yml already exists (skipping)"
+          fi
+          
+          # Copy dynamic configuration files if they exist
+          if [ -f inputs/etc/dokploy/traefik/dynamic/middlewares.yml ]; then
+            sudo cp inputs/etc/dokploy/traefik/dynamic/middlewares.yml {{.TRAEFIK_DIR}}/dynamic/
+            echo "✓ Copied middlewares.yml"
+          fi
+        else
+          echo "⚠ inputs/etc/dokploy/traefik not found"
+          echo "Creating basic traefik.yml..."
+          sudo tee {{.TRAEFIK_DIR}}/traefik.yml > /dev/null << 'EOF'
+        global:
+          sendAnonymousUsage: false
+        providers:
+          docker:
+            exposedByDefault: false
+            watch: true
+            network: dokploy-network
+          file:
+            directory: /etc/dokploy/traefik/dynamic
+            watch: true
+        entryPoints:
+          web:
+            address: :80
+          websecure:
+            address: :443
+            http3:
+              advertisedPort: 443
+            http:
+              tls:
+                certResolver: letsencrypt
+        api:
+          insecure: true
+        certificatesResolvers:
+          letsencrypt:
+            acme:
+              email: your-email@example.com
+              storage: /etc/dokploy/traefik/dynamic/acme.json
+              httpChallenge:
+                entryPoint: web
+        EOF
+          echo "✓ Created basic traefik.yml"
+        fi
+        echo ""
+        
+        # Create acme.json
+        sudo touch {{.TRAEFIK_DIR}}/dynamic/acme.json
+        sudo chmod 600 {{.TRAEFIK_DIR}}/dynamic/acme.json
+        
+        # Create docker network if it doesn't exist (bridge network for standalone)
+        docker network create dokploy-network 2>/dev/null || echo "Network dokploy-network already exists"
+        
+        # Stop and remove existing container if it exists
+        docker stop {{.CONTAINER_NAME}} 2>/dev/null || true
+        docker rm {{.CONTAINER_NAME}} 2>/dev/null || true
+        
+        # Create Traefik container
+        docker run -d \
+          --name {{.CONTAINER_NAME}} \
+          --restart unless-stopped \
+          -p 80:80 \
+          -p 443:443 \
+          -p 443:443/udp \
+          -p 8080:8080 \
+          -v /var/run/docker.sock:/var/run/docker.sock:ro \
+          -v {{.TRAEFIK_DIR}}/traefik.yml:/etc/traefik/traefik.yml:ro \
+          -v {{.TRAEFIK_DIR}}/dynamic:/etc/dokploy/traefik/dynamic \
+          --network dokploy-network \
+          --label "traefik.enable=true" \
+          traefik:v3.6.1
+        
+        echo ""
+        echo "✓ Traefik container created successfully!"
+        echo ""
+        echo "Container info:"
+        docker ps | grep traefik
+        echo ""
+        echo "Next steps:"
+        echo "  1. Update email in {{.TRAEFIK_DIR}}/traefik.yml"
+        echo "  2. Configure OVH DNS (optional): task traefik:configure"
+        echo "  3. Check status: task traefik:status"
+        echo "  4. View logs: docker logs -f {{.CONTAINER_NAME}}"
+        echo ""
+        echo "Dashboard: http://YOUR_SERVER_IP:8080"
+        echo ""
+        echo "For routing to Docker containers, add labels:"
+        echo "  docker run -d --name myapp \\"
+        echo "    --network dokploy-network \\"
+        echo "    --label 'traefik.enable=true' \\"
+        echo "    --label 'traefik.http.routers.myapp.rule=Host(\`domain.com\`)' \\"
+        echo "    --label 'traefik.http.routers.myapp.entrypoints=websecure' \\"
+        echo "    --label 'traefik.http.routers.myapp.tls.certresolver=letsencrypt' \\"
+        echo "    --label 'traefik.http.services.myapp.loadbalancer.server.port=3000' \\"
+        echo "    myapp:latest"
+    silent: false
+
   # Docker/Dokploy tasks
   docker:services:
     desc: List all Docker Swarm services
@@ -480,7 +600,8 @@ tasks:
           task docs:pdf                - Build with PDF export
         
         Traefik:
-          task traefik:create          - Create Traefik service
+          task traefik:create          - Create Traefik service (Swarm)
+          task traefik:create:docker   - Create Traefik container (standalone)
           task traefik:configure       - Configure Traefik with OVH DNS
           task traefik:logs            - View Traefik logs
           task traefik:status          - Check Traefik status

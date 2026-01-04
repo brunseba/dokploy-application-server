@@ -79,6 +79,7 @@ task docs:pdf
 | Task | Description |
 |------|-------------|
 | `task traefik:create` | Create and deploy Traefik service with Docker Swarm |
+| `task traefik:create:docker` | Create Traefik container with standalone Docker (no Swarm) |
 | `task traefik:configure` | Configure Traefik with OVH DNS (interactive) |
 | `task traefik:configure:dry-run` | Test configuration (dry-run mode) |
 | `task traefik:logs` | Show Traefik logs |
@@ -91,8 +92,11 @@ task docs:pdf
 
 **Examples:**
 ```bash
-# Create Traefik service (first time setup)
+# Create Traefik service with Docker Swarm
 task traefik:create
+
+# OR create standalone Docker container (no Swarm)
+task traefik:create:docker
 
 # Configure Traefik (interactive prompts for credentials)
 task traefik:configure
