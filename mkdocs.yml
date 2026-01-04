@@ -68,9 +68,9 @@ plugins:
   - search:
       lang: en
       separator: '[\s\-\.]+'
-  # - git-revision-date-localized:
-  #     enable_creation_date: true
-  #     type: timeago
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
   - mermaid2
   - with-pdf:
       author: Dokploy Contributors

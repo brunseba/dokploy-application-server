@@ -203,9 +203,10 @@ tasks:
             echo "✓ Copied middlewares.yml"
           fi
           
-          if [ -f inputs/etc/dokploy/traefik/dynamic/dokploy.yml ]; then
-            sudo cp inputs/etc/dokploy/traefik/dynamic/dokploy.yml {{.TRAEFIK_DIR}}/dynamic/
-            echo "✓ Copied dokploy.yml (example configuration)"
+          # Copy example configuration (reference only)
+          if [ -f inputs/etc/dokploy/traefik/dynamic/dokploy-example.yml ]; then
+            sudo cp inputs/etc/dokploy/traefik/dynamic/dokploy-example.yml {{.TRAEFIK_DIR}}/dynamic/
+            echo "✓ Copied dokploy-example.yml (reference only, not loaded)"
           fi
         else
           echo "⚠ inputs/etc/dokploy/traefik not found"
@@ -283,6 +284,11 @@ tasks:
         echo "  4. View logs: task traefik:logs:follow"
         echo ""
         echo "Dashboard: http://YOUR_SERVER_IP:8080"
+        echo ""
+        echo "For routing to Swarm services, add labels to your services:"
+        echo "  docker service update <service> --label-add 'traefik.enable=true' \\"
+        echo "    --label-add 'traefik.http.routers.<name>.rule=Host(\`domain.com\`)' \\"
+        echo "    --label-add 'traefik.http.services.<name>.loadbalancer.server.port=PORT'"
     silent: false
 
   # Docker/Dokploy tasks

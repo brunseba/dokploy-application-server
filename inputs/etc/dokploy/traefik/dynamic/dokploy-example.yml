@@ -1,0 +1,43 @@
+# Example configuration for routing to Dokploy application
+# 
+# IMPORTANT: For Docker Swarm services, you should use service labels instead of file-based configuration
+# This file is provided as an example only.
+#
+# To properly configure routing to a Swarm service, add labels to the service:
+#
+# docker service update dokploy \
+#   --label-add "traefik.enable=true" \
+#   --label-add "traefik.http.routers.dokploy.rule=Host(\`maquette-01.lepervier.org\`)" \
+#   --label-add "traefik.http.routers.dokploy.entrypoints=web" \
+#   --label-add "traefik.http.routers.dokploy.middlewares=redirect-to-https" \
+#   --label-add "traefik.http.routers.dokploy-secure.rule=Host(\`maquette-01.lepervier.org\`)" \
+#   --label-add "traefik.http.routers.dokploy-secure.entrypoints=websecure" \
+#   --label-add "traefik.http.routers.dokploy-secure.tls.certresolver=letsencrypt" \
+#   --label-add "traefik.http.services.dokploy.loadbalancer.server.port=3000"
+#
+# If you still want to use file-based configuration, you need to use the full container/task name:
+
+http:
+  routers:
+    dokploy-router-app:
+      rule: Host(`maquette-01.lepervier.org`)
+      service: dokploy-service-app
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-to-https
+    dokploy-router-app-secure:
+      rule: Host(`maquette-01.lepervier.org`)
+      service: dokploy-service-app
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+  services:
+    dokploy-service-app:
+      loadBalancer:
+        servers:
+          # For Swarm services, use the service name and internal port
+          # The service must be on the same network (dokploy-network)
+          - url: http://dokploy:3000
+        passHostHeader: true
