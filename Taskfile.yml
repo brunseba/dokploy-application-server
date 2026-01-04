@@ -141,13 +141,25 @@ tasks:
     cmds:
       - docker ps | grep traefik
       - echo ""
-      - docker exec {{.CONTAINER_NAME}} traefik version
+      - |
+        CID=$(docker ps --filter "name={{.CONTAINER_NAME}}" -q | head -n1)
+        if [ -n "$CID" ]; then
+          docker exec "$CID" traefik version
+        else
+          echo "✗ Traefik container not found"
+        fi
     silent: false
 
   traefik:config:show:
     desc: Show Traefik configuration
     cmds:
-      - docker exec {{.CONTAINER_NAME}} cat /etc/traefik/traefik.yml
+      - |
+        CID=$(docker ps --filter "name={{.CONTAINER_NAME}}" -q | head -n1)
+        if [ -z "$CID" ]; then
+          echo "✗ Traefik container not found"
+          exit 1
+        fi
+        docker exec "$CID" cat /etc/traefik/traefik.yml
     silent: false
 
   traefik:backup:
@@ -221,7 +233,12 @@ tasks:
       - |
         BACKUP_DIR="./backups/db"
         mkdir -p "$BACKUP_DIR"
-        docker exec dokploy-postgres pg_dump -U postgres dokploy > "$BACKUP_DIR/dokploy-$(date +%Y%m%d-%H%M%S).sql"
+        CID=$(docker ps --filter "name=dokploy-postgres" -q | head -n1)
+        if [ -z "$CID" ]; then
+          echo "✗ PostgreSQL container not found"
+          exit 1
+        fi
+        docker exec "$CID" pg_dump -U postgres dokploy > "$BACKUP_DIR/dokploy-$(date +%Y%m%d-%H%M%S).sql"
         echo "✓ Database backup created in $BACKUP_DIR"
     silent: false
 
@@ -232,7 +249,12 @@ tasks:
       - |
         read -p "Backup file path: " BACKUP_FILE
         if [ -f "$BACKUP_FILE" ]; then
-          docker exec -i dokploy-postgres psql -U postgres -d dokploy < "$BACKUP_FILE"
+          CID=$(docker ps --filter "name=dokploy-postgres" -q | head -n1)
+          if [ -z "$CID" ]; then
+            echo "✗ PostgreSQL container not found"
+            exit 1
+          fi
+          docker exec -i "$CID" psql -U postgres -d dokploy < "$BACKUP_FILE"
           echo "✓ Database restored"
         else
           echo "✗ Backup file not found: $BACKUP_FILE"
@@ -243,7 +265,13 @@ tasks:
   db:connect:
     desc: Connect to PostgreSQL database
     cmds:
-      - docker exec -it dokploy-postgres psql -U postgres -d dokploy
+      - |
+        CID=$(docker ps --filter "name=dokploy-postgres" -q | head -n1)
+        if [ -z "$CID" ]; then
+          echo "✗ PostgreSQL container not found"
+          exit 1
+        fi
+        docker exec -it "$CID" psql -U postgres -d dokploy
     silent: false
 
   # Monitoring tasks
@@ -303,7 +331,13 @@ tasks:
       - echo "=== Dokploy Components ==="
       - 'echo -n "Docker: " && docker --version'
       - 'echo -n "Docker Swarm: " && docker info | grep Swarm: | awk ''{print $2}'''
-      - 'echo -n "Traefik: " && docker exec {{.CONTAINER_NAME}} traefik version 2>&1 | head -1'
+      - |
+        CID=$(docker ps --filter "name={{.CONTAINER_NAME}}" -q | head -n1)
+        if [ -n "$CID" ]; then
+          echo -n "Traefik: " && docker exec "$CID" traefik version 2>&1 | head -1
+        else
+          echo "Traefik: not running"
+        fi
       - echo ""
       - echo "=== Documentation Tools ==="
       - 'echo -n "MkDocs: " && mkdocs --version 2>/dev/null || echo "not installed"'
