@@ -1,0 +1,29 @@
+/* Custom styles for Dokploy documentation */
+
+:root {
+  --primary-color: #4f46e5;
+  --accent-color: #818cf8;
+}
+
+/* Improve code block styling */
+.md-typeset code {
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+/* Enhance table styling */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 4px;
+}
+
+/* Better spacing for admonitions */
+.md-typeset .admonition {
+  margin: 1.5em 0;
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+  text-align: center;
+  margin: 2em 0;
+}

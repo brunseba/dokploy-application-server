@@ -1,0 +1,303 @@
+[
+    {
+        "Id": "59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03",
+        "Created": "2025-12-30T14:11:06.171105788Z",
+        "Path": "/entrypoint.sh",
+        "Args": [
+            "traefik"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 248942,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2025-12-30T14:11:06.215450146Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:1fd2908c092e5b20b852f9891b365aa5ec46cf2691388fc2e0d33e9d9758bdf0",
+        "ResolvConfPath": "/var/lib/docker/containers/59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03/hostname",
+        "HostsPath": "/var/lib/docker/containers/59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03/hosts",
+        "LogPath": "/var/lib/docker/containers/59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03/59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03-json.log",
+        "Name": "/dokploy-traefik",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "/etc/dokploy/traefik/dynamic:/etc/dokploy/traefik/dynamic",
+                "/var/run/docker.sock:/var/run/docker.sock:ro",
+                "/etc/dokploy/traefik/traefik.yml:/etc/traefik/traefik.yml"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "bridge",
+            "PortBindings": {
+                "443/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "443"
+                    }
+                ],
+                "443/udp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "443"
+                    }
+                ],
+                "80/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "80"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "always",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                65,
+                268
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "59fc23c03bf5e2173134d9e6c15965b9ccfe9108a347e3754ad0a537c417dc03",
+                "LowerDir": "/var/lib/docker/overlay2/5deafeb128ac78ec57551258d21083f730e0a1177b0e17bc1c11d418eb4c7f98-init/diff:/var/lib/docker/overlay2/373f8e982a5a11b7b7036a6a7b95df36da644675c6f84d0837aa3192bfdeb5d9/diff:/var/lib/docker/overlay2/71eb9b6c01e909e9dd0b3d01e034a9e7992fb754d4bbfc20ba4967814d03fc90/diff:/var/lib/docker/overlay2/387d04294024c6d935cf5cecfb8f1bc497c1bdfa574932e6a0311209715ec75a/diff:/var/lib/docker/overlay2/c75144932f7691c621d0ad0908134cb7d14c443e044d521fa850425066c1a9b8/diff",
+                "MergedDir": "/var/lib/docker/overlay2/5deafeb128ac78ec57551258d21083f730e0a1177b0e17bc1c11d418eb4c7f98/merged",
+                "UpperDir": "/var/lib/docker/overlay2/5deafeb128ac78ec57551258d21083f730e0a1177b0e17bc1c11d418eb4c7f98/diff",
+                "WorkDir": "/var/lib/docker/overlay2/5deafeb128ac78ec57551258d21083f730e0a1177b0e17bc1c11d418eb4c7f98/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/etc/dokploy/traefik/traefik.yml",
+                "Destination": "/etc/traefik/traefik.yml",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/etc/dokploy/traefik/dynamic",
+                "Destination": "/etc/dokploy/traefik/dynamic",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/var/run/docker.sock",
+                "Destination": "/var/run/docker.sock",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "59fc23c03bf5",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "443/tcp": {},
+                "443/udp": {},
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "traefik"
+            ],
+            "Image": "traefik:v3.6.1",
+            "Volumes": null,
+            "WorkingDir": "/",
+            "Entrypoint": [
+                "/entrypoint.sh"
+            ],
+            "Labels": {
+                "org.opencontainers.image.description": "A modern reverse-proxy",
+                "org.opencontainers.image.documentation": "https://docs.traefik.io",
+                "org.opencontainers.image.source": "https://github.com/traefik/traefik",
+                "org.opencontainers.image.title": "Traefik",
+                "org.opencontainers.image.url": "https://traefik.io",
+                "org.opencontainers.image.vendor": "Traefik Labs",
+                "org.opencontainers.image.version": "v3.6.1"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "39b2dc0e880215764b8d1020607748826f4c38e3760ee26064c5f64fa6aeebf8",
+            "SandboxKey": "/var/run/docker/netns/39b2dc0e8802",
+            "Ports": {
+                "443/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "443"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "443"
+                    }
+                ],
+                "443/udp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "443"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "443"
+                    }
+                ],
+                "80/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "80"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "80"
+                    }
+                ]
+            },
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "8e293b4553e73b59bdf453dc0a281ce7572d842871b474b2356aa4ed77a98021",
+                    "EndpointID": "ff745e3131995d217efc0429e7b81cc81db2844d2aebd98cfee79028e2abbe63",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "MacAddress": "ae:1b:b3:6d:0a:bb",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                },
+                "dokploy-network": {
+                    "IPAMConfig": {
+                        "IPv4Address": "10.0.1.9",
+                        "IPv6Address": ""
+                    },
+                    "Links": null,
+                    "Aliases": [],
+                    "DriverOpts": {},
+                    "GwPriority": 0,
+                    "NetworkID": "oumc760akj64d8w22mddikf6r",
+                    "EndpointID": "1b4bd36e9e61f161944baf86ed0e3d44504663cdbedf941e3cf6a8ee384b6807",
+                    "Gateway": "",
+                    "IPAddress": "10.0.1.9",
+                    "MacAddress": "02:42:0a:00:01:09",
+                    "IPPrefixLen": 24,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "dokploy-traefik",
+                        "59fc23c03bf5"
+                    ]
+                }
+            }
+        }
+    }
+]

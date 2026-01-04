@@ -1,0 +1,23 @@
+http:
+  routers:
+    test001-front-9yqjsa-router-1:
+      rule: Host(`vmware.maquette-01.lepervier.org`)
+      service: test001-front-9yqjsa-service-1
+      middlewares:
+        - redirect-to-https
+      entryPoints:
+        - web
+    test001-front-9yqjsa-router-websecure-1:
+      rule: Host(`vmware.maquette-01.lepervier.org`)
+      service: test001-front-9yqjsa-service-1
+      middlewares: []
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+  services:
+    test001-front-9yqjsa-service-1:
+      loadBalancer:
+        servers:
+          - url: http://test001-front-9yqjsa:8501
+        passHostHeader: true

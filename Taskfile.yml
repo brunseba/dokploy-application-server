@@ -1,0 +1,430 @@
+version: '3'
+
+# Taskfile for Dokploy project
+# Wraps all scripts and common tasks
+# Install: https://taskfile.dev/installation/
+
+vars:
+  DOCS_DIR: docs
+  SCRIPTS_DIR: scripts
+  SITE_DIR: site
+  TRAEFIK_DIR: /etc/dokploy/traefik
+  CONTAINER_NAME: dokploy-traefik
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  # Documentation tasks
+  docs:serve:
+    desc: Serve documentation locally with hot-reload
+    cmds:
+      - mkdocs serve
+    silent: false
+
+  docs:build:
+    desc: Build documentation site
+    cmds:
+      - mkdocs build
+    silent: false
+
+  docs:build:strict:
+    desc: Build documentation with strict mode (warnings as errors)
+    cmds:
+      - mkdocs build --strict
+    silent: false
+
+  docs:deploy:
+    desc: Deploy documentation to GitHub Pages
+    cmds:
+      - mkdocs gh-deploy
+    silent: false
+
+  docs:pdf:
+    desc: Build documentation with PDF export
+    cmds:
+      - ENABLE_PDF_EXPORT=1 mkdocs build
+    silent: false
+
+  docs:clean:
+    desc: Clean generated documentation
+    cmds:
+      - rm -rf {{.SITE_DIR}}
+      - echo "✓ Cleaned {{.SITE_DIR}}/"
+    silent: false
+
+  docs:generate:
+    desc: Generate missing documentation files
+    cmds:
+      - bash {{.SCRIPTS_DIR}}/generate-docs.sh
+    silent: false
+
+  docs:check:
+    desc: Check documentation for broken links
+    cmds:
+      - mkdocs build --strict 2>&1 | grep -i "warning\|error" || echo "✓ No issues found"
+    silent: false
+
+  # Traefik configuration tasks
+  traefik:configure:
+    desc: Configure Traefik with OVH DNS (interactive)
+    prompt: This will configure Traefik with OVH DNS. Continue?
+    cmds:
+      - |
+        echo "Please provide OVH credentials:"
+        read -p "Email: " EMAIL
+        read -p "OVH Application Key: " APP_KEY
+        read -p "OVH Application Secret: " APP_SECRET
+        read -p "OVH Consumer Key: " CONSUMER_KEY
+        read -p "OVH Endpoint [ovh-eu]: " ENDPOINT
+        ENDPOINT=${ENDPOINT:-ovh-eu}
+        sudo {{.SCRIPTS_DIR}}/configure-traefik-ovh-dns.sh \
+          --email "$EMAIL" \
+          --app-key "$APP_KEY" \
+          --app-secret "$APP_SECRET" \
+          --consumer-key "$CONSUMER_KEY" \
+          --endpoint "$ENDPOINT"
+    silent: false
+
+  traefik:configure:dry-run:
+    desc: Test Traefik configuration (dry-run mode)
+    prompt: This will test Traefik configuration. Continue?
+    cmds:
+      - |
+        echo "Please provide OVH credentials for testing:"
+        read -p "Email: " EMAIL
+        read -p "OVH Application Key: " APP_KEY
+        read -p "OVH Application Secret: " APP_SECRET
+        read -p "OVH Consumer Key: " CONSUMER_KEY
+        read -p "OVH Endpoint [ovh-eu]: " ENDPOINT
+        ENDPOINT=${ENDPOINT:-ovh-eu}
+        sudo {{.SCRIPTS_DIR}}/configure-traefik-ovh-dns.sh \
+          --email "$EMAIL" \
+          --app-key "$APP_KEY" \
+          --app-secret "$APP_SECRET" \
+          --consumer-key "$CONSUMER_KEY" \
+          --endpoint "$ENDPOINT" \
+          --dry-run
+    silent: false
+
+  traefik:logs:
+    desc: Show Traefik logs
+    cmds:
+      - docker logs {{.CONTAINER_NAME}} {{.CLI_ARGS}}
+    silent: false
+
+  traefik:logs:follow:
+    desc: Follow Traefik logs in real-time
+    cmds:
+      - docker logs -f {{.CONTAINER_NAME}}
+    silent: false
+
+  traefik:logs:acme:
+    desc: Show Traefik ACME certificate logs
+    cmds:
+      - docker logs {{.CONTAINER_NAME}} 2>&1 | grep -i "acme\|certificate"
+    silent: false
+
+  traefik:restart:
+    desc: Restart Traefik container
+    prompt: This will restart Traefik. Continue?
+    cmds:
+      - docker restart {{.CONTAINER_NAME}}
+      - echo "✓ Traefik restarted"
+    silent: false
+
+  traefik:status:
+    desc: Check Traefik status
+    cmds:
+      - docker ps | grep traefik
+      - echo ""
+      - docker exec {{.CONTAINER_NAME}} traefik version
+    silent: false
+
+  traefik:config:show:
+    desc: Show Traefik configuration
+    cmds:
+      - docker exec {{.CONTAINER_NAME}} cat /etc/traefik/traefik.yml
+    silent: false
+
+  traefik:backup:
+    desc: Backup Traefik configuration and certificates
+    cmds:
+      - |
+        BACKUP_DIR="./backups/traefik-$(date +%Y%m%d-%H%M%S)"
+        mkdir -p "$BACKUP_DIR"
+        sudo cp {{.TRAEFIK_DIR}}/traefik.yml "$BACKUP_DIR/"
+        sudo cp {{.TRAEFIK_DIR}}/dynamic/acme.json "$BACKUP_DIR/" 2>/dev/null || true
+        echo "✓ Backup created in $BACKUP_DIR"
+    silent: false
+
+  # Docker/Dokploy tasks
+  docker:services:
+    desc: List all Docker Swarm services
+    cmds:
+      - docker service ls
+    silent: false
+
+  docker:ps:
+    desc: List all running containers
+    cmds:
+      - docker ps
+    silent: false
+
+  docker:logs:dokploy:
+    desc: Show Dokploy service logs
+    cmds:
+      - docker service logs dokploy {{.CLI_ARGS}}
+    silent: false
+
+  docker:logs:postgres:
+    desc: Show PostgreSQL logs
+    cmds:
+      - docker service logs dokploy-postgres {{.CLI_ARGS}}
+    silent: false
+
+  docker:logs:redis:
+    desc: Show Redis logs
+    cmds:
+      - docker service logs dokploy-redis {{.CLI_ARGS}}
+    silent: false
+
+  docker:stats:
+    desc: Show container resource usage
+    cmds:
+      - docker stats --no-stream
+    silent: false
+
+  docker:cleanup:
+    desc: Clean up unused Docker resources
+    prompt: This will remove unused Docker resources. Continue?
+    cmds:
+      - docker system prune -f
+      - echo "✓ Docker cleanup complete"
+    silent: false
+
+  docker:cleanup:all:
+    desc: Clean up ALL Docker resources (including volumes)
+    prompt: WARNING - This will remove ALL unused Docker resources including volumes. Continue?
+    cmds:
+      - docker system prune -a --volumes -f
+      - echo "✓ Full Docker cleanup complete"
+    silent: false
+
+  # Database tasks
+  db:backup:
+    desc: Backup PostgreSQL database
+    cmds:
+      - |
+        BACKUP_DIR="./backups/db"
+        mkdir -p "$BACKUP_DIR"
+        docker exec dokploy-postgres pg_dump -U postgres dokploy > "$BACKUP_DIR/dokploy-$(date +%Y%m%d-%H%M%S).sql"
+        echo "✓ Database backup created in $BACKUP_DIR"
+    silent: false
+
+  db:restore:
+    desc: Restore PostgreSQL database from backup
+    prompt: This will restore the database. Ensure you have a recent backup. Continue?
+    cmds:
+      - |
+        read -p "Backup file path: " BACKUP_FILE
+        if [ -f "$BACKUP_FILE" ]; then
+          docker exec -i dokploy-postgres psql -U postgres -d dokploy < "$BACKUP_FILE"
+          echo "✓ Database restored"
+        else
+          echo "✗ Backup file not found: $BACKUP_FILE"
+          exit 1
+        fi
+    silent: false
+
+  db:connect:
+    desc: Connect to PostgreSQL database
+    cmds:
+      - docker exec -it dokploy-postgres psql -U postgres -d dokploy
+    silent: false
+
+  # Monitoring tasks
+  monitor:status:
+    desc: Show overall system status
+    cmds:
+      - echo "=== Docker Services ==="
+      - docker service ls
+      - echo ""
+      - echo "=== Containers ==="
+      - docker ps
+      - echo ""
+      - echo "=== Resource Usage ==="
+      - docker stats --no-stream
+    silent: false
+
+  monitor:health:
+    desc: Check health of all services
+    cmds:
+      - |
+        echo "=== Docker Daemon ==="
+        docker info | grep -E "Server Version|Operating System|CPUs|Total Memory"
+        echo ""
+        echo "=== Services Status ==="
+        docker service ls
+        echo ""
+        echo "=== Traefik Status ==="
+        docker ps | grep traefik
+        echo ""
+        echo "=== Certificate Status ==="
+        if [ -f {{.TRAEFIK_DIR}}/dynamic/acme.json ]; then
+          sudo wc -c {{.TRAEFIK_DIR}}/dynamic/acme.json | awk '{print "acme.json size:", $1, "bytes"}'
+        else
+          echo "acme.json not found"
+        fi
+    silent: false
+
+  # Development tasks
+  dev:install:
+    desc: Install all development dependencies
+    cmds:
+      - pip install mkdocs-material mkdocs-mermaid2-plugin mkdocs-with-pdf mkdocs-git-revision-date-localized-plugin
+      - echo "✓ Development dependencies installed"
+    silent: false
+
+  dev:check:
+    desc: Run all checks (docs build, links, etc.)
+    cmds:
+      - task: docs:check
+      - echo "✓ All checks passed"
+    silent: false
+
+  # Utility tasks
+  version:
+    desc: Show versions of all components
+    cmds:
+      - echo "=== Dokploy Components ==="
+      - 'echo -n "Docker: " && docker --version'
+      - 'echo -n "Docker Swarm: " && docker info | grep Swarm: | awk ''{print $2}'''
+      - 'echo -n "Traefik: " && docker exec {{.CONTAINER_NAME}} traefik version 2>&1 | head -1'
+      - echo ""
+      - echo "=== Documentation Tools ==="
+      - 'echo -n "MkDocs: " && mkdocs --version 2>/dev/null || echo "not installed"'
+      - 'echo -n "Python: " && python3 --version 2>/dev/null || echo "not installed"'
+      - echo ""
+      - echo "=== Task Runner ==="
+      - task --version
+    silent: false
+
+  help:
+    desc: Show detailed help for common tasks
+    cmds:
+      - |
+        cat << 'EOF'
+        Dokploy Task Runner - Common Commands
+        ====================================
+        
+        Documentation:
+          task docs:serve              - Start local docs server
+          task docs:build              - Build documentation
+          task docs:deploy             - Deploy to GitHub Pages
+          task docs:pdf                - Build with PDF export
+        
+        Traefik:
+          task traefik:configure       - Configure Traefik with OVH DNS
+          task traefik:logs            - View Traefik logs
+          task traefik:status          - Check Traefik status
+          task traefik:backup          - Backup configuration
+        
+        Docker:
+          task docker:services         - List all services
+          task docker:logs:dokploy     - View Dokploy logs
+          task docker:stats            - View resource usage
+          task docker:cleanup          - Clean unused resources
+        
+        Database:
+          task db:backup               - Backup database
+          task db:restore              - Restore database
+          task db:connect              - Connect to database
+        
+        Monitoring:
+          task monitor:status          - Show system status
+          task monitor:health          - Check service health
+        
+        For full list: task --list
+        For help on specific task: task <task-name> --help
+        EOF
+    silent: true
+
+  # Installation/Setup tasks
+  install:docs:
+    desc: Install documentation dependencies
+    cmds:
+      - pip install -r requirements-docs.txt 2>/dev/null || pip install mkdocs-material mkdocs-mermaid2-plugin
+      - echo "✓ Documentation dependencies installed"
+    silent: false
+
+  setup:
+    desc: Initial setup - install all dependencies and check configuration
+    cmds:
+      - task: install:docs
+      - task: version
+      - echo ""
+      - echo "✓ Setup complete!"
+      - echo ""
+      - echo "Next steps:"
+      - 'echo "  1. Configure Traefik: task traefik:configure"'
+      - 'echo "  2. Start documentation: task docs:serve"'
+      - 'echo "  3. View help: task help"'
+    silent: false
+
+  # Testing tasks
+  test:docs:
+    desc: Test documentation build
+    cmds:
+      - mkdocs build --strict
+      - echo "✓ Documentation builds successfully"
+    silent: false
+
+  test:scripts:
+    desc: Test all scripts for syntax errors
+    cmds:
+      - |
+        echo "Testing scripts..."
+        for script in {{.SCRIPTS_DIR}}/*.sh; do
+          if [ -f "$script" ]; then
+            bash -n "$script" && echo "✓ $script" || echo "✗ $script has syntax errors"
+          fi
+        done
+    silent: false
+
+  test:all:
+    desc: Run all tests
+    cmds:
+      - task: test:docs
+      - task: test:scripts
+      - echo "✓ All tests passed"
+    silent: false
+
+  # Git tasks
+  git:status:
+    desc: Show git status and recent commits
+    cmds:
+      - git status
+      - echo ""
+      - echo "=== Recent commits ==="
+      - git log --oneline -5
+    silent: false
+
+  git:changes:
+    desc: Show uncommitted changes
+    cmds:
+      - git diff
+    silent: false
+
+  # Cleanup tasks
+  clean:all:
+    desc: Clean all generated files
+    prompt: This will remove all generated files. Continue?
+    cmds:
+      - task: docs:clean
+      - rm -rf backups/
+      - echo "✓ All cleaned"
+    silent: false

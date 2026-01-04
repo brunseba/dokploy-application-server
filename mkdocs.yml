@@ -1,0 +1,240 @@
+site_name: Dokploy Configuration & Architecture
+site_description: Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture
+site_author: Dokploy Contributors
+site_url: https://your-domain.github.io/dokploy/
+
+# Repository
+repo_name: dokploy
+repo_url: https://github.com/your-username/dokploy
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024 Dokploy Contributors
+
+# Configuration
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - header.autohide
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-\.]+'
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     type: timeago
+  - mermaid2
+  - with-pdf:
+      author: Dokploy Contributors
+      copyright: Copyright &copy; 2024 Dokploy Contributors
+      cover_title: Dokploy Documentation
+      cover_subtitle: Configuration & Architecture Guide
+      output_path: pdf/dokploy-documentation.pdf
+      enabled_if_env: ENABLE_PDF_EXPORT
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: your-username
+      repo: dokploy
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+# Extra CSS and JavaScript
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-username/dokploy
+      name: GitHub Repository
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/
+      name: Docker Hub
+  generator: false
+  version:
+    provider: mike
+    default: latest
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback! Help us improve by
+            <a href="https://github.com/your-username/dokploy/issues/new" target="_blank" rel="noopener">opening an issue</a>.
+
+# Navigation
+nav:
+  - Home:
+      - index.md
+      - Getting Started: getting-started.md
+      - Quick Start: quick-start.md
+      
+  - Configuration:
+      - Traefik OVH DNS Setup: traefik-ovh-dns-setup.md
+      - Script Reference: configuration/script-reference.md
+      - Troubleshooting: configuration/troubleshooting.md
+      
+  - Architecture:
+      - Overview: architecture/index.md
+      - Phase A - Vision:
+          - Architecture Vision: architecture/01-vision/architecture-vision.md
+          - Stakeholder Analysis: architecture/01-vision/stakeholder-analysis.md
+          - Architecture Principles: architecture/01-vision/architecture-principles.md
+      - Phase B - Business:
+          - Business Capability Model: architecture/02-business/business-capability-model.md
+          - Value Stream Mapping: architecture/02-business/value-stream-mapping.md
+      - Phase C - Data:
+          - Data Model: architecture/03-data/data-model.md
+      - Phase D - Application:
+          - Data Flow Diagram: architecture/04-application/data-flow-diagram.md
+          - Application Component Diagram: architecture/04-application/application-component-diagram.md
+          - API Specification: architecture/04-application/api-specification.md
+      - Phase E - Technology:
+          - Technology Stack: architecture/05-technology/technology-stack.md
+      - Architectural Views:
+          - Context Diagram: architecture/06-views/context-diagram.md
+          - Container Diagram: architecture/06-views/container-diagram.md
+          - Security View: architecture/06-views/security-view.md
+          - Deployment Diagram: architecture/06-views/deployment-diagram.md
+      - Phase F - Requirements:
+          - Requirements Traceability Matrix: architecture/07-requirements/requirements-traceability-matrix.md
+      - Phase G - Migration:
+          - Implementation Roadmap: architecture/09-implementation/implementation-roadmap.md
+      - Phase H - Governance:
+          - Architecture Governance Model: architecture/10-governance/architecture-governance-model.md
+      - Architecture Decisions:
+          - ADR-001 Docker Swarm: architecture/08-decisions/ADR-001-docker-swarm-orchestration.md
+          - ADR-002 Next.js Framework: architecture/08-decisions/ADR-002-nextjs-framework.md
+          - ADR-003 PostgreSQL Database: architecture/08-decisions/ADR-003-postgresql-database.md
+          
+  - Deployment:
+      - Single Server: deployment/single-server.md
+      - Multi Server: deployment/multi-server.md
+      - High Availability: deployment/high-availability.md
+      - Docker Compose Examples: deployment/docker-compose-examples.md
+      
+  - Operations:
+      - Monitoring: operations/monitoring.md
+      - Maintenance: operations/maintenance.md
+      - Backup & Restore: operations/backup-restore.md
+      - Security Best Practices: operations/security.md
+      
+  - Reference:
+      - API Reference: reference/api.md
+      - CLI Commands: reference/cli.md
+      - Configuration Files: reference/configuration-files.md
+      - Environment Variables: reference/environment-variables.md
+      
+  - Contributing:
+      - Contributing Guide: contributing/index.md
+      - Development Setup: contributing/development.md
+      - Coding Standards: contributing/coding-standards.md
+      - Release Process: contributing/release-process.md
