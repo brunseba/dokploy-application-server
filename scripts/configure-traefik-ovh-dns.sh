@@ -33,6 +33,7 @@ TRAEFIK_CONFIG="${TRAEFIK_DIR}/traefik.yml"
 TRAEFIK_DYNAMIC_DIR="${TRAEFIK_DIR}/dynamic"
 ACME_JSON="${TRAEFIK_DYNAMIC_DIR}/acme.json"
 CONTAINER_NAME="dokploy-traefik"
+NETWORK="dokploy-network"
 OVH_ENDPOINT="ovh-eu"
 EMAIL=""
 OVH_APP_KEY=""
@@ -197,10 +198,34 @@ if [ "$EUID" -ne 0 ] && [ ! -w "$TRAEFIK_DIR" ]; then
     exit 1
 fi
 
+log_info "Checking prerequisites..."
+
+# Check if docker is available
+if ! command -v docker &> /dev/null; then
+    log_error "Docker is not installed or not in PATH"
+    exit 1
+fi
+
+# Check if Docker is running
+if ! docker info &> /dev/null; then
+    log_error "Docker daemon is not running"
+    exit 1
+fi
+
+# Check if network exists
+if ! docker network inspect "$NETWORK" &> /dev/null; then
+    log_warn "Network 'dokploy-network' does not exist"
+    log_info "Creating network 'dokploy-network'..."
+    docker network create dokploy-network
+    log_info "Network created"
+fi
+
 # Check if Traefik directory exists
 if [ ! -d "$TRAEFIK_DIR" ]; then
     log_error "Traefik directory not found: $TRAEFIK_DIR"
-    exit 1
+    log_info "Creating directory..."
+    sudo mkdir -p "$TRAEFIK_DIR/dynamic"
+    log_info "Directory created"
 fi
 
 # Check if Traefik config exists
@@ -209,19 +234,14 @@ if [ ! -f "$TRAEFIK_CONFIG" ]; then
     exit 1
 fi
 
-# Check if Docker is running
-if ! docker ps >/dev/null 2>&1; then
-    log_error "Docker is not running or you don't have permission to access it"
-    exit 1
+# Check if Traefik container exists (not required, will be created)
+if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+    log_info "Existing Traefik container found: $CONTAINER_NAME"
+else
+    log_info "No existing Traefik container found (will be created)"
 fi
 
-# Check if Traefik container exists
-if ! docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-    log_error "Traefik container not found: $CONTAINER_NAME"
-    log_info "Available containers:"
-    docker ps -a --format 'table {{.Names}}\t{{.Status}}'
-    exit 1
-fi
+log_info "Prerequisites check passed"
 
 # Backup existing configuration
 if [ "$DRY_RUN" = false ]; then
@@ -296,34 +316,37 @@ if [ "$DRY_RUN" = false ]; then
     log_info "ACME storage reset: $ACME_JSON"
 fi
 
-# Get current container status
-CONTAINER_RUNNING=$(docker inspect -f '{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null || echo "false")
-
-log_info "Stopping Traefik container..."
-if [ "$DRY_RUN" = false ]; then
-    docker stop "$CONTAINER_NAME" || log_warn "Container may already be stopped"
+# Stop and remove existing container if it exists
+if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+    log_info "Stopping existing container '$CONTAINER_NAME'..."
+    if [ "$DRY_RUN" = false ]; then
+        docker stop "$CONTAINER_NAME" &> /dev/null || log_warn "Container may already be stopped"
+        log_info "Removing existing container '$CONTAINER_NAME'..."
+        docker rm -f "$CONTAINER_NAME" &> /dev/null || true
+    else
+        log_info "Would stop and remove container: $CONTAINER_NAME"
+    fi
 else
-    log_info "Would stop container: $CONTAINER_NAME"
+    log_info "No existing container to remove"
 fi
 
 # Prepare docker run command with OVH environment variables
 log_info "Preparing to restart Traefik with OVH credentials..."
 
-DOCKER_RUN_CMD="docker run -d \
-  --name ${CONTAINER_NAME} \
-  --restart always \
-  --network bridge \
-  --network dokploy-network \
-  -p 80:80 \
-  -p 443:443 \
-  -p 443:443/udp \
-  -v ${TRAEFIK_DIR}/traefik.yml:/etc/traefik/traefik.yml \
-  -v ${TRAEFIK_DYNAMIC_DIR}:/etc/dokploy/traefik/dynamic \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  -e OVH_ENDPOINT=${OVH_ENDPOINT} \
-  -e OVH_APPLICATION_KEY=${OVH_APP_KEY} \
-  -e OVH_APPLICATION_SECRET=${OVH_APP_SECRET} \
-  -e OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY} \
+DOCKER_RUN_CMD="docker run -d \\
+  --name ${CONTAINER_NAME} \\
+  --restart always \\
+  -p 80:80 \\
+  -p 443:443/tcp \\
+  -p 443:443/udp \\
+  -v ${TRAEFIK_DIR}/traefik.yml:/etc/traefik/traefik.yml \\
+  -v ${TRAEFIK_DYNAMIC_DIR}:/etc/dokploy/traefik/dynamic \\
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \\
+  --network ${NETWORK} \\
+  -e OVH_ENDPOINT=${OVH_ENDPOINT} \\
+  -e OVH_APPLICATION_KEY=${OVH_APP_KEY} \\
+  -e OVH_APPLICATION_SECRET=${OVH_APP_SECRET} \\
+  -e OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY} \\
   traefik:v3.6.1"
 
 if [ "$DRY_RUN" = true ]; then

@@ -78,6 +78,8 @@ task docs:pdf
 
 | Task | Description |
 |------|-------------|
+| `task traefik:start` | Start Traefik container using traefik-start.sh script |
+| `task traefik:start:force` | Start Traefik container (force replace existing) |
 | `task traefik:create` | Create and deploy Traefik service with Docker Swarm |
 | `task traefik:create:docker` | Create Traefik container with standalone Docker (no Swarm) |
 | `task traefik:configure` | Configure Traefik with OVH DNS (interactive) |
@@ -92,13 +94,19 @@ task docs:pdf
 
 **Examples:**
 ```bash
-# Create Traefik service with Docker Swarm
+# Quick start: Start Traefik from inspect configuration
+task traefik:start
+
+# Force replace existing container
+task traefik:start:force
+
+# OR create Traefik service with Docker Swarm
 task traefik:create
 
-# OR create standalone Docker container (no Swarm)
+# OR create standalone Docker container (no Swarm, custom setup)
 task traefik:create:docker
 
-# Configure Traefik (interactive prompts for credentials)
+# Configure Traefik with OVH DNS (interactive prompts for credentials)
 task traefik:configure
 
 # Test configuration without applying
@@ -111,6 +119,12 @@ task traefik:logs:acme
 # Backup before making changes
 task traefik:backup
 ```
+
+**When to use which task:**
+- `traefik:start` - Use when you have configuration in `inputs/` and want to quickly start Traefik
+- `traefik:create` - Use for Docker Swarm deployments with multi-node clusters
+- `traefik:create:docker` - Use for single-node standalone Docker deployments from scratch
+- `traefik:configure` - Use to add OVH DNS challenge to existing Traefik setup
 
 ### 🐳 Docker & Dokploy
 

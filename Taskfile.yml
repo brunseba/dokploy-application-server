@@ -173,6 +173,29 @@ tasks:
         echo "✓ Backup created in $BACKUP_DIR"
     silent: false
 
+  traefik:start:
+    desc: Start Traefik container using traefik-start.sh script
+    cmds:
+      - |
+        if [ ! -f {{.SCRIPTS_DIR}}/traefik-start.sh ]; then
+          echo "✗ Script not found: {{.SCRIPTS_DIR}}/traefik-start.sh"
+          exit 1
+        fi
+        {{.SCRIPTS_DIR}}/traefik-start.sh {{.CLI_ARGS}}
+    silent: false
+
+  traefik:start:force:
+    desc: Start Traefik container (force replace existing)
+    prompt: This will stop and replace existing Traefik container. Continue?
+    cmds:
+      - |
+        if [ ! -f {{.SCRIPTS_DIR}}/traefik-start.sh ]; then
+          echo "✗ Script not found: {{.SCRIPTS_DIR}}/traefik-start.sh"
+          exit 1
+        fi
+        {{.SCRIPTS_DIR}}/traefik-start.sh --force
+    silent: false
+
   traefik:create:
     desc: Create and deploy Traefik container with Docker Swarm
     prompt: This will create a new Traefik service. Continue?
