@@ -1,15 +1,15 @@
-site_name: Dokploy Configuration & Architecture
+site_name: Dokploy Application Server
 site_description: Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture
-site_author: Dokploy Contributors
-site_url: https://your-domain.github.io/dokploy/
+site_author: Sebastien Brun
+site_url: https://brunseba.github.io/dokploy-application-server/
 
 # Repository
-repo_name: dokploy
-repo_url: https://github.com/your-username/dokploy
+repo_name: brunseba/dokploy-application-server
+repo_url: https://github.com/brunseba/dokploy-application-server
 edit_uri: edit/main/docs/
 
 # Copyright
-copyright: Copyright &copy; 2024 Dokploy Contributors
+copyright: Copyright &copy; 2025 Sebastien Brun
 
 # Configuration
 theme:
@@ -113,8 +113,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: your-username
-      repo: dokploy
+      user: brunseba
+      repo: dokploy-application-server
   - pymdownx.smartsymbols
   - pymdownx.snippets:
       auto_append:
@@ -143,7 +143,7 @@ extra_javascript:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/your-username/dokploy
+      link: https://github.com/brunseba/dokploy-application-server
       name: GitHub Repository
     - icon: fontawesome/brands/docker
       link: https://hub.docker.com/
