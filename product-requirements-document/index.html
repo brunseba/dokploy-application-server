@@ -1,0 +1,2267 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/product-requirements-document/" rel="canonical"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Dokploy Product Requirements Document (PRD) - Dokploy Application Server</title>
+<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#dokploy-product-requirements-document-prd">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href=".." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Dokploy Product Requirements Document (PRD)
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../architecture/">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../architecture/">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/01-vision/architecture-vision/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/01-vision/stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/01-vision/architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/03-data/data-model/">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/04-application/data-flow-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/04-application/application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/04-application/api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/06-views/context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/06-views/container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/06-views/security-view/">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/06-views/deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/10-governance/architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture/08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="dokploy-product-requirements-document-prd">Dokploy Product Requirements Document (PRD)<a class="headerlink" href="#dokploy-product-requirements-document-prd" title="Anchor link to this section">¶</a></h1>
+<p><strong>Version:</strong> 1.0<br/>
+<strong>Date:</strong> December 30, 2024<br/>
+<strong>Status:</strong> Active<br/>
+<strong>Author:</strong> Technical Documentation Team  </p>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Anchor link to this section">¶</a></h2>
+<p>Dokploy is an open-source Platform-as-a-Service (PaaS) alternative to Heroku, Vercel, and Netlify, designed to simplify application deployment and management through self-hosting. It provides a comprehensive solution for deploying applications, managing databases, and orchestrating containerized services using Docker Swarm and Traefik.</p>
+<h3 id="vision">Vision<a class="headerlink" href="#vision" title="Anchor link to this section">¶</a></h3>
+<p>To democratize cloud deployment by providing an enterprise-grade, self-hosted PaaS that is accessible, flexible, and powerful for developers and organizations of all sizes.</p>
+<h3 id="mission">Mission<a class="headerlink" href="#mission" title="Anchor link to this section">¶</a></h3>
+<p>Enable developers to deploy and manage applications with the same ease as commercial PaaS solutions while maintaining full control, transparency, and cost-efficiency through open-source self-hosting.</p>
+<hr/>
+<h2 id="product-overview">Product Overview<a class="headerlink" href="#product-overview" title="Anchor link to this section">¶</a></h2>
+<h3 id="product-description">Product Description<a class="headerlink" href="#product-description" title="Anchor link to this section">¶</a></h3>
+<p>Dokploy is a Next.js-based web application that serves as a deployment orchestration platform. It manages the entire application lifecycle from code to production, including building, deploying, monitoring, and maintaining applications and databases across single or multiple servers.</p>
+<h3 id="target-audience">Target Audience<a class="headerlink" href="#target-audience" title="Anchor link to this section">¶</a></h3>
+<h4 id="primary-users">Primary Users<a class="headerlink" href="#primary-users" title="Anchor link to this section">¶</a></h4>
+<ol>
+<li><strong>Independent Developers</strong></li>
+<li>Solo developers managing personal projects</li>
+<li>Side project enthusiasts</li>
+<li>
+<p>Open-source maintainers</p>
+</li>
+<li>
+<p><strong>Small to Medium Development Teams</strong></p>
+</li>
+<li>Startups (2-50 employees)</li>
+<li>Digital agencies</li>
+<li>
+<p>Development studios</p>
+</li>
+<li>
+<p><strong>DevOps Engineers</strong></p>
+</li>
+<li>Infrastructure specialists</li>
+<li>System administrators</li>
+<li>Platform engineers</li>
+</ol>
+<h4 id="secondary-users">Secondary Users<a class="headerlink" href="#secondary-users" title="Anchor link to this section">¶</a></h4>
+<ol>
+<li><strong>Enterprise Development Teams</strong></li>
+<li>Large organizations seeking cost-effective deployment solutions</li>
+<li>Teams requiring on-premise deployments</li>
+<li>
+<p>Organizations with strict data sovereignty requirements</p>
+</li>
+<li>
+<p><strong>Educational Institutions</strong></p>
+</li>
+<li>Computer science departments</li>
+<li>Coding bootcamps</li>
+<li>Technical training organizations</li>
+</ol>
+<h3 id="market-position">Market Position<a class="headerlink" href="#market-position" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Open-source alternative</strong> to commercial PaaS platforms</li>
+<li><strong>Self-hosted solution</strong> providing full control</li>
+<li><strong>Cost-effective</strong> with no per-deployment fees</li>
+<li><strong>Feature-rich</strong> comparable to commercial offerings</li>
+<li><strong>Community-driven</strong> with active development</li>
+</ul>
+<hr/>
+<h2 id="core-objectives">Core Objectives<a class="headerlink" href="#core-objectives" title="Anchor link to this section">¶</a></h2>
+<h3 id="business-objectives">Business Objectives<a class="headerlink" href="#business-objectives" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>Provide a viable open-source alternative to commercial PaaS platforms</li>
+<li>Build a sustainable open-source community (current: 26k+ GitHub stars)</li>
+<li>Achieve widespread adoption (current: 4M+ Docker Hub downloads)</li>
+<li>Establish Dokploy Cloud as a revenue-generating managed service</li>
+<li>Maintain zero-cost self-hosting option</li>
+</ol>
+<h3 id="user-objectives">User Objectives<a class="headerlink" href="#user-objectives" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>Simplify application deployment with minimal configuration</li>
+<li>Reduce infrastructure costs by 70-90% compared to commercial PaaS</li>
+<li>Provide complete control over deployment environment</li>
+<li>Enable multi-server deployments without complexity</li>
+<li>Offer enterprise-grade features in open-source package</li>
+</ol>
+<h3 id="technical-objectives">Technical Objectives<a class="headerlink" href="#technical-objectives" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>Maintain 99.9% uptime for deployed applications</li>
+<li>Support deployment in under 5 minutes for standard applications</li>
+<li>Scale to support 100+ applications per instance</li>
+<li>Provide real-time monitoring with minimal overhead</li>
+<li>Ensure zero-downtime deployments</li>
+</ol>
+<hr/>
+<h2 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Anchor link to this section">¶</a></h2>
+<h3 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Anchor link to this section">¶</a></h3>
+<h4 id="1-nextjs-application-frontend-backend">1. Next.js Application (Frontend &amp; Backend)<a class="headerlink" href="#1-nextjs-application-frontend-backend" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Purpose</strong>: Unified web interface and API server</li>
+<li><strong>Technology</strong>: Next.js with server-side rendering</li>
+<li><strong>Responsibilities</strong>:</li>
+<li>User interface for application management</li>
+<li>API endpoints for programmatic access</li>
+<li>Deployment orchestration logic</li>
+<li>Real-time updates via WebSockets</li>
+</ul>
+<h4 id="2-postgresql-database">2. PostgreSQL Database<a class="headerlink" href="#2-postgresql-database" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Version</strong>: 16</li>
+<li><strong>Purpose</strong>: Primary data store</li>
+<li><strong>Storage</strong>:</li>
+<li>Application configurations</li>
+<li>Deployment history</li>
+<li>User accounts and permissions</li>
+<li>Environment variables (encrypted)</li>
+<li>Server metadata</li>
+</ul>
+<h4 id="3-redis">3. Redis<a class="headerlink" href="#3-redis" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Version</strong>: 7</li>
+<li><strong>Purpose</strong>: Queue management and caching</li>
+<li><strong>Responsibilities</strong>:</li>
+<li>Deployment queue management</li>
+<li>Prevents concurrent deployment conflicts</li>
+<li>Caching layer for improved performance</li>
+<li>Real-time event distribution</li>
+</ul>
+<h4 id="4-traefik-reverse-proxy">4. Traefik Reverse Proxy<a class="headerlink" href="#4-traefik-reverse-proxy" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Version</strong>: v3.6.1</li>
+<li><strong>Purpose</strong>: Traffic routing and load balancing</li>
+<li><strong>Features</strong>:</li>
+<li>Dynamic service discovery</li>
+<li>Automatic SSL/TLS certificate management</li>
+<li>HTTP/3 support</li>
+<li>Rate limiting</li>
+<li>Request routing based on domains</li>
+</ul>
+<h4 id="5-docker-swarm">5. Docker Swarm<a class="headerlink" href="#5-docker-swarm" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Purpose</strong>: Container orchestration</li>
+<li><strong>Features</strong>:</li>
+<li>Multi-node deployment support</li>
+<li>Service replication</li>
+<li>Health checking</li>
+<li>Rolling updates</li>
+<li>Secret management</li>
+</ul>
+<h3 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Anchor link to this section">¶</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────┐
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>│                         User Interface                       │
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>│                      (Web Browser/CLI)                       │
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>└──────────────────────────┬──────────────────────────────────┘
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>                           │
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>                           ▼
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>┌─────────────────────────────────────────────────────────────┐
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>│                    Traefik (Port 80/443)                     │
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>│              [Reverse Proxy &amp; Load Balancer]                 │
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>└──────────────────────────┬──────────────────────────────────┘
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>                           │
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>                           ▼
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a>┌─────────────────────────────────────────────────────────────┐
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a>│                 Next.js Application (Port 3000)              │
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a>│                    [Management Interface]                    │
+</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>└───────┬──────────────────┬─────────────────┬────────────────┘
+</span><span id="__span-0-17"><a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a>        │                  │                 │
+</span><span id="__span-0-18"><a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a>        ▼                  ▼                 ▼
+</span><span id="__span-0-19"><a href="#__codelineno-0-19" id="__codelineno-0-19" name="__codelineno-0-19"></a>┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+</span><span id="__span-0-20"><a href="#__codelineno-0-20" id="__codelineno-0-20" name="__codelineno-0-20"></a>│  PostgreSQL  │  │    Redis     │  │Docker Engine │
+</span><span id="__span-0-21"><a href="#__codelineno-0-21" id="__codelineno-0-21" name="__codelineno-0-21"></a>│  (Port 5432) │  │ (Port 6379)  │  │(Unix Socket) │
+</span><span id="__span-0-22"><a href="#__codelineno-0-22" id="__codelineno-0-22" name="__codelineno-0-22"></a>│   [Database] │  │   [Queue]    │  │ [Container]  │
+</span><span id="__span-0-23"><a href="#__codelineno-0-23" id="__codelineno-0-23" name="__codelineno-0-23"></a>└──────────────┘  └──────────────┘  └──────┬───────┘
+</span><span id="__span-0-24"><a href="#__codelineno-0-24" id="__codelineno-0-24" name="__codelineno-0-24"></a>                                            │
+</span><span id="__span-0-25"><a href="#__codelineno-0-25" id="__codelineno-0-25" name="__codelineno-0-25"></a>                                            ▼
+</span><span id="__span-0-26"><a href="#__codelineno-0-26" id="__codelineno-0-26" name="__codelineno-0-26"></a>                                    ┌──────────────────┐
+</span><span id="__span-0-27"><a href="#__codelineno-0-27" id="__codelineno-0-27" name="__codelineno-0-27"></a>                                    │   Docker Swarm   │
+</span><span id="__span-0-28"><a href="#__codelineno-0-28" id="__codelineno-0-28" name="__codelineno-0-28"></a>                                    │   [Orchestrator] │
+</span><span id="__span-0-29"><a href="#__codelineno-0-29" id="__codelineno-0-29" name="__codelineno-0-29"></a>                                    └──────────────────┘
+</span><span id="__span-0-30"><a href="#__codelineno-0-30" id="__codelineno-0-30" name="__codelineno-0-30"></a>                                            │
+</span><span id="__span-0-31"><a href="#__codelineno-0-31" id="__codelineno-0-31" name="__codelineno-0-31"></a>                        ┌───────────────────┼───────────────────┐
+</span><span id="__span-0-32"><a href="#__codelineno-0-32" id="__codelineno-0-32" name="__codelineno-0-32"></a>                        ▼                   ▼                   ▼
+</span><span id="__span-0-33"><a href="#__codelineno-0-33" id="__codelineno-0-33" name="__codelineno-0-33"></a>                ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+</span><span id="__span-0-34"><a href="#__codelineno-0-34" id="__codelineno-0-34" name="__codelineno-0-34"></a>                │  Application │    │  Application │    │   Database   │
+</span><span id="__span-0-35"><a href="#__codelineno-0-35" id="__codelineno-0-35" name="__codelineno-0-35"></a>                │  Containers  │    │  Containers  │    │  Containers  │
+</span><span id="__span-0-36"><a href="#__codelineno-0-36" id="__codelineno-0-36" name="__codelineno-0-36"></a>                └──────────────┘    └──────────────┘    └──────────────┘
+</span></code></pre></div>
+<hr/>
+<h2 id="feature-requirements">Feature Requirements<a class="headerlink" href="#feature-requirements" title="Anchor link to this section">¶</a></h2>
+<h3 id="1-application-deployment">1. Application Deployment<a class="headerlink" href="#1-application-deployment" title="Anchor link to this section">¶</a></h3>
+<h4 id="11-deployment-methods">1.1 Deployment Methods<a class="headerlink" href="#11-deployment-methods" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-111-git-integration">FR-1.1.1: Git Integration<a class="headerlink" href="#fr-111-git-integration" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Description</strong>: Deploy applications directly from Git repositories
+- <strong>Supported Providers</strong>:
+  - GitHub
+  - GitLab
+  - Bitbucket
+  - Gitea
+  - Self-hosted Git servers
+- <strong>Features</strong>:
+  - Branch selection
+  - Automatic webhook generation
+  - Private repository support (SSH keys)
+  - Monorepo support with path filtering
+  - Auto-deploy on push</p>
+<h5 id="fr-112-docker-image-deployment">FR-1.1.2: Docker Image Deployment<a class="headerlink" href="#fr-112-docker-image-deployment" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Description</strong>: Deploy pre-built Docker images
+- <strong>Features</strong>:
+  - Public registry support (Docker Hub, GitHub Container Registry)
+  - Private registry support
+  - Image tag selection
+  - Automatic image updates
+  - Registry authentication</p>
+<h5 id="fr-113-docker-compose-deployment">FR-1.1.3: Docker Compose Deployment<a class="headerlink" href="#fr-113-docker-compose-deployment" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Description</strong>: Deploy multi-container applications using Docker Compose
+- <strong>Features</strong>:
+  - Full Docker Compose specification support
+  - Environment variable substitution
+  - Volume management
+  - Network configuration
+  - Service dependencies</p>
+<h5 id="fr-114-build-methods">FR-1.1.4: Build Methods<a class="headerlink" href="#fr-114-build-methods" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Buildpacks</strong>:
+  - Nixpacks (default)
+  - Heroku Buildpacks
+  - Automatic language detection
+- <strong>Dockerfile</strong>:
+  - Custom Dockerfile support
+  - Multi-stage build support
+  - Build arguments
+  - Custom build context</p>
+<h4 id="12-build-configuration">1.2 Build Configuration<a class="headerlink" href="#12-build-configuration" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-121-build-servers">FR-1.2.1: Build Servers<a class="headerlink" href="#fr-121-build-servers" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- <strong>Description</strong>: Separate build process from deployment
+- <strong>Features</strong>:
+  - Remote build server configuration
+  - SSH-based connection
+  - Resource-intensive builds on dedicated servers
+  - Image push to registry
+  - Build caching</p>
+<h5 id="fr-122-build-environment">FR-1.2.2: Build Environment<a class="headerlink" href="#fr-122-build-environment" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Environment variables</strong> during build
+- <strong>Build arguments</strong>
+- <strong>Custom build commands</strong>
+- <strong>Build caching strategies</strong></p>
+<h4 id="13-deployment-features">1.3 Deployment Features<a class="headerlink" href="#13-deployment-features" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-131-zero-downtime-deployment">FR-1.3.1: Zero-Downtime Deployment<a class="headerlink" href="#fr-131-zero-downtime-deployment" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Rolling updates
+- Health check validation
+- Automatic rollback on failure
+- Configurable update strategy</p>
+<h5 id="fr-132-preview-deployments">FR-1.3.2: Preview Deployments<a class="headerlink" href="#fr-132-preview-deployments" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Branch-based preview environments
+- Automatic URL generation
+- Pull request integration
+- Ephemeral environments</p>
+<h5 id="fr-133-rollback-capability">FR-1.3.3: Rollback Capability<a class="headerlink" href="#fr-133-rollback-capability" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- One-click rollback to previous versions
+- Deployment history (last 10 deployments)
+- Version comparison
+- State preservation</p>
+<h3 id="2-database-management">2. Database Management<a class="headerlink" href="#2-database-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="21-supported-databases">2.1 Supported Databases<a class="headerlink" href="#21-supported-databases" title="Anchor link to this section">¶</a></h4>
+<p><strong>Priority</strong>: P0 (Critical)</p>
+<h5 id="fr-211-database-types">FR-2.1.1: Database Types<a class="headerlink" href="#fr-211-database-types" title="Anchor link to this section">¶</a></h5>
+<ul>
+<li><strong>PostgreSQL</strong> (multiple versions)</li>
+<li><strong>MySQL</strong></li>
+<li><strong>MariaDB</strong></li>
+<li><strong>MongoDB</strong></li>
+<li><strong>Redis</strong></li>
+</ul>
+<h5 id="fr-212-database-operations">FR-2.1.2: Database Operations<a class="headerlink" href="#fr-212-database-operations" title="Anchor link to this section">¶</a></h5>
+<ul>
+<li>Create database instances</li>
+<li>Start/Stop/Restart operations</li>
+<li>Delete with data retention options</li>
+<li>Terminal access to database containers</li>
+<li>Configuration management</li>
+</ul>
+<h4 id="22-database-features">2.2 Database Features<a class="headerlink" href="#22-database-features" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-221-backup-and-restore">FR-2.2.1: Backup and Restore<a class="headerlink" href="#fr-221-backup-and-restore" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- <strong>Manual backups</strong>: On-demand backup creation
+- <strong>Scheduled backups</strong>: Cron-based automation
+- <strong>S3 integration</strong>: Remote backup storage
+- <strong>Point-in-time recovery</strong>
+- <strong>Backup encryption</strong></p>
+<h5 id="fr-222-volume-management">FR-2.2.2: Volume Management<a class="headerlink" href="#fr-222-volume-management" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Persistent data volumes
+- Volume backups
+- Volume migration between servers
+- Storage quota management</p>
+<h5 id="fr-223-database-monitoring">FR-2.2.3: Database Monitoring<a class="headerlink" href="#fr-223-database-monitoring" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- CPU usage tracking
+- Memory consumption
+- Disk usage
+- Network I/O
+- Connection statistics</p>
+<h3 id="3-multi-server-management">3. Multi-Server Management<a class="headerlink" href="#3-multi-server-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="31-remote-servers">3.1 Remote Servers<a class="headerlink" href="#31-remote-servers" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-311-server-types">FR-3.1.1: Server Types<a class="headerlink" href="#fr-311-server-types" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- <strong>Deploy Servers</strong>: Run deployed applications
+- <strong>Build Servers</strong>: Handle application builds
+- <strong>Database Servers</strong>: Host databases</p>
+<h5 id="fr-312-server-management">FR-3.1.2: Server Management<a class="headerlink" href="#fr-312-server-management" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- SSH key-based authentication
+- Server health monitoring
+- Resource allocation
+- Server grouping/tagging
+- Load distribution</p>
+<h5 id="fr-313-multi-server-deployment">FR-3.1.3: Multi-Server Deployment<a class="headerlink" href="#fr-313-multi-server-deployment" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Deploy same application across multiple servers
+- Geographic distribution
+- Failover configuration
+- Centralized management</p>
+<h3 id="4-domain-and-ssl-management">4. Domain and SSL Management<a class="headerlink" href="#4-domain-and-ssl-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="41-domain-configuration">4.1 Domain Configuration<a class="headerlink" href="#41-domain-configuration" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-411-domain-types">FR-4.1.1: Domain Types<a class="headerlink" href="#fr-411-domain-types" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Custom domains
+- Wildcard domains
+- Subdomains
+- Generated domains (traefik.me)</p>
+<h5 id="fr-412-ssltls-certificates">FR-4.1.2: SSL/TLS Certificates<a class="headerlink" href="#fr-412-ssltls-certificates" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Automatic Let's Encrypt certificates
+- Custom SSL certificate upload
+- Wildcard certificate support
+- Certificate renewal automation
+- HTTP to HTTPS redirect</p>
+<h4 id="42-traefik-integration">4.2 Traefik Integration<a class="headerlink" href="#42-traefik-integration" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-421-traffic-management">FR-4.2.1: Traffic Management<a class="headerlink" href="#fr-421-traffic-management" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Path-based routing
+- Host-based routing
+- Request middlewares (compression, rate limiting, security headers)
+- WebSocket support
+- HTTP/3 support</p>
+<h3 id="5-monitoring-and-logging">5. Monitoring and Logging<a class="headerlink" href="#5-monitoring-and-logging" title="Anchor link to this section">¶</a></h3>
+<h4 id="51-resource-monitoring">5.1 Resource Monitoring<a class="headerlink" href="#51-resource-monitoring" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-511-real-time-metrics">FR-5.1.1: Real-time Metrics<a class="headerlink" href="#fr-511-real-time-metrics" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- <strong>CPU usage</strong> per application/database
+- <strong>Memory consumption</strong>
+- <strong>Disk usage</strong>
+- <strong>Network traffic</strong> (ingress/egress)
+- <strong>Request statistics</strong></p>
+<h5 id="fr-512-historical-data">FR-5.1.2: Historical Data<a class="headerlink" href="#fr-512-historical-data" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Time-series data storage
+- Configurable retention period
+- Metrics aggregation
+- Custom dashboards</p>
+<h4 id="52-logging">5.2 Logging<a class="headerlink" href="#52-logging" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-521-application-logs">FR-5.2.1: Application Logs<a class="headerlink" href="#fr-521-application-logs" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Real-time log streaming
+- Deployment logs
+- Runtime logs
+- Log filtering and search
+- Log export (download)
+- Log retention policies</p>
+<h5 id="fr-522-system-logs">FR-5.2.2: System Logs<a class="headerlink" href="#fr-522-system-logs" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Docker daemon logs
+- Traefik access logs
+- Database logs
+- System event logs</p>
+<h3 id="6-security-and-access-control">6. Security and Access Control<a class="headerlink" href="#6-security-and-access-control" title="Anchor link to this section">¶</a></h3>
+<h4 id="61-authentication">6.1 Authentication<a class="headerlink" href="#61-authentication" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-611-user-authentication">FR-6.1.1: User Authentication<a class="headerlink" href="#fr-611-user-authentication" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Email/password authentication
+- Two-factor authentication (2FA)
+- Session management
+- Password reset functionality
+- Backup codes for 2FA recovery</p>
+<h4 id="62-authorization">6.2 Authorization<a class="headerlink" href="#62-authorization" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-621-role-based-access-control-rbac">FR-6.2.1: Role-Based Access Control (RBAC)<a class="headerlink" href="#fr-621-role-based-access-control-rbac" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- <strong>Roles</strong>:
+  - Owner: Full access
+  - Admin: Management access
+  - Developer: Deployment access
+  - Viewer: Read-only access
+- <strong>Permissions</strong>:
+  - Project-level access
+  - Resource-level access
+  - Action-based permissions</p>
+<h5 id="fr-622-organizations">FR-6.2.2: Organizations<a class="headerlink" href="#fr-622-organizations" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Multi-tenant support
+- Organization management
+- Team collaboration
+- Resource isolation</p>
+<h4 id="63-security-features">6.3 Security Features<a class="headerlink" href="#63-security-features" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-631-secrets-management">FR-6.3.1: Secrets Management<a class="headerlink" href="#fr-631-secrets-management" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Environment variable encryption at rest
+- Docker Swarm secrets integration
+- SSH key storage
+- Registry credentials storage
+- Database password encryption</p>
+<h5 id="fr-632-network-security">FR-6.3.2: Network Security<a class="headerlink" href="#fr-632-network-security" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Isolated Docker networks per project
+- Firewall rule management
+- Private networking between services
+- VPN support (Tailscale, Cloudflare Tunnels)</p>
+<h3 id="7-environment-management">7. Environment Management<a class="headerlink" href="#7-environment-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="71-environment-variables">7.1 Environment Variables<a class="headerlink" href="#71-environment-variables" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-711-variable-configuration">FR-7.1.1: Variable Configuration<a class="headerlink" href="#fr-711-variable-configuration" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Key-value pair management
+- Multi-line variable support
+- Variable templates
+- Environment-specific variables
+- Variable inheritance</p>
+<h5 id="fr-712-variable-security">FR-7.1.2: Variable Security<a class="headerlink" href="#fr-712-variable-security" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P0 (Critical)
+- Encrypted storage
+- Access control
+- Audit logging
+- Secret rotation</p>
+<h4 id="72-multiple-environments">7.2 Multiple Environments<a class="headerlink" href="#72-multiple-environments" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-721-environment-types">FR-7.2.1: Environment Types<a class="headerlink" href="#fr-721-environment-types" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Production (default)
+- Staging
+- Development
+- Custom environments</p>
+<h5 id="fr-722-environment-features">FR-7.2.2: Environment Features<a class="headerlink" href="#fr-722-environment-features" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Environment-specific configurations
+- Environment cloning
+- Environment promotion workflows
+- Resource isolation</p>
+<h3 id="8-automation">8. Automation<a class="headerlink" href="#8-automation" title="Anchor link to this section">¶</a></h3>
+<h4 id="81-auto-deploy">8.1 Auto-Deploy<a class="headerlink" href="#81-auto-deploy" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-811-webhook-integration">FR-8.1.1: Webhook Integration<a class="headerlink" href="#fr-811-webhook-integration" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- GitHub webhooks
+- GitLab webhooks
+- Bitbucket webhooks
+- Gitea webhooks
+- Docker Hub webhooks</p>
+<h5 id="fr-812-cicd-integration">FR-8.1.2: CI/CD Integration<a class="headerlink" href="#fr-812-cicd-integration" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- REST API for deployments
+- CLI tool for automation
+- Deployment triggers
+- Custom deployment scripts</p>
+<h4 id="82-scheduled-tasks">8.2 Scheduled Tasks<a class="headerlink" href="#82-scheduled-tasks" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-821-cron-jobs">FR-8.2.1: Cron Jobs<a class="headerlink" href="#fr-821-cron-jobs" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Application-level cron jobs
+- Database maintenance tasks
+- Backup scheduling
+- Resource cleanup</p>
+<h3 id="9-resource-management">9. Resource Management<a class="headerlink" href="#9-resource-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="91-resource-limits">9.1 Resource Limits<a class="headerlink" href="#91-resource-limits" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-911-cpu-and-memory">FR-9.1.1: CPU and Memory<a class="headerlink" href="#fr-911-cpu-and-memory" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- CPU limits (NanoCPUs)
+- CPU reservations
+- Memory limits (bytes)
+- Memory reservations
+- Burst allowance</p>
+<h5 id="fr-912-storage">FR-9.1.2: Storage<a class="headerlink" href="#fr-912-storage" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Volume size limits
+- Storage quotas
+- Disk usage monitoring
+- Storage alerts</p>
+<h4 id="92-scaling">9.2 Scaling<a class="headerlink" href="#92-scaling" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-921-horizontal-scaling">FR-9.2.1: Horizontal Scaling<a class="headerlink" href="#fr-921-horizontal-scaling" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Replica configuration
+- Load balancing across replicas
+- Auto-scaling rules
+- Manual scaling</p>
+<h5 id="fr-922-vertical-scaling">FR-9.2.2: Vertical Scaling<a class="headerlink" href="#fr-922-vertical-scaling" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Resource limit adjustment
+- Container resizing
+- Zero-downtime resource updates</p>
+<h3 id="10-templates-and-presets">10. Templates and Presets<a class="headerlink" href="#10-templates-and-presets" title="Anchor link to this section">¶</a></h3>
+<h4 id="101-application-templates">10.1 Application Templates<a class="headerlink" href="#101-application-templates" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-1011-open-source-templates">FR-10.1.1: Open Source Templates<a class="headerlink" href="#fr-1011-open-source-templates" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- One-click deployment of popular apps
+- Template categories:
+  - CMS (WordPress, Ghost, Strapi)
+  - Databases
+  - Development tools
+  - Analytics
+  - Monitoring tools
+- Template marketplace</p>
+<h5 id="fr-1012-custom-templates">FR-10.1.2: Custom Templates<a class="headerlink" href="#fr-1012-custom-templates" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Create reusable templates
+- Template sharing
+- Template versioning
+- Template parameters</p>
+<h3 id="11-api-and-cli">11. API and CLI<a class="headerlink" href="#11-api-and-cli" title="Anchor link to this section">¶</a></h3>
+<h4 id="111-rest-api">11.1 REST API<a class="headerlink" href="#111-rest-api" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-1111-api-features">FR-11.1.1: API Features<a class="headerlink" href="#fr-1111-api-features" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Complete CRUD operations for all resources
+- OpenAPI/Swagger documentation
+- API key authentication
+- Rate limiting
+- Webhook endpoints</p>
+<h5 id="fr-1112-api-coverage">FR-11.1.2: API Coverage<a class="headerlink" href="#fr-1112-api-coverage" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P1 (High)
+- Applications management
+- Deployments
+- Databases
+- Servers
+- Domains
+- Environment variables
+- Users and permissions</p>
+<h4 id="112-cli-tool">11.2 CLI Tool<a class="headerlink" href="#112-cli-tool" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-1121-cli-commands">FR-11.2.1: CLI Commands<a class="headerlink" href="#fr-1121-cli-commands" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Application deployment
+- Database management
+- Log viewing
+- Resource monitoring
+- Configuration management</p>
+<h3 id="12-notifications">12. Notifications<a class="headerlink" href="#12-notifications" title="Anchor link to this section">¶</a></h3>
+<h4 id="121-notification-channels">12.1 Notification Channels<a class="headerlink" href="#121-notification-channels" title="Anchor link to this section">¶</a></h4>
+<h5 id="fr-1211-supported-channels">FR-12.1.1: Supported Channels<a class="headerlink" href="#fr-1211-supported-channels" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Email
+- Slack
+- Discord
+- Telegram
+- Microsoft Teams
+- Lark
+- Custom webhooks</p>
+<h5 id="fr-1212-notification-events">FR-12.1.2: Notification Events<a class="headerlink" href="#fr-1212-notification-events" title="Anchor link to this section">¶</a></h5>
+<p><strong>Priority</strong>: P2 (Medium)
+- Deployment success/failure
+- Database backup completion
+- Resource threshold alerts
+- Security events
+- System updates</p>
+<hr/>
+<h2 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Anchor link to this section">¶</a></h2>
+<h3 id="performance">Performance<a class="headerlink" href="#performance" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-1-response-time">NFR-1: Response Time<a class="headerlink" href="#nfr-1-response-time" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Web UI response time &lt; 200ms for 95<sup>th</sup> percentile</li>
+<li><strong>Measurement</strong>: Application Performance Monitoring (APM)</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h4 id="nfr-2-deployment-speed">NFR-2: Deployment Speed<a class="headerlink" href="#nfr-2-deployment-speed" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Application deployment &lt; 5 minutes for standard apps</li>
+<li><strong>Measurement</strong>: Deployment duration tracking</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-3-concurrent-users">NFR-3: Concurrent Users<a class="headerlink" href="#nfr-3-concurrent-users" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support 100+ concurrent users per instance</li>
+<li><strong>Measurement</strong>: Load testing</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h3 id="reliability">Reliability<a class="headerlink" href="#reliability" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-4-uptime">NFR-4: Uptime<a class="headerlink" href="#nfr-4-uptime" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: 99.9% uptime for Dokploy management interface</li>
+<li><strong>Measurement</strong>: Uptime monitoring</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-5-data-durability">NFR-5: Data Durability<a class="headerlink" href="#nfr-5-data-durability" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Zero data loss for committed configurations</li>
+<li><strong>Measurement</strong>: Database replication and backups</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-6-failover">NFR-6: Failover<a class="headerlink" href="#nfr-6-failover" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Automatic failover &lt; 30 seconds</li>
+<li><strong>Measurement</strong>: Failover testing</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h3 id="scalability">Scalability<a class="headerlink" href="#scalability" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-7-application-capacity">NFR-7: Application Capacity<a class="headerlink" href="#nfr-7-application-capacity" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support 100+ applications per instance</li>
+<li><strong>Measurement</strong>: Performance testing</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h4 id="nfr-8-multi-server-scaling">NFR-8: Multi-Server Scaling<a class="headerlink" href="#nfr-8-multi-server-scaling" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support 50+ remote servers</li>
+<li><strong>Measurement</strong>: Connection pool testing</li>
+<li><strong>Priority</strong>: P2</li>
+</ul>
+<h4 id="nfr-9-database-scaling">NFR-9: Database Scaling<a class="headerlink" href="#nfr-9-database-scaling" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support 50+ database instances</li>
+<li><strong>Measurement</strong>: Resource utilization testing</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-10-encryption">NFR-10: Encryption<a class="headerlink" href="#nfr-10-encryption" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: All sensitive data encrypted at rest (AES-256)</li>
+<li><strong>Measurement</strong>: Security audit</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-11-tls">NFR-11: TLS<a class="headerlink" href="#nfr-11-tls" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: TLS 1.2+ for all HTTPS connections</li>
+<li><strong>Measurement</strong>: SSL Labs grade A</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-12-vulnerability-scanning">NFR-12: Vulnerability Scanning<a class="headerlink" href="#nfr-12-vulnerability-scanning" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Weekly automated vulnerability scans</li>
+<li><strong>Measurement</strong>: CVE tracking</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h3 id="usability">Usability<a class="headerlink" href="#usability" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-13-onboarding">NFR-13: Onboarding<a class="headerlink" href="#nfr-13-onboarding" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: New user can deploy first app &lt; 10 minutes</li>
+<li><strong>Measurement</strong>: User testing</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h4 id="nfr-14-accessibility">NFR-14: Accessibility<a class="headerlink" href="#nfr-14-accessibility" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: WCAG 2.1 Level AA compliance</li>
+<li><strong>Measurement</strong>: Accessibility audit</li>
+<li><strong>Priority</strong>: P2</li>
+</ul>
+<h4 id="nfr-15-documentation">NFR-15: Documentation<a class="headerlink" href="#nfr-15-documentation" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Complete documentation for all features</li>
+<li><strong>Measurement</strong>: Documentation coverage</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h3 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Anchor link to this section">¶</a></h3>
+<h4 id="nfr-16-browser-support">NFR-16: Browser Support<a class="headerlink" href="#nfr-16-browser-support" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support last 2 versions of major browsers</li>
+<li><strong>Browsers</strong>: Chrome, Firefox, Safari, Edge</li>
+<li><strong>Priority</strong>: P1</li>
+</ul>
+<h4 id="nfr-17-docker-version">NFR-17: Docker Version<a class="headerlink" href="#nfr-17-docker-version" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Docker 28.5.0+</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<h4 id="nfr-18-operating-systems">NFR-18: Operating Systems<a class="headerlink" href="#nfr-18-operating-systems" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Requirement</strong>: Support Linux distributions</li>
+<li><strong>Supported</strong>: Ubuntu, Debian, CentOS, RHEL, Amazon Linux</li>
+<li><strong>Priority</strong>: P0</li>
+</ul>
+<hr/>
+<h2 id="user-stories">User Stories<a class="headerlink" href="#user-stories" title="Anchor link to this section">¶</a></h2>
+<h3 id="epic-1-application-deployment">Epic 1: Application Deployment<a class="headerlink" href="#epic-1-application-deployment" title="Anchor link to this section">¶</a></h3>
+<h4 id="us-11-deploy-from-github">US-1.1: Deploy from GitHub<a class="headerlink" href="#us-11-deploy-from-github" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> deploy my application directly from a GitHub repository<br/>
+<strong>So that</strong> I can automate deployments when I push code</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can connect GitHub account via OAuth
+- User can select repository and branch
+- Automatic webhook is created
+- First deployment succeeds within 5 minutes
+- Subsequent deployments are triggered automatically</p>
+<h4 id="us-12-configure-custom-domain">US-1.2: Configure Custom Domain<a class="headerlink" href="#us-12-configure-custom-domain" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> configure a custom domain for my application<br/>
+<strong>So that</strong> users can access it via a professional URL</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can add custom domain
+- SSL certificate is automatically provisioned
+- DNS configuration instructions are provided
+- Domain verification is automated
+- HTTPS redirect is enabled by default</p>
+<h4 id="us-13-roll-back-deployment">US-1.3: Roll Back Deployment<a class="headerlink" href="#us-13-roll-back-deployment" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> roll back to a previous deployment<br/>
+<strong>So that</strong> I can quickly recover from a bad deployment</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can view last 10 deployments
+- User can roll back with one click
+- Rollback completes within 2 minutes
+- No data loss occurs
+- Deployment history is preserved</p>
+<h3 id="epic-2-database-management">Epic 2: Database Management<a class="headerlink" href="#epic-2-database-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="us-21-create-postgresql-database">US-2.1: Create PostgreSQL Database<a class="headerlink" href="#us-21-create-postgresql-database" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> create a PostgreSQL database<br/>
+<strong>So that</strong> my application can store data</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can create database in &lt; 60 seconds
+- Database version is selectable
+- Connection string is automatically generated
+- Database is accessible from applications
+- Resource limits are configurable</p>
+<h4 id="us-22-schedule-database-backups">US-2.2: Schedule Database Backups<a class="headerlink" href="#us-22-schedule-database-backups" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> operations engineer<br/>
+<strong>I want to</strong> schedule automatic database backups<br/>
+<strong>So that</strong> data is protected against loss</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can configure backup schedule (cron format)
+- Backups are stored in S3-compatible storage
+- Backup success/failure notifications are sent
+- Manual backup can be triggered
+- Restore from backup is tested and functional</p>
+<h3 id="epic-3-multi-server-management">Epic 3: Multi-Server Management<a class="headerlink" href="#epic-3-multi-server-management" title="Anchor link to this section">¶</a></h3>
+<h4 id="us-31-add-remote-server">US-3.1: Add Remote Server<a class="headerlink" href="#us-31-add-remote-server" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> DevOps engineer<br/>
+<strong>I want to</strong> add a remote server to Dokploy<br/>
+<strong>So that</strong> I can deploy applications to multiple locations</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can generate SSH key pair
+- User can configure remote server via SSH
+- Server health is monitored
+- Applications can be deployed to remote server
+- Server resources are visible in dashboard</p>
+<h4 id="us-32-deploy-to-multiple-servers">US-3.2: Deploy to Multiple Servers<a class="headerlink" href="#us-32-deploy-to-multiple-servers" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> DevOps engineer<br/>
+<strong>I want to</strong> deploy the same application to multiple servers<br/>
+<strong>So that</strong> I can achieve geographic distribution</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can select multiple servers for deployment
+- Deployment happens in parallel
+- Individual server failures don't affect others
+- Load balancing is automatically configured
+- Centralized logging from all servers</p>
+<h3 id="epic-4-monitoring-and-observability">Epic 4: Monitoring and Observability<a class="headerlink" href="#epic-4-monitoring-and-observability" title="Anchor link to this section">¶</a></h3>
+<h4 id="us-41-view-real-time-metrics">US-4.1: View Real-time Metrics<a class="headerlink" href="#us-41-view-real-time-metrics" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> view real-time metrics for my application<br/>
+<strong>So that</strong> I can understand its performance</p>
+<p><strong>Acceptance Criteria:</strong>
+- CPU, memory, disk, network metrics are visible
+- Metrics update every 5 seconds
+- Historical data is available (last 24 hours)
+- Graphs are interactive and zoomable
+- Metrics can be exported</p>
+<h4 id="us-42-stream-application-logs">US-4.2: Stream Application Logs<a class="headerlink" href="#us-42-stream-application-logs" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> developer<br/>
+<strong>I want to</strong> stream application logs in real-time<br/>
+<strong>So that</strong> I can debug issues quickly</p>
+<p><strong>Acceptance Criteria:</strong>
+- Logs stream in real-time
+- Logs are searchable and filterable
+- Log levels are color-coded
+- Logs can be downloaded
+- Logs persist for 7 days</p>
+<h3 id="epic-5-security-and-access-control">Epic 5: Security and Access Control<a class="headerlink" href="#epic-5-security-and-access-control" title="Anchor link to this section">¶</a></h3>
+<h4 id="us-51-enable-two-factor-authentication">US-5.1: Enable Two-Factor Authentication<a class="headerlink" href="#us-51-enable-two-factor-authentication" title="Anchor link to this section">¶</a></h4>
+<p><strong>As a</strong> security-conscious user<br/>
+<strong>I want to</strong> enable 2FA on my account<br/>
+<strong>So that</strong> my account is more secure</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can enable TOTP-based 2FA
+- QR code is provided for authenticator apps
+- Backup codes are generated
+- 2FA can be disabled with backup codes
+- Login requires 2FA code</p>
+<h4 id="us-52-manage-team-permissions">US-5.2: Manage Team Permissions<a class="headerlink" href="#us-52-manage-team-permissions" title="Anchor link to this section">¶</a></h4>
+<p><strong>As an</strong> organization owner<br/>
+<strong>I want to</strong> manage team member permissions<br/>
+<strong>So that</strong> I can control who can deploy applications</p>
+<p><strong>Acceptance Criteria:</strong>
+- User can invite team members
+- Roles can be assigned (Owner, Admin, Developer, Viewer)
+- Permissions are enforced across API and UI
+- Activity log shows permission changes
+- Team members can be removed</p>
+<hr/>
+<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Anchor link to this section">¶</a></h2>
+<h3 id="adoption-metrics">Adoption Metrics<a class="headerlink" href="#adoption-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>GitHub Stars</strong>: Target 30k+ (current: 26k)</li>
+<li><strong>Docker Hub Pulls</strong>: Target 5M+ (current: 4M)</li>
+<li><strong>Active Installations</strong>: Target 10k+ self-hosted instances</li>
+<li><strong>Monthly Active Users</strong>: Target 50k+</li>
+<li><strong>Community Contributors</strong>: Target 300+ (current: 200+)</li>
+</ul>
+<h3 id="performance-metrics">Performance Metrics<a class="headerlink" href="#performance-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Average Deployment Time</strong>: &lt; 5 minutes</li>
+<li><strong>Deployment Success Rate</strong>: &gt; 95%</li>
+<li><strong>API Response Time (P95)</strong>: &lt; 200ms</li>
+<li><strong>UI Load Time (P95)</strong>: &lt; 2 seconds</li>
+<li><strong>Uptime</strong>: &gt; 99.9%</li>
+</ul>
+<h3 id="user-satisfaction-metrics">User Satisfaction Metrics<a class="headerlink" href="#user-satisfaction-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Net Promoter Score (NPS)</strong>: &gt; 50</li>
+<li><strong>Customer Satisfaction (CSAT)</strong>: &gt; 4.5/5</li>
+<li><strong>Time to First Deployment</strong>: &lt; 10 minutes</li>
+<li><strong>Support Ticket Resolution Time</strong>: &lt; 24 hours</li>
+<li><strong>Documentation Completeness</strong>: &gt; 90%</li>
+</ul>
+<h3 id="business-metrics">Business Metrics<a class="headerlink" href="#business-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Cloud Revenue Growth</strong>: 20% MoM</li>
+<li><strong>Sponsor Count</strong>: Target 100+ (current: 50+)</li>
+<li><strong>Enterprise Customers</strong>: Target 20+</li>
+<li><strong>Cost Savings vs. Heroku</strong>: 70-90% reduction</li>
+</ul>
+<hr/>
+<h2 id="technical-constraints">Technical Constraints<a class="headerlink" href="#technical-constraints" title="Anchor link to this section">¶</a></h2>
+<h3 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Docker Requirement</strong>: Docker 28.5.0 or higher</li>
+<li><strong>Linux Only</strong>: No native Windows/macOS support</li>
+<li><strong>Resource Requirements</strong>:</li>
+<li>Minimum: 2GB RAM, 2 CPU cores, 20GB disk</li>
+<li>Recommended: 4GB RAM, 4 CPU cores, 50GB disk</li>
+<li>Production: 8GB+ RAM, 8+ CPU cores, 100GB+ disk</li>
+</ol>
+<h3 id="network">Network<a class="headerlink" href="#network" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Port Requirements</strong>: Ports 80, 443, 3000 must be available</li>
+<li><strong>Outbound Access</strong>: Required for Git, Docker registry, package managers</li>
+<li><strong>Firewall</strong>: Must allow inbound traffic on HTTP/HTTPS ports</li>
+</ol>
+<h3 id="database">Database<a class="headerlink" href="#database" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>PostgreSQL 16</strong>: Primary database</li>
+<li><strong>Redis 7</strong>: Queue and cache</li>
+<li><strong>Persistent Storage</strong>: Required for data durability</li>
+</ol>
+<h3 id="scalability_1">Scalability<a class="headerlink" href="#scalability_1" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Single Instance Limit</strong>: 100 applications, 50 databases</li>
+<li><strong>Multi-Server</strong>: Up to 50 remote servers</li>
+<li><strong>Concurrent Deployments</strong>: Queue-based (one at a time per project)</li>
+</ol>
+<hr/>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Anchor link to this section">¶</a></h2>
+<h3 id="external-services">External Services<a class="headerlink" href="#external-services" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Let's Encrypt</strong>: For SSL certificate automation</li>
+<li><strong>Docker Hub</strong>: For public images</li>
+<li><strong>GitHub/GitLab/Bitbucket</strong>: For source code hosting</li>
+<li><strong>S3-Compatible Storage</strong>: For backups (optional)</li>
+<li><strong>DNS Provider</strong>: For domain management</li>
+</ol>
+<h3 id="third-party-libraries">Third-Party Libraries<a class="headerlink" href="#third-party-libraries" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Next.js</strong>: Frontend framework</li>
+<li><strong>React</strong>: UI library</li>
+<li><strong>Traefik</strong>: Reverse proxy</li>
+<li><strong>Docker SDK</strong>: Container management</li>
+<li><strong>PostgreSQL Driver</strong>: Database connectivity</li>
+<li><strong>Redis Client</strong>: Queue management</li>
+</ol>
+<hr/>
+<h2 id="risk-assessment">Risk Assessment<a class="headerlink" href="#risk-assessment" title="Anchor link to this section">¶</a></h2>
+<h3 id="technical-risks">Technical Risks<a class="headerlink" href="#technical-risks" title="Anchor link to this section">¶</a></h3>
+<h4 id="risk-1-docker-swarm-deprecation">RISK-1: Docker Swarm Deprecation<a class="headerlink" href="#risk-1-docker-swarm-deprecation" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Low</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Monitor Docker roadmap, plan Kubernetes migration path</li>
+</ul>
+<h4 id="risk-2-database-scalability">RISK-2: Database Scalability<a class="headerlink" href="#risk-2-database-scalability" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: Medium</li>
+<li><strong>Mitigation</strong>: Implement connection pooling, database sharding strategy</li>
+</ul>
+<h4 id="risk-3-security-vulnerabilities">RISK-3: Security Vulnerabilities<a class="headerlink" href="#risk-3-security-vulnerabilities" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Regular security audits, automated vulnerability scanning, fast patch cycle</li>
+</ul>
+<h3 id="business-risks">Business Risks<a class="headerlink" href="#business-risks" title="Anchor link to this section">¶</a></h3>
+<h4 id="risk-4-competition-from-commercial-paas">RISK-4: Competition from Commercial PaaS<a class="headerlink" href="#risk-4-competition-from-commercial-paas" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: High</li>
+<li><strong>Impact</strong>: Medium</li>
+<li><strong>Mitigation</strong>: Focus on unique features (self-hosting, multi-server, cost savings)</li>
+</ul>
+<h4 id="risk-5-community-sustainability">RISK-5: Community Sustainability<a class="headerlink" href="#risk-5-community-sustainability" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Diversify funding (sponsors, Dokploy Cloud), active maintainer recruitment</li>
+</ul>
+<h4 id="risk-6-support-burden">RISK-6: Support Burden<a class="headerlink" href="#risk-6-support-burden" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: High</li>
+<li><strong>Impact</strong>: Medium</li>
+<li><strong>Mitigation</strong>: Improve documentation, community support forums, paid support tiers</li>
+</ul>
+<hr/>
+<h2 id="future-roadmap">Future Roadmap<a class="headerlink" href="#future-roadmap" title="Anchor link to this section">¶</a></h2>
+<h3 id="phase-1-q1-2025">Phase 1 (Q1 2025)<a class="headerlink" href="#phase-1-q1-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>AI-powered deployment optimization</li>
+<li>Custom build server improvements</li>
+<li>Enhanced monitoring and alerting</li>
+<li>Kubernetes support (experimental)</li>
+</ul>
+<h3 id="phase-2-q2-2025">Phase 2 (Q2 2025)<a class="headerlink" href="#phase-2-q2-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>GitOps integration</li>
+<li>Advanced CI/CD pipelines</li>
+<li>Multi-region deployment</li>
+<li>Cost optimization tools</li>
+</ul>
+<h3 id="phase-3-q3-2025">Phase 3 (Q3 2025)<a class="headerlink" href="#phase-3-q3-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Marketplace for templates and plugins</li>
+<li>Enterprise features (SSO, audit logs, compliance)</li>
+<li>Advanced analytics and insights</li>
+<li>Mobile application</li>
+</ul>
+<h3 id="phase-4-q4-2025">Phase 4 (Q4 2025)<a class="headerlink" href="#phase-4-q4-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Edge deployment support</li>
+<li>Serverless functions</li>
+<li>GraphQL API</li>
+<li>Advanced security features (secrets rotation, vulnerability management)</li>
+</ul>
+<hr/>
+<h2 id="compliance-and-standards">Compliance and Standards<a class="headerlink" href="#compliance-and-standards" title="Anchor link to this section">¶</a></h2>
+<h3 id="security-standards">Security Standards<a class="headerlink" href="#security-standards" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>OWASP Top 10</strong>: Full compliance</li>
+<li><strong>CIS Docker Benchmark</strong>: Level 1 compliance</li>
+<li><strong>SOC 2</strong>: In progress for Dokploy Cloud</li>
+</ul>
+<h3 id="data-protection">Data Protection<a class="headerlink" href="#data-protection" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>GDPR</strong>: Compliant (data export, deletion, consent)</li>
+<li><strong>CCPA</strong>: Compliant</li>
+<li><strong>Data Residency</strong>: User-controlled (self-hosted)</li>
+</ul>
+<h3 id="accessibility">Accessibility<a class="headerlink" href="#accessibility" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>WCAG 2.1</strong>: Level AA target</li>
+<li><strong>Section 508</strong>: Compliant</li>
+</ul>
+<hr/>
+<h2 id="support-and-documentation">Support and Documentation<a class="headerlink" href="#support-and-documentation" title="Anchor link to this section">¶</a></h2>
+<h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Installation Guide</strong>: Complete setup instructions</li>
+<li><strong>User Guide</strong>: Feature documentation</li>
+<li><strong>API Reference</strong>: OpenAPI/Swagger docs</li>
+<li><strong>Tutorials</strong>: Step-by-step guides</li>
+<li><strong>Troubleshooting</strong>: Common issues and solutions</li>
+</ol>
+<h3 id="support-channels">Support Channels<a class="headerlink" href="#support-channels" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Community</strong>: Discord, GitHub Discussions</li>
+<li><strong>Documentation</strong>: docs.dokploy.com</li>
+<li><strong>GitHub Issues</strong>: Bug reports and feature requests</li>
+<li><strong>Email Support</strong>: For Dokploy Cloud users</li>
+<li><strong>Paid Support</strong>: Enterprise support tiers</li>
+</ol>
+<hr/>
+<h2 id="appendices">Appendices<a class="headerlink" href="#appendices" title="Anchor link to this section">¶</a></h2>
+<h3 id="appendix-a-glossary">Appendix A: Glossary<a class="headerlink" href="#appendix-a-glossary" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>PaaS</strong>: Platform as a Service</li>
+<li><strong>Docker Swarm</strong>: Container orchestration platform</li>
+<li><strong>Traefik</strong>: Modern reverse proxy and load balancer</li>
+<li><strong>Nixpacks</strong>: Application building system</li>
+<li><strong>Zero-downtime deployment</strong>: Deployment without service interruption</li>
+</ul>
+<h3 id="appendix-b-references">Appendix B: References<a class="headerlink" href="#appendix-b-references" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>Official Documentation: <a href="https://docs.dokploy.com">https://docs.dokploy.com</a></li>
+<li>GitHub Repository: <a href="https://github.com/Dokploy/dokploy">https://github.com/Dokploy/dokploy</a></li>
+<li>Docker Hub: <a href="https://hub.docker.com/r/dokploy/dokploy">https://hub.docker.com/r/dokploy/dokploy</a></li>
+<li>Community Discord: <a href="https://discord.gg/dokploy">https://discord.gg/dokploy</a></li>
+</ol>
+<h3 id="appendix-c-version-history">Appendix C: Version History<a class="headerlink" href="#appendix-c-version-history" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>2024-12-30</td>
+<td>Initial PRD creation</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<p><strong>Document Status</strong>: Active<br/>
+<strong>Next Review Date</strong>: 2025-03-30<br/>
+<strong>Approval</strong>: Pending<br/>
+<strong>Distribution</strong>: Public</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>

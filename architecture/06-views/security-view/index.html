@@ -1,0 +1,2381 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/architecture/06-views/security-view/" rel="canonical"/>
+<link href="../container-diagram/" rel="prev"/>
+<link href="../deployment-diagram/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Security View - Dokploy Application Server</title>
+<link href="../../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#security-architecture-view">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Security View
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-vision/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03-data/data-model/">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/data-flow-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#purpose">
+<span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#security-principles">
+<span class="md-ellipsis">
+      
+        Security Principles
+      
+    </span>
+</a>
+<nav aria-label="Security Principles" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-defense-in-depth">
+<span class="md-ellipsis">
+      
+        1. Defense in Depth
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-least-privilege">
+<span class="md-ellipsis">
+      
+        2. Least Privilege
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-zero-trust">
+<span class="md-ellipsis">
+      
+        3. Zero Trust
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-secure-by-default">
+<span class="md-ellipsis">
+      
+        4. Secure by Default
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#5-privacy-by-design">
+<span class="md-ellipsis">
+      
+        5. Privacy by Design
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#6-fail-securely">
+<span class="md-ellipsis">
+      
+        6. Fail Securely
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#security-zones">
+<span class="md-ellipsis">
+      
+        Security Zones
+      
+    </span>
+</a>
+<nav aria-label="Security Zones" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#zone-descriptions">
+<span class="md-ellipsis">
+      
+        Zone Descriptions
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#trust-boundaries">
+<span class="md-ellipsis">
+      
+        Trust Boundaries
+      
+    </span>
+</a>
+<nav aria-label="Trust Boundaries" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#boundary-1-internet-dmz">
+<span class="md-ellipsis">
+      
+        Boundary 1: Internet → DMZ
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#boundary-2-dmz-application">
+<span class="md-ellipsis">
+      
+        Boundary 2: DMZ → Application
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#boundary-3-application-data">
+<span class="md-ellipsis">
+      
+        Boundary 3: Application → Data
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#boundary-4-application-infrastructure">
+<span class="md-ellipsis">
+      
+        Boundary 4: Application → Infrastructure
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#authentication-architecture">
+<span class="md-ellipsis">
+      
+        Authentication Architecture
+      
+    </span>
+</a>
+<nav aria-label="Authentication Architecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#local-authentication">
+<span class="md-ellipsis">
+      
+        Local Authentication
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#oidc-authentication">
+<span class="md-ellipsis">
+      
+        OIDC Authentication
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#authorization-architecture">
+<span class="md-ellipsis">
+      
+        Authorization Architecture
+      
+    </span>
+</a>
+<nav aria-label="Authorization Architecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#role-based-access-control-rbac">
+<span class="md-ellipsis">
+      
+        Role-Based Access Control (RBAC)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#roles">
+<span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#permission-model">
+<span class="md-ellipsis">
+      
+        Permission Model
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#row-level-security-postgresql">
+<span class="md-ellipsis">
+      
+        Row-Level Security (PostgreSQL)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#network-security">
+<span class="md-ellipsis">
+      
+        Network Security
+      
+    </span>
+</a>
+<nav aria-label="Network Security" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#network-topology">
+<span class="md-ellipsis">
+      
+        Network Topology
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#docker-network-configuration">
+<span class="md-ellipsis">
+      
+        Docker Network Configuration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rate-limiting">
+<span class="md-ellipsis">
+      
+        Rate Limiting
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#secrets-management">
+<span class="md-ellipsis">
+      
+        Secrets Management
+      
+    </span>
+</a>
+<nav aria-label="Secrets Management" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#docker-swarm-secrets">
+<span class="md-ellipsis">
+      
+        Docker Swarm Secrets
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../10-governance/architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../../">
+<span class="md-ellipsis">
+    Architecture
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../context-diagram/">
+<span class="md-ellipsis">
+    Architectural Views
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset">
+<h1 id="security-architecture-view">Security Architecture View<a class="headerlink" href="#security-architecture-view" title="Anchor link to this section">¶</a></h1>
+<p><strong>Document Type</strong>: Architecture View<br/>
+<strong>Status</strong>: Draft<br/>
+<strong>Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Owner</strong>: Architecture Team  </p>
+<hr/>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Anchor link to this section">¶</a></h2>
+<p>This document defines the security architecture for Dokploy, including security zones, trust boundaries, authentication and authorization mechanisms, data protection strategies, and threat mitigation approaches. It serves as the authoritative reference for all security-related design decisions.</p>
+<hr/>
+<h2 id="security-principles">Security Principles<a class="headerlink" href="#security-principles" title="Anchor link to this section">¶</a></h2>
+<h3 id="1-defense-in-depth">1. Defense in Depth<a class="headerlink" href="#1-defense-in-depth" title="Anchor link to this section">¶</a></h3>
+<p>Multiple layers of security controls to protect against single point of failure.</p>
+<h3 id="2-least-privilege">2. Least Privilege<a class="headerlink" href="#2-least-privilege" title="Anchor link to this section">¶</a></h3>
+<p>Users and services granted minimum permissions necessary for their function.</p>
+<h3 id="3-zero-trust">3. Zero Trust<a class="headerlink" href="#3-zero-trust" title="Anchor link to this section">¶</a></h3>
+<p>No implicit trust; verify every request regardless of source.</p>
+<h3 id="4-secure-by-default">4. Secure by Default<a class="headerlink" href="#4-secure-by-default" title="Anchor link to this section">¶</a></h3>
+<p>Security features enabled out-of-box; insecure options require explicit opt-in.</p>
+<h3 id="5-privacy-by-design">5. Privacy by Design<a class="headerlink" href="#5-privacy-by-design" title="Anchor link to this section">¶</a></h3>
+<p>Data minimization, encryption, and user control over personal information.</p>
+<h3 id="6-fail-securely">6. Fail Securely<a class="headerlink" href="#6-fail-securely" title="Anchor link to this section">¶</a></h3>
+<p>Security failures deny access rather than granting it.</p>
+<hr/>
+<h2 id="security-zones">Security Zones<a class="headerlink" href="#security-zones" title="Anchor link to this section">¶</a></h2>
+<pre class="mermaid"><code>graph TB
+    subgraph "Internet Zone (Untrusted)"
+        USER[User Browser]
+        GIT[Git Providers]
+        REG[Container Registries]
+    end
+
+    subgraph "DMZ Zone (Semi-Trusted)"
+        TRAEFIK[Traefik Proxy&lt;br/&gt;TLS Termination]
+        LE[Let's Encrypt]
+    end
+
+    subgraph "Application Zone (Trusted)"
+        NEXTJS[Next.js API/Web&lt;br/&gt;Authentication Layer]
+        WORKER[Background Workers]
+    end
+
+    subgraph "Data Zone (High Security)"
+        PG[(PostgreSQL&lt;br/&gt;Encrypted at Rest)]
+        REDIS[(Redis&lt;br/&gt;In-Memory)]
+        SECRETS[Docker Secrets&lt;br/&gt;Encrypted]
+    end
+
+    subgraph "Infrastructure Zone (Privileged)"
+        DOCKER[Docker Engine&lt;br/&gt;Unix Socket]
+        HOST[Host System&lt;br/&gt;Root Access]
+    end
+
+    USER --&gt;|HTTPS| TRAEFIK
+    TRAEFIK --&gt;|HTTP| NEXTJS
+    NEXTJS --&gt;|SQL| PG
+    NEXTJS --&gt;|Cache| REDIS
+    NEXTJS --&gt;|Docker API| DOCKER
+    DOCKER --&gt;|Access| HOST
+    GIT --&gt;|Webhooks| TRAEFIK
+    REG --&gt;|Image Pull| DOCKER
+    LE --&gt;|ACME Challenge| TRAEFIK
+
+    style USER fill:#ff9999
+    style GIT fill:#ff9999
+    style REG fill:#ff9999
+    style TRAEFIK fill:#ffcc99
+    style NEXTJS fill:#99ccff
+    style PG fill:#9999ff
+    style REDIS fill:#9999ff
+    style SECRETS fill:#9999ff
+    style DOCKER fill:#cc99ff
+    style HOST fill:#cc99ff</code></pre>
+<h3 id="zone-descriptions">Zone Descriptions<a class="headerlink" href="#zone-descriptions" title="Anchor link to this section">¶</a></h3>
+<h4 id="internet-zone-untrusted">Internet Zone (Untrusted)<a class="headerlink" href="#internet-zone-untrusted" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Trust Level</strong>: None</li>
+<li><strong>Components</strong>: User browsers, Git providers (GitHub, GitLab), container registries</li>
+<li><strong>Threats</strong>: MITM attacks, credential theft, malicious payloads</li>
+<li><strong>Controls</strong>: HTTPS only, webhook signature verification, content validation</li>
+</ul>
+<h4 id="dmz-zone-semi-trusted">DMZ Zone (Semi-Trusted)<a class="headerlink" href="#dmz-zone-semi-trusted" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Trust Level</strong>: Limited</li>
+<li><strong>Components</strong>: Traefik reverse proxy, Let's Encrypt</li>
+<li><strong>Threats</strong>: DDoS, TLS downgrade, certificate theft</li>
+<li><strong>Controls</strong>: Rate limiting, TLS 1.2+ only, HSTS, security headers</li>
+</ul>
+<h4 id="application-zone-trusted">Application Zone (Trusted)<a class="headerlink" href="#application-zone-trusted" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Trust Level</strong>: High</li>
+<li><strong>Components</strong>: Next.js application, background workers</li>
+<li><strong>Threats</strong>: Injection attacks, privilege escalation, logic bugs</li>
+<li><strong>Controls</strong>: Authentication, authorization, input validation, CSRF protection</li>
+</ul>
+<h4 id="data-zone-high-security">Data Zone (High Security)<a class="headerlink" href="#data-zone-high-security" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Trust Level</strong>: Very High</li>
+<li><strong>Components</strong>: PostgreSQL, Redis, Docker Secrets</li>
+<li><strong>Threats</strong>: Data exfiltration, unauthorized access, data tampering</li>
+<li><strong>Controls</strong>: Encryption at rest, network isolation, access control, audit logging</li>
+</ul>
+<h4 id="infrastructure-zone-privileged">Infrastructure Zone (Privileged)<a class="headerlink" href="#infrastructure-zone-privileged" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Trust Level</strong>: Maximum</li>
+<li><strong>Components</strong>: Docker Engine, host OS</li>
+<li><strong>Threats</strong>: Container escape, host compromise, privilege escalation</li>
+<li><strong>Controls</strong>: AppArmor/SELinux, resource limits, security updates, minimal attack surface</li>
+</ul>
+<hr/>
+<h2 id="trust-boundaries">Trust Boundaries<a class="headerlink" href="#trust-boundaries" title="Anchor link to this section">¶</a></h2>
+<h3 id="boundary-1-internet-dmz">Boundary 1: Internet → DMZ<a class="headerlink" href="#boundary-1-internet-dmz" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Protection</strong>: TLS encryption, certificate validation, rate limiting</li>
+<li><strong>Validation</strong>: Origin verification, webhook signatures, CORS policies</li>
+<li><strong>Monitoring</strong>: Access logs, failed authentication attempts, suspicious patterns</li>
+</ul>
+<h3 id="boundary-2-dmz-application">Boundary 2: DMZ → Application<a class="headerlink" href="#boundary-2-dmz-application" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Protection</strong>: Internal network, authentication required, session management</li>
+<li><strong>Validation</strong>: JWT/session tokens, CSRF tokens, request sanitization</li>
+<li><strong>Monitoring</strong>: API usage, error rates, authentication failures</li>
+</ul>
+<h3 id="boundary-3-application-data">Boundary 3: Application → Data<a class="headerlink" href="#boundary-3-application-data" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Protection</strong>: Connection pooling, parameterized queries, encryption in transit</li>
+<li><strong>Validation</strong>: Data type validation, foreign key constraints, transaction isolation</li>
+<li><strong>Monitoring</strong>: Query performance, connection counts, failed queries</li>
+</ul>
+<h3 id="boundary-4-application-infrastructure">Boundary 4: Application → Infrastructure<a class="headerlink" href="#boundary-4-application-infrastructure" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Protection</strong>: Unix socket permissions, API authentication, resource limits</li>
+<li><strong>Validation</strong>: Container image verification, config validation, namespace isolation</li>
+<li><strong>Monitoring</strong>: Docker events, resource usage, container lifecycle</li>
+</ul>
+<hr/>
+<h2 id="authentication-architecture">Authentication Architecture<a class="headerlink" href="#authentication-architecture" title="Anchor link to this section">¶</a></h2>
+<h3 id="local-authentication">Local Authentication<a class="headerlink" href="#local-authentication" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant Next.js
+    participant PostgreSQL
+
+    User-&gt;&gt;Next.js: POST /api/auth/login&lt;br/&gt;{username, password}
+    Next.js-&gt;&gt;Next.js: Rate limit check
+    Next.js-&gt;&gt;PostgreSQL: Query user by username
+    PostgreSQL--&gt;&gt;Next.js: User record (hashed password)
+    Next.js-&gt;&gt;Next.js: bcrypt.compare(password, hash)
+
+    alt Valid Credentials
+        Next.js-&gt;&gt;Next.js: Generate JWT/session
+        Next.js-&gt;&gt;PostgreSQL: Log successful login
+        Next.js--&gt;&gt;User: 200 OK + session cookie
+    else Invalid Credentials
+        Next.js-&gt;&gt;PostgreSQL: Log failed attempt
+        Next.js-&gt;&gt;Next.js: Delay response (timing attack mitigation)
+        Next.js--&gt;&gt;User: 401 Unauthorized
+    end</code></pre>
+<p><strong>Security Features</strong>:
+- Password hashing: bcrypt with cost factor 12
+- Rate limiting: 5 attempts per 15 minutes per IP
+- Account lockout: After 10 failed attempts (1 hour lockout)
+- Timing attack mitigation: Constant-time comparison
+- Session expiry: 7 days idle, 30 days absolute
+- Secure cookies: httpOnly, secure, sameSite=strict</p>
+<h3 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant Next.js
+    participant OIDC Provider
+    participant PostgreSQL
+
+    User-&gt;&gt;Next.js: GET /api/auth/oidc/login
+    Next.js-&gt;&gt;Next.js: Generate state + PKCE challenge
+    Next.js--&gt;&gt;User: 302 Redirect to OIDC Provider
+    User-&gt;&gt;OIDC Provider: Authorization request
+    OIDC Provider-&gt;&gt;User: Login page
+    User-&gt;&gt;OIDC Provider: Authenticate
+    OIDC Provider--&gt;&gt;User: 302 Redirect with auth code
+    User-&gt;&gt;Next.js: GET /api/auth/oidc/callback?code=...
+    Next.js-&gt;&gt;Next.js: Verify state + PKCE
+    Next.js-&gt;&gt;OIDC Provider: Exchange code for tokens
+    OIDC Provider--&gt;&gt;Next.js: ID token + access token
+    Next.js-&gt;&gt;Next.js: Verify JWT signature
+    Next.js-&gt;&gt;PostgreSQL: Upsert user record
+    Next.js-&gt;&gt;Next.js: Create session
+    Next.js--&gt;&gt;User: 302 Redirect to dashboard</code></pre>
+<p><strong>Security Features</strong>:
+- PKCE (Proof Key for Code Exchange)
+- State parameter (CSRF protection)
+- JWT signature verification (RS256)
+- Token replay prevention
+- Issuer validation
+- Audience validation
+- Automatic token refresh</p>
+<hr/>
+<h2 id="authorization-architecture">Authorization Architecture<a class="headerlink" href="#authorization-architecture" title="Anchor link to this section">¶</a></h2>
+<h3 id="role-based-access-control-rbac">Role-Based Access Control (RBAC)<a class="headerlink" href="#role-based-access-control-rbac" title="Anchor link to this section">¶</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>User
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>  └─ has role ─&gt; Role (admin, user, viewer)
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>       └─ has permissions ─&gt; Permissions
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>            └─ on ─&gt; Resource (project, application, database)
+</span></code></pre></div>
+<h3 id="roles">Roles<a class="headerlink" href="#roles" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Permissions</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>super-admin</code></td>
+<td>All permissions, manage users, system settings</td>
+<td>Platform owner</td>
+</tr>
+<tr>
+<td><code>admin</code></td>
+<td>Full access to owned projects, create projects</td>
+<td>Team leads</td>
+</tr>
+<tr>
+<td><code>developer</code></td>
+<td>Deploy apps, view logs, manage env vars</td>
+<td>Development team</td>
+</tr>
+<tr>
+<td><code>viewer</code></td>
+<td>Read-only access to projects</td>
+<td>Stakeholders, auditors</td>
+</tr>
+</tbody>
+</table>
+<h3 id="permission-model">Permission Model<a class="headerlink" href="#permission-model" title="Anchor link to this section">¶</a></h3>
+<p>```typescript path=null start=null
+interface Permission {
+  resource: 'project' | 'application' | 'database' | 'user' | 'system'
+  action: 'create' | 'read' | 'update' | 'delete' | 'deploy' | 'scale'
+  scope: 'all' | 'owned' | 'team' | 'specific'
+}</p>
+<p>// Example permissions
+const permissions = {
+  'admin': [
+    { resource: 'project', action: 'create', scope: 'all' },
+    { resource: 'project', action: 'read', scope: 'all' },
+    { resource: 'application', action: 'deploy', scope: 'owned' },
+  ],
+  'developer': [
+    { resource: 'application', action: 'read', scope: 'team' },
+    { resource: 'application', action: 'deploy', scope: 'team' },
+    { resource: 'application', action: 'update', scope: 'team' },
+  ],
+  'viewer': [
+    { resource: 'project', action: 'read', scope: 'team' },
+    { resource: 'application', action: 'read', scope: 'team' },
+  ],
+}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>### Authorization Middleware
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>```typescript path=null start=null
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>// Next.js API route protection
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>import { getServerSession } from 'next-auth'
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>import { hasPermission } from '@/lib/rbac'
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>export async function POST(request: Request) {
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>  const session = await getServerSession()
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>  if (!session) {
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>    return Response.json({ error: 'Unauthorized' }, { status: 401 })
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a>  }
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a>  // Check permission
+</span><span id="__span-1-16"><a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a>  if (!hasPermission(session.user, 'application', 'deploy')) {
+</span><span id="__span-1-17"><a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>    return Response.json({ error: 'Forbidden' }, { status: 403 })
+</span><span id="__span-1-18"><a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a>  }
+</span><span id="__span-1-19"><a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a>  // Proceed with deployment
+</span><span id="__span-1-21"><a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a>}
+</span></code></pre></div></p>
+<h3 id="row-level-security-postgresql">Row-Level Security (PostgreSQL)<a class="headerlink" href="#row-level-security-postgresql" title="Anchor link to this section">¶</a></h3>
+<p>```sql path=null start=null
+-- Enable RLS on projects table
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;</p>
+<p>-- Policy: Users can view projects they own or are members of
+CREATE POLICY projects_select_policy ON projects
+  FOR SELECT
+  USING (
+    owner_id = current_setting('app.user_id')::uuid
+    OR id IN (
+      SELECT project_id FROM project_members
+      WHERE user_id = current_setting('app.user_id')::uuid
+    )
+  );</p>
+<p>-- Policy: Only owners can delete projects
+CREATE POLICY projects_delete_policy ON projects
+  FOR DELETE
+  USING (owner_id = current_setting('app.user_id')::uuid);
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>---
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>## Data Protection
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>### Encryption at Rest
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>**PostgreSQL**:
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a>- Filesystem encryption: LUKS (Linux Unified Key Setup)
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a>- Transparent Data Encryption (TDE): pgcrypto extension
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>- Backup encryption: GPG-encrypted dumps
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a>**Docker Secrets**:
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a>- Encrypted by default (Swarm secrets)
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a>- Stored in Raft log (encrypted)
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a>- Decrypted only on authorized nodes
+</span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a>**Application Secrets**:
+</span><span id="__span-2-18"><a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a>- Environment variables: Stored as Docker secrets
+</span><span id="__span-2-19"><a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a>- API keys: Encrypted in PostgreSQL (AES-256-GCM)
+</span><span id="__span-2-20"><a href="#__codelineno-2-20" id="__codelineno-2-20" name="__codelineno-2-20"></a>- Passwords: bcrypt hashed (cost factor 12)
+</span><span id="__span-2-21"><a href="#__codelineno-2-21" id="__codelineno-2-21" name="__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a href="#__codelineno-2-22" id="__codelineno-2-22" name="__codelineno-2-22"></a>### Encryption in Transit
+</span><span id="__span-2-23"><a href="#__codelineno-2-23" id="__codelineno-2-23" name="__codelineno-2-23"></a>
+</span><span id="__span-2-24"><a href="#__codelineno-2-24" id="__codelineno-2-24" name="__codelineno-2-24"></a>**External Communication**:
+</span><span id="__span-2-25"><a href="#__codelineno-2-25" id="__codelineno-2-25" name="__codelineno-2-25"></a>- TLS 1.2+ only (TLS 1.3 preferred)
+</span><span id="__span-2-26"><a href="#__codelineno-2-26" id="__codelineno-2-26" name="__codelineno-2-26"></a>- Strong cipher suites: ECDHE-RSA-AES256-GCM-SHA384
+</span><span id="__span-2-27"><a href="#__codelineno-2-27" id="__codelineno-2-27" name="__codelineno-2-27"></a>- HSTS: max-age=31536000; includeSubDomains; preload
+</span><span id="__span-2-28"><a href="#__codelineno-2-28" id="__codelineno-2-28" name="__codelineno-2-28"></a>- Certificate pinning: For critical integrations
+</span><span id="__span-2-29"><a href="#__codelineno-2-29" id="__codelineno-2-29" name="__codelineno-2-29"></a>
+</span><span id="__span-2-30"><a href="#__codelineno-2-30" id="__codelineno-2-30" name="__codelineno-2-30"></a>**Internal Communication**:
+</span><span id="__span-2-31"><a href="#__codelineno-2-31" id="__codelineno-2-31" name="__codelineno-2-31"></a>- PostgreSQL: TLS required (`sslmode=require`)
+</span><span id="__span-2-32"><a href="#__codelineno-2-32" id="__codelineno-2-32" name="__codelineno-2-32"></a>- Redis: TLS optional (localhost only by default)
+</span><span id="__span-2-33"><a href="#__codelineno-2-33" id="__codelineno-2-33" name="__codelineno-2-33"></a>- Docker API: Unix socket (local only)
+</span><span id="__span-2-34"><a href="#__codelineno-2-34" id="__codelineno-2-34" name="__codelineno-2-34"></a>
+</span><span id="__span-2-35"><a href="#__codelineno-2-35" id="__codelineno-2-35" name="__codelineno-2-35"></a>### Data Sanitization
+</span><span id="__span-2-36"><a href="#__codelineno-2-36" id="__codelineno-2-36" name="__codelineno-2-36"></a>
+</span><span id="__span-2-37"><a href="#__codelineno-2-37" id="__codelineno-2-37" name="__codelineno-2-37"></a>**Input Validation**:
+</span><span id="__span-2-38"><a href="#__codelineno-2-38" id="__codelineno-2-38" name="__codelineno-2-38"></a>```typescript path=null start=null
+</span><span id="__span-2-39"><a href="#__codelineno-2-39" id="__codelineno-2-39" name="__codelineno-2-39"></a>import { z } from 'zod'
+</span><span id="__span-2-40"><a href="#__codelineno-2-40" id="__codelineno-2-40" name="__codelineno-2-40"></a>
+</span><span id="__span-2-41"><a href="#__codelineno-2-41" id="__codelineno-2-41" name="__codelineno-2-41"></a>const createAppSchema = z.object({
+</span><span id="__span-2-42"><a href="#__codelineno-2-42" id="__codelineno-2-42" name="__codelineno-2-42"></a>  name: z.string().min(3).max(50).regex(/^[a-z0-9-]+$/),
+</span><span id="__span-2-43"><a href="#__codelineno-2-43" id="__codelineno-2-43" name="__codelineno-2-43"></a>  image: z.string().min(1).max(500),
+</span><span id="__span-2-44"><a href="#__codelineno-2-44" id="__codelineno-2-44" name="__codelineno-2-44"></a>  envVars: z.record(z.string(), z.string()).optional(),
+</span><span id="__span-2-45"><a href="#__codelineno-2-45" id="__codelineno-2-45" name="__codelineno-2-45"></a>  replicas: z.number().int().min(0).max(100),
+</span><span id="__span-2-46"><a href="#__codelineno-2-46" id="__codelineno-2-46" name="__codelineno-2-46"></a>})
+</span><span id="__span-2-47"><a href="#__codelineno-2-47" id="__codelineno-2-47" name="__codelineno-2-47"></a>
+</span><span id="__span-2-48"><a href="#__codelineno-2-48" id="__codelineno-2-48" name="__codelineno-2-48"></a>export async function POST(request: Request) {
+</span><span id="__span-2-49"><a href="#__codelineno-2-49" id="__codelineno-2-49" name="__codelineno-2-49"></a>  const body = await request.json()
+</span><span id="__span-2-50"><a href="#__codelineno-2-50" id="__codelineno-2-50" name="__codelineno-2-50"></a>
+</span><span id="__span-2-51"><a href="#__codelineno-2-51" id="__codelineno-2-51" name="__codelineno-2-51"></a>  // Validate and sanitize
+</span><span id="__span-2-52"><a href="#__codelineno-2-52" id="__codelineno-2-52" name="__codelineno-2-52"></a>  const validated = createAppSchema.parse(body)
+</span><span id="__span-2-53"><a href="#__codelineno-2-53" id="__codelineno-2-53" name="__codelineno-2-53"></a>
+</span><span id="__span-2-54"><a href="#__codelineno-2-54" id="__codelineno-2-54" name="__codelineno-2-54"></a>  // Proceed with validated data
+</span><span id="__span-2-55"><a href="#__codelineno-2-55" id="__codelineno-2-55" name="__codelineno-2-55"></a>}
+</span></code></pre></div></p>
+<p><strong>Output Encoding</strong>:
+- HTML: React automatic escaping
+- SQL: Parameterized queries (Prisma)
+- Shell: No direct shell execution
+- Logs: Redact sensitive fields (passwords, tokens)</p>
+<hr/>
+<h2 id="network-security">Network Security<a class="headerlink" href="#network-security" title="Anchor link to this section">¶</a></h2>
+<h3 id="network-topology">Network Topology<a class="headerlink" href="#network-topology" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "External Networks"
+        INTERNET[Internet]
+    end
+
+    subgraph "DMZ Network (dokploy-dmz)"
+        TRAEFIK[Traefik]
+    end
+
+    subgraph "Application Network (dokploy-app)"
+        NEXTJS[Next.js]
+        WORKER[Workers]
+    end
+
+    subgraph "Data Network (dokploy-data)"
+        POSTGRES[PostgreSQL]
+        REDIS[Redis]
+    end
+
+    INTERNET --&gt;|443| TRAEFIK
+    TRAEFIK --&gt;|80| NEXTJS
+    NEXTJS --&gt; POSTGRES
+    NEXTJS --&gt; REDIS
+    WORKER --&gt; POSTGRES
+
+    style INTERNET fill:#ff9999
+    style TRAEFIK fill:#ffcc99
+    style NEXTJS fill:#99ccff
+    style WORKER fill:#99ccff
+    style POSTGRES fill:#9999ff
+    style REDIS fill:#9999ff</code></pre>
+<h3 id="docker-network-configuration">Docker Network Configuration<a class="headerlink" href="#docker-network-configuration" title="Anchor link to this section">¶</a></h3>
+<p>```yaml path=null start=null
+networks:
+  dokploy-dmz:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24</p>
+<p>dokploy-app:
+    driver: overlay
+    internal: false  # Can reach external registries
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24</p>
+<p>dokploy-data:
+    driver: overlay
+    internal: true  # No external access
+    ipam:
+      config:
+        - subnet: 10.0.3.0/24
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>### Firewall Rules
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>**Host Firewall (iptables/firewalld)**:
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>```bash path=null start=null
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a># Allow SSH (management)
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a># Allow HTTP/HTTPS
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a>iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a># Allow Docker Swarm
+</span><span id="__span-3-13"><a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>iptables -A INPUT -p tcp --dport 2377 -j ACCEPT  # Management
+</span><span id="__span-3-14"><a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a>iptables -A INPUT -p tcp --dport 7946 -j ACCEPT  # Overlay
+</span><span id="__span-3-15"><a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a>iptables -A INPUT -p udp --dport 7946 -j ACCEPT
+</span><span id="__span-3-16"><a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a>iptables -A INPUT -p udp --dport 4789 -j ACCEPT  # VXLAN
+</span><span id="__span-3-17"><a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a># Drop all other incoming
+</span><span id="__span-3-19"><a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a>iptables -P INPUT DROP
+</span></code></pre></div></p>
+<h3 id="rate-limiting">Rate Limiting<a class="headerlink" href="#rate-limiting" title="Anchor link to this section">¶</a></h3>
+<p><strong>Traefik Configuration</strong>:
+```yaml path=null start=null
+http:
+  middlewares:
+    rate-limit:
+      rateLimit:
+        average: 100  # requests per second
+        burst: 200
+        period: 1s</p>
+<div class="language-text highlight"><pre><span></span><code>api-rate-limit:
+  rateLimit:
+    average: 10
+    burst: 20
+    period: 1s
+</code></pre></div>
+<p>```</p>
+<hr/>
+<h2 id="secrets-management">Secrets Management<a class="headerlink" href="#secrets-management" title="Anchor link to this section">¶</a></h2>
+<h3 id="docker-swarm-secrets">Docker Swarm Secrets<a class="headerlink" href="#docker-swarm-secrets" title="Anchor link to this section">¶</a></h3>
+<p>```bash path=null start=null</p>
+<h1 id="create-secret-from-file">Create secret from file<a class="headerlink" href="#create-secret-from-file" title="Anchor link to this section">¶</a></h1>
+<p>docker secret create postgres_password /path/to/password.txt
+</p>
+<h1 id="create-secret-from-stdin">Create secret from stdin<a class="headerlink" href="#create-secret-from-stdin" title="Anchor link to this section">¶</a></h1>
+<p>echo "my-secret-value" | docker secret create api_key -
+</p>
+<h1 id="use-in-service">Use in service<a class="headerlink" href="#use-in-service" title="Anchor link to this section">¶</a></h1>
+<p>docker service create \
+  --name dokploy \
+  --secret postgres_password \
+  --secret api_key \
+  dokploy:latest
+```</p>
+<p><strong>Access in Application</strong>:
+```typescript path=null start=null
+import { readFileSync } from 'fs'</p>
+<p>// Secrets mounted at /run/secrets/<secret_name>
+const postgresPassword = readFileSync('/run/secrets/postgres_password', 'utf8').trim()
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>### Environment Variable Security
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>**Prohibited**:
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>```bash path=null start=null
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a># ❌ Never expose secrets in environment
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>POSTGRES_PASSWORD=supersecret  # Bad!
+</span></code></pre></div></secret_name></p>
+<p><strong>Recommended</strong>:
+```bash path=null start=null</p>
+<h1 id="use-docker-secrets-or-_file-suffix">✅ Use Docker secrets or _FILE suffix<a class="headerlink" href="#use-docker-secrets-or-_file-suffix" title="Anchor link to this section">¶</a></h1>
+<p>POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>### Secret Rotation
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>```bash path=null start=null
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>#!/bin/bash
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a># rotate-secret.sh
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>SECRET_NAME=$1
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>NEW_VALUE=$2
+</span><span id="__span-6-9"><a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a># Create new secret version
+</span><span id="__span-6-11"><a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a>echo "$NEW_VALUE" | docker secret create "${SECRET_NAME}_v2" -
+</span><span id="__span-6-12"><a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a># Update service to use new secret
+</span><span id="__span-6-14"><a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a>docker service update \
+</span><span id="__span-6-15"><a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a>  --secret-rm "${SECRET_NAME}" \
+</span><span id="__span-6-16"><a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a>  --secret-add "source=${SECRET_NAME}_v2,target=${SECRET_NAME}" \
+</span><span id="__span-6-17"><a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a>  dokploy
+</span><span id="__span-6-18"><a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a># Remove old secret (after validation)
+</span><span id="__span-6-20"><a href="#__codelineno-6-20" id="__codelineno-6-20" name="__codelineno-6-20"></a>docker secret rm "${SECRET_NAME}"
+</span></code></pre></div></p>
+<hr/>
+<h2 id="audit-logging">Audit Logging<a class="headerlink" href="#audit-logging" title="Anchor link to this section">¶</a></h2>
+<h3 id="what-to-log">What to Log<a class="headerlink" href="#what-to-log" title="Anchor link to this section">¶</a></h3>
+<p><strong>Authentication Events</strong>:
+- Login attempts (success/failure)
+- Logout events
+- Password changes
+- MFA enrollment/removal
+- Session creation/expiration</p>
+<p><strong>Authorization Events</strong>:
+- Permission grants/revokes
+- Role changes
+- Access denied events</p>
+<p><strong>Resource Changes</strong>:
+- Application deployments
+- Configuration changes
+- Database operations (create/delete)
+- Secret access</p>
+<p><strong>Security Events</strong>:
+- Failed authentication (brute force detection)
+- Privilege escalation attempts
+- Unusual access patterns
+- Security policy violations</p>
+<h3 id="log-format">Log Format<a class="headerlink" href="#log-format" title="Anchor link to this section">¶</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-30T12:34:56.789Z"</span><span class="p">,</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info"</span><span class="p">,</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application.deploy"</span><span class="p">,</span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john.doe"</span><span class="p">,</span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">  </span><span class="nt">"ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.1.100"</span><span class="p">,</span>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">  </span><span class="nt">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0..."</span><span class="p">,</span>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">  </span><span class="nt">"resource_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application"</span><span class="p">,</span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">  </span><span class="nt">"resource_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app-123"</span><span class="p">,</span>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deploy"</span><span class="p">,</span>
+</span><span id="__span-7-12"><a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="w">  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span>
+</span><span id="__span-7-13"><a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-14"><a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="w">    </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myapp:v1.2.3"</span><span class="p">,</span>
+</span><span id="__span-7-15"><a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="w">    </span><span class="nt">"replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-7-16"><a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-17"><a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="log-storage">Log Storage<a class="headerlink" href="#log-storage" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Retention</strong>: 90 days standard, 1 year for security events</li>
+<li><strong>Location</strong>: PostgreSQL <code>audit_logs</code> table</li>
+<li><strong>Access</strong>: Admin and auditor roles only</li>
+<li><strong>Integrity</strong>: Append-only table, tamper detection via checksums</li>
+</ul>
+<hr/>
+<h2 id="vulnerability-management">Vulnerability Management<a class="headerlink" href="#vulnerability-management" title="Anchor link to this section">¶</a></h2>
+<h3 id="dependency-scanning">Dependency Scanning<a class="headerlink" href="#dependency-scanning" title="Anchor link to this section">¶</a></h3>
+<p>```bash path=null start=null</p>
+<h1 id="nodejs-dependencies">Node.js dependencies<a class="headerlink" href="#nodejs-dependencies" title="Anchor link to this section">¶</a></h1>
+<p>npm audit --audit-level=moderate</p>
+<h1 id="docker-images">Docker images<a class="headerlink" href="#docker-images" title="Anchor link to this section">¶</a></h1>
+<p>docker scan dokploy:latest</p>
+<h1 id="container-vulnerability-database">Container vulnerability database<a class="headerlink" href="#container-vulnerability-database" title="Anchor link to this section">¶</a></h1>
+<p>trivy image dokploy:latest
+```</p>
+<h3 id="update-policy">Update Policy<a class="headerlink" href="#update-policy" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Critical vulnerabilities</strong>: Patch within 24 hours</li>
+<li><strong>High vulnerabilities</strong>: Patch within 7 days</li>
+<li><strong>Moderate vulnerabilities</strong>: Patch within 30 days</li>
+<li><strong>Low vulnerabilities</strong>: Patch in next release</li>
+</ul>
+<h3 id="security-patching-process">Security Patching Process<a class="headerlink" href="#security-patching-process" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>Monitor security advisories (GitHub, NPM, Docker Hub)</li>
+<li>Assess impact and exploitability</li>
+<li>Test patch in development</li>
+<li>Deploy to staging</li>
+<li>Deploy to production (with rollback plan)</li>
+<li>Notify users of security update</li>
+</ol>
+<hr/>
+<h2 id="threat-modeling">Threat Modeling<a class="headerlink" href="#threat-modeling" title="Anchor link to this section">¶</a></h2>
+<h3 id="stride-analysis">STRIDE Analysis<a class="headerlink" href="#stride-analysis" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Threat</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Spoofing</strong></td>
+<td>Authentication (JWT, OIDC), TLS certificates</td>
+</tr>
+<tr>
+<td><strong>Tampering</strong></td>
+<td>Input validation, CSRF tokens, integrity checks</td>
+</tr>
+<tr>
+<td><strong>Repudiation</strong></td>
+<td>Audit logging, digital signatures</td>
+</tr>
+<tr>
+<td><strong>Information Disclosure</strong></td>
+<td>Encryption (TLS, at-rest), access control</td>
+</tr>
+<tr>
+<td><strong>Denial of Service</strong></td>
+<td>Rate limiting, resource quotas, health checks</td>
+</tr>
+<tr>
+<td><strong>Elevation of Privilege</strong></td>
+<td>RBAC, least privilege, container isolation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="attack-scenarios">Attack Scenarios<a class="headerlink" href="#attack-scenarios" title="Anchor link to this section">¶</a></h3>
+<h4 id="scenario-1-credential-theft">Scenario 1: Credential Theft<a class="headerlink" href="#scenario-1-credential-theft" title="Anchor link to this section">¶</a></h4>
+<p><strong>Threat</strong>: Attacker steals user credentials
+<strong>Mitigations</strong>:
+- Password hashing (bcrypt)
+- Rate limiting on login
+- Account lockout
+- MFA (future)
+- Session expiry</p>
+<h4 id="scenario-2-container-escape">Scenario 2: Container Escape<a class="headerlink" href="#scenario-2-container-escape" title="Anchor link to this section">¶</a></h4>
+<p><strong>Threat</strong>: Attacker escapes container to host
+<strong>Mitigations</strong>:
+- AppArmor/SELinux profiles
+- Minimal base images
+- Read-only root filesystem
+- Drop capabilities
+- Resource limits</p>
+<h4 id="scenario-3-sql-injection">Scenario 3: SQL Injection<a class="headerlink" href="#scenario-3-sql-injection" title="Anchor link to this section">¶</a></h4>
+<p><strong>Threat</strong>: Attacker injects malicious SQL
+<strong>Mitigations</strong>:
+- Parameterized queries (Prisma ORM)
+- Input validation (Zod schemas)
+- Least privilege DB user
+- Query monitoring</p>
+<h4 id="scenario-4-secrets-exposure">Scenario 4: Secrets Exposure<a class="headerlink" href="#scenario-4-secrets-exposure" title="Anchor link to this section">¶</a></h4>
+<p><strong>Threat</strong>: Secrets leaked in logs or environment
+<strong>Mitigations</strong>:
+- Docker Swarm secrets
+- Log sanitization
+- No secrets in env vars
+- Secret rotation</p>
+<hr/>
+<h2 id="compliance">Compliance<a class="headerlink" href="#compliance" title="Anchor link to this section">¶</a></h2>
+<h3 id="gdpr-requirements">GDPR Requirements<a class="headerlink" href="#gdpr-requirements" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>✅ Data minimization (collect only necessary data)</li>
+<li>✅ Encryption at rest and in transit</li>
+<li>✅ Right to access (API endpoint for user data export)</li>
+<li>✅ Right to erasure (cascade delete on user removal)</li>
+<li>✅ Data breach notification (audit logging)</li>
+<li>✅ Privacy by design (default secure settings)</li>
+</ul>
+<h3 id="owasp-top-10-coverage">OWASP Top 10 Coverage<a class="headerlink" href="#owasp-top-10-coverage" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Status</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01: Broken Access Control</td>
+<td>✅</td>
+<td>RBAC, session management, authorization middleware</td>
+</tr>
+<tr>
+<td>A02: Cryptographic Failures</td>
+<td>✅</td>
+<td>TLS, encryption at rest, secure password storage</td>
+</tr>
+<tr>
+<td>A03: Injection</td>
+<td>✅</td>
+<td>Parameterized queries, input validation</td>
+</tr>
+<tr>
+<td>A04: Insecure Design</td>
+<td>✅</td>
+<td>Threat modeling, security architecture review</td>
+</tr>
+<tr>
+<td>A05: Security Misconfiguration</td>
+<td>✅</td>
+<td>Secure defaults, hardening guides</td>
+</tr>
+<tr>
+<td>A06: Vulnerable Components</td>
+<td>✅</td>
+<td>Dependency scanning, update policy</td>
+</tr>
+<tr>
+<td>A07: Auth Failures</td>
+<td>✅</td>
+<td>Strong authentication, rate limiting, MFA (future)</td>
+</tr>
+<tr>
+<td>A08: Software/Data Integrity</td>
+<td>✅</td>
+<td>Audit logging, image verification, checksums</td>
+</tr>
+<tr>
+<td>A09: Logging Failures</td>
+<td>✅</td>
+<td>Comprehensive audit logging, monitoring</td>
+</tr>
+<tr>
+<td>A10: SSRF</td>
+<td>✅</td>
+<td>Input validation, URL allowlisting</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="security-checklist">Security Checklist<a class="headerlink" href="#security-checklist" title="Anchor link to this section">¶</a></h2>
+<h3 id="deployment-security">Deployment Security<a class="headerlink" href="#deployment-security" title="Anchor link to this section">¶</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> TLS certificates configured</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> HSTS enabled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Security headers configured (CSP, X-Frame-Options, etc.)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Rate limiting enabled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Firewall rules configured</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> SSH key-based auth (no password)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Automatic security updates enabled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Docker secrets configured (no env var secrets)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Audit logging enabled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Backup encryption enabled</li>
+</ul>
+<h3 id="application-security">Application Security<a class="headerlink" href="#application-security" title="Anchor link to this section">¶</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Authentication required for all protected routes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Authorization checks on all API endpoints</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> CSRF protection enabled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Input validation on all user inputs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Parameterized SQL queries only</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> No secrets in code or logs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Error messages don't leak sensitive info</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Session timeout configured</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Password complexity requirements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Account lockout after failed attempts</li>
+</ul>
+<h3 id="operational-security">Operational Security<a class="headerlink" href="#operational-security" title="Anchor link to this section">¶</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Security monitoring alerts configured</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Incident response plan documented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Security contacts designated</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Vulnerability disclosure policy published</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Regular security audits scheduled</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Penetration testing planned</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Security training for team</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Backup and recovery tested</li>
+</ul>
+<hr/>
+<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Anchor link to this section">¶</a></h2>
+<ul>
+<li><strong>ADR-002</strong>: Next.js (authentication implementation)</li>
+<li><strong>ADR-003</strong>: PostgreSQL (row-level security, audit logging)</li>
+<li><strong>Container Diagram</strong>: Shows security boundaries between components</li>
+<li><strong>PRD</strong>: Security requirements (authentication, authorization, audit)</li>
+</ul>
+<hr/>
+<p><strong>Document Version</strong>: 1.0<br/>
+<strong>Last Security Review</strong>: 2024-12-30<br/>
+<strong>Next Review</strong>: 2025-03-30<br/>
+<strong>Reviewed By</strong>: Architecture Team</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Container Diagram" class="md-footer__link md-footer__link--prev" href="../container-diagram/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Container Diagram
+              </div>
+</div>
+</a>
+<a aria-label="Next: Deployment Diagram" class="md-footer__link md-footer__link--next" href="../deployment-diagram/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Deployment Diagram
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>

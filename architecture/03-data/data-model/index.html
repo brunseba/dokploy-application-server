@@ -1,0 +1,2659 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/architecture/03-data/data-model/" rel="canonical"/>
+<link href="../../02-business/value-stream-mapping/" rel="prev"/>
+<link href="../../04-application/data-flow-diagram/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Data Model - Dokploy Application Server</title>
+<link href="../../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#data-model">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Data Model
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-vision/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#purpose">
+<span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#entity-relationship-diagram">
+<span class="md-ellipsis">
+      
+        Entity-Relationship Diagram
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#core-entities">
+<span class="md-ellipsis">
+      
+        Core Entities
+      
+    </span>
+</a>
+<nav aria-label="Core Entities" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#user">
+<span class="md-ellipsis">
+      
+        USER
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#team">
+<span class="md-ellipsis">
+      
+        TEAM
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#team_member">
+<span class="md-ellipsis">
+      
+        TEAM_MEMBER
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#project">
+<span class="md-ellipsis">
+      
+        PROJECT
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#application">
+<span class="md-ellipsis">
+      
+        APPLICATION
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#git_source">
+<span class="md-ellipsis">
+      
+        GIT_SOURCE
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#database">
+<span class="md-ellipsis">
+      
+        DATABASE
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deployment">
+<span class="md-ellipsis">
+      
+        DEPLOYMENT
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deployment_log">
+<span class="md-ellipsis">
+      
+        DEPLOYMENT_LOG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#env_var">
+<span class="md-ellipsis">
+      
+        ENV_VAR
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#volume">
+<span class="md-ellipsis">
+      
+        VOLUME
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#domain">
+<span class="md-ellipsis">
+      
+        DOMAIN
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#certificate">
+<span class="md-ellipsis">
+      
+        CERTIFICATE
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backup">
+<span class="md-ellipsis">
+      
+        BACKUP
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#audit_log">
+<span class="md-ellipsis">
+      
+        AUDIT_LOG
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relationships">
+<span class="md-ellipsis">
+      
+        Relationships
+      
+    </span>
+</a>
+<nav aria-label="Relationships" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#one-to-many-relationships">
+<span class="md-ellipsis">
+      
+        One-to-Many Relationships
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#one-to-one-relationships">
+<span class="md-ellipsis">
+      
+        One-to-One Relationships
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#many-to-many-relationships">
+<span class="md-ellipsis">
+      
+        Many-to-Many Relationships
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-constraints">
+<span class="md-ellipsis">
+      
+        Data Constraints
+      
+    </span>
+</a>
+<nav aria-label="Data Constraints" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#referential-integrity">
+<span class="md-ellipsis">
+      
+        Referential Integrity
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#check-constraints">
+<span class="md-ellipsis">
+      
+        Check Constraints
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enum-constraints">
+<span class="md-ellipsis">
+      
+        Enum Constraints
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-security">
+<span class="md-ellipsis">
+      
+        Data Security
+      
+    </span>
+</a>
+<nav aria-label="Data Security" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#encryption">
+<span class="md-ellipsis">
+      
+        Encryption
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#row-level-security-rls">
+<span class="md-ellipsis">
+      
+        Row-Level Security (RLS)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-retention">
+<span class="md-ellipsis">
+      
+        Data Retention
+      
+    </span>
+</a>
+<nav aria-label="Data Retention" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#retention-policies">
+<span class="md-ellipsis">
+      
+        Retention Policies
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#soft-delete-pattern">
+<span class="md-ellipsis">
+      
+        Soft Delete Pattern
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-migration">
+<span class="md-ellipsis">
+      
+        Data Migration
+      
+    </span>
+</a>
+<nav aria-label="Data Migration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#schema-version-control">
+<span class="md-ellipsis">
+      
+        Schema Version Control
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#migration-strategy">
+<span class="md-ellipsis">
+      
+        Migration Strategy
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-optimization">
+<span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+</a>
+<nav aria-label="Performance Optimization" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#partitioning-strategy">
+<span class="md-ellipsis">
+      
+        Partitioning Strategy
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#materialized-views">
+<span class="md-ellipsis">
+      
+        Materialized Views
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#related-documents">
+<span class="md-ellipsis">
+      
+        Related Documents
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/data-flow-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/security-view/">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../10-governance/architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../../">
+<span class="md-ellipsis">
+    Architecture
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="./">
+<span class="md-ellipsis">
+    Phase C - Data
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset">
+<h1 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Anchor link to this section">¶</a></h1>
+<p><strong>Document Type</strong>: Data Architecture<br/>
+<strong>Status</strong>: Draft<br/>
+<strong>Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Owner</strong>: Architecture Team  </p>
+<hr/>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Anchor link to this section">¶</a></h2>
+<p>This document defines the logical data model for Dokploy, including entities, relationships, attributes, and constraints. The data model serves as the blueprint for the PostgreSQL database schema and ensures data integrity and consistency across the platform.</p>
+<hr/>
+<h2 id="entity-relationship-diagram">Entity-Relationship Diagram<a class="headerlink" href="#entity-relationship-diagram" title="Anchor link to this section">¶</a></h2>
+<pre class="mermaid"><code>erDiagram
+    USER ||--o{ PROJECT : owns
+    USER ||--o{ TEAM_MEMBER : "member of"
+    USER ||--o{ DEPLOYMENT : triggers
+    USER ||--o{ AUDIT_LOG : performs
+
+    TEAM ||--o{ TEAM_MEMBER : has
+    TEAM ||--o{ PROJECT : manages
+
+    PROJECT ||--o{ APPLICATION : contains
+    PROJECT ||--o{ DATABASE : contains
+    PROJECT ||--o{ DOMAIN : uses
+
+    APPLICATION ||--o{ DEPLOYMENT : has
+    APPLICATION ||--o{ ENV_VAR : configures
+    APPLICATION ||--o{ VOLUME : mounts
+    APPLICATION ||--||  GIT_SOURCE : "sourced from"
+
+    DATABASE ||--o{ BACKUP : has
+    DATABASE ||--o{ VOLUME : uses
+
+    DEPLOYMENT ||--o{ DEPLOYMENT_LOG : generates
+
+    DOMAIN ||--o{ CERTIFICATE : secured_by
+
+    USER {
+        uuid id PK
+        string username UK
+        string email UK
+        string password_hash
+        string role
+        jsonb preferences
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    TEAM {
+        uuid id PK
+        string name
+        string description
+        jsonb settings
+        timestamp created_at
+    }
+
+    TEAM_MEMBER {
+        uuid id PK
+        uuid user_id FK
+        uuid team_id FK
+        string role
+        timestamp joined_at
+    }
+
+    PROJECT {
+        uuid id PK
+        string name
+        string description
+        uuid owner_id FK
+        uuid team_id FK
+        jsonb metadata
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    APPLICATION {
+        uuid id PK
+        uuid project_id FK
+        string name UK
+        string type
+        string status
+        string source_type
+        jsonb source_config
+        jsonb docker_config
+        jsonb env_vars
+        int replicas
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    GIT_SOURCE {
+        uuid id PK
+        uuid application_id FK
+        string provider
+        string repository
+        string branch
+        string commit_sha
+        jsonb webhook_config
+    }
+
+    DATABASE {
+        uuid id PK
+        uuid project_id FK
+        string name UK
+        string type
+        string status
+        string version
+        jsonb config
+        string connection_string
+        timestamp created_at
+    }
+
+    DEPLOYMENT {
+        uuid id PK
+        uuid application_id FK
+        uuid triggered_by FK
+        string status
+        string commit_sha
+        text logs
+        jsonb metadata
+        timestamp started_at
+        timestamp completed_at
+    }
+
+    DEPLOYMENT_LOG {
+        bigint id PK
+        uuid deployment_id FK
+        string level
+        text message
+        timestamp created_at
+    }
+
+    ENV_VAR {
+        uuid id PK
+        uuid application_id FK
+        string key
+        string value
+        boolean is_secret
+        timestamp created_at
+    }
+
+    VOLUME {
+        uuid id PK
+        string name UK
+        string type
+        string mount_path
+        int size_gb
+        timestamp created_at
+    }
+
+    DOMAIN {
+        uuid id PK
+        uuid project_id FK
+        string domain UK
+        string target_type
+        uuid target_id
+        boolean tls_enabled
+        timestamp created_at
+    }
+
+    CERTIFICATE {
+        uuid id PK
+        uuid domain_id FK
+        string issuer
+        text certificate
+        text private_key
+        timestamp expires_at
+        timestamp created_at
+    }
+
+    BACKUP {
+        uuid id PK
+        uuid database_id FK
+        string type
+        string status
+        string storage_path
+        bigint size_bytes
+        timestamp created_at
+        timestamp completed_at
+    }
+
+    AUDIT_LOG {
+        bigint id PK
+        uuid user_id FK
+        string action
+        string resource_type
+        uuid resource_id
+        jsonb details
+        inet ip_address
+        text user_agent
+        timestamp created_at
+    }</code></pre>
+<hr/>
+<h2 id="core-entities">Core Entities<a class="headerlink" href="#core-entities" title="Anchor link to this section">¶</a></h2>
+<h3 id="user">USER<a class="headerlink" href="#user" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Platform users who can manage applications and resources.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>username</code> (VARCHAR(255), UK): Unique username
+- <code>email</code> (VARCHAR(255), UK): Email address (unique)
+- <code>password_hash</code> (VARCHAR(255)): Bcrypt hashed password
+- <code>role</code> (VARCHAR(50)): User role (super_admin, admin, developer, viewer)
+- <code>preferences</code> (JSONB): User preferences (theme, notifications, etc.)
+- <code>created_at</code> (TIMESTAMPTZ): Account creation timestamp
+- <code>updated_at</code> (TIMESTAMPTZ): Last update timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>username</code> must be unique and match regex <code>^[a-z0-9_-]{3,50}$</code>
+- <code>email</code> must be valid email format
+- <code>role</code> must be one of: super_admin, admin, developer, viewer
+- <code>password_hash</code> required unless using SSO</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>username</code>
+- Unique index on <code>email</code>
+- Index on <code>role</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="err">{</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="ss">"username"</span><span class="p">:</span><span class="w"> </span><span class="ss">"john_doe"</span><span class="p">,</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="ss">"email"</span><span class="p">:</span><span class="w"> </span><span class="ss">"john@example.com"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">  </span><span class="ss">"password_hash"</span><span class="p">:</span><span class="w"> </span><span class="ss">"$2b$12$..."</span><span class="p">,</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">  </span><span class="ss">"role"</span><span class="p">:</span><span class="w"> </span><span class="ss">"developer"</span><span class="p">,</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">  </span><span class="ss">"preferences"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">    </span><span class="ss">"theme"</span><span class="p">:</span><span class="w"> </span><span class="ss">"dark"</span><span class="p">,</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="ss">"notifications"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">      </span><span class="ss">"email"</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">      </span><span class="ss">"browser"</span><span class="p">:</span><span class="w"> </span><span class="k">false</span>
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="err">}</span>
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">  </span><span class="ss">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-01-15T10:30:00Z"</span><span class="p">,</span>
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">  </span><span class="ss">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T14:00:00Z"</span>
+</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h3 id="team">TEAM<a class="headerlink" href="#team" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Groups of users who collaborate on projects.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>name</code> (VARCHAR(255), UK): Team name
+- <code>description</code> (TEXT): Team description
+- <code>settings</code> (JSONB): Team-specific settings
+- <code>created_at</code> (TIMESTAMPTZ): Team creation timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>name</code> must be unique within platform
+- <code>name</code> length 3-100 characters</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>name</code></p>
+<hr/>
+<h3 id="team_member">TEAM_MEMBER<a class="headerlink" href="#team_member" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Join table linking users to teams with roles.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>user_id</code> (UUID, FK→USER): User reference
+- <code>team_id</code> (UUID, FK→TEAM): Team reference
+- <code>role</code> (VARCHAR(50)): Role in team (owner, admin, member, viewer)
+- <code>joined_at</code> (TIMESTAMPTZ): Membership start timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>(user_id, team_id)</code> must be unique (user can only join team once)
+- <code>role</code> must be one of: owner, admin, member, viewer
+- At least one owner per team</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>(user_id, team_id)</code>
+- Index on <code>team_id</code></p>
+<hr/>
+<h3 id="project">PROJECT<a class="headerlink" href="#project" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Logical grouping of related applications and databases.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>name</code> (VARCHAR(255)): Project name
+- <code>description</code> (TEXT): Project description
+- <code>owner_id</code> (UUID, FK→USER): Project owner
+- <code>team_id</code> (UUID, FK→TEAM, nullable): Associated team
+- <code>metadata</code> (JSONB): Additional project metadata (tags, labels, etc.)
+- <code>created_at</code> (TIMESTAMPTZ): Project creation timestamp
+- <code>updated_at</code> (TIMESTAMPTZ): Last update timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>(owner_id, name)</code> must be unique (user can't have duplicate project names)
+- <code>name</code> length 3-100 characters</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>owner_id</code>
+- Index on <code>team_id</code>
+- Unique index on <code>(owner_id, name)</code>
+- GIN index on <code>metadata</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="err">{</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"660f9500-f39c-41d4-a716-446655440001"</span><span class="p">,</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="ss">"name"</span><span class="p">:</span><span class="w"> </span><span class="ss">"my-saas-app"</span><span class="p">,</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="ss">"description"</span><span class="p">:</span><span class="w"> </span><span class="ss">"Production SaaS application"</span><span class="p">,</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="ss">"owner_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="ss">"team_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"770fa600-g49d-41d4-a716-446655440002"</span><span class="p">,</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="ss">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="ss">"environment"</span><span class="p">:</span><span class="w"> </span><span class="ss">"production"</span><span class="p">,</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="ss">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="ss">"critical"</span><span class="p">,</span><span class="w"> </span><span class="ss">"customer-facing"</span><span class="p">],</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">    </span><span class="ss">"cost_center"</span><span class="p">:</span><span class="w"> </span><span class="ss">"engineering"</span>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="w">  </span><span class="ss">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-06-01T08:00:00Z"</span><span class="p">,</span>
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">  </span><span class="ss">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T14:00:00Z"</span>
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h3 id="application">APPLICATION<a class="headerlink" href="#application" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Deployed application or service.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>project_id</code> (UUID, FK→PROJECT): Parent project
+- <code>name</code> (VARCHAR(255), UK): Application name
+- <code>type</code> (VARCHAR(50)): Application type (docker, git, compose)
+- <code>status</code> (VARCHAR(50)): Current status (running, stopped, deploying, failed)
+- <code>source_type</code> (VARCHAR(50)): Source type (github, gitlab, docker, docker_compose)
+- <code>source_config</code> (JSONB): Source-specific configuration
+- <code>docker_config</code> (JSONB): Docker/Swarm configuration
+- <code>env_vars</code> (JSONB): Environment variables (non-sensitive)
+- <code>replicas</code> (INT): Number of replicas
+- <code>created_at</code> (TIMESTAMPTZ): Application creation timestamp
+- <code>updated_at</code> (TIMESTAMPTZ): Last update timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>(project_id, name)</code> must be unique
+- <code>type</code> must be one of: docker, git, compose
+- <code>status</code> must be one of: stopped, deploying, running, failed, scaling
+- <code>replicas</code> must be &gt;= 0</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>project_id</code>
+- Index on <code>status</code>
+- Unique index on <code>(project_id, name)</code>
+- GIN index on <code>env_vars</code>
+- GIN index on <code>docker_config</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="err">{</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"880ga700-h59e-41d4-a716-446655440003"</span><span class="p">,</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="ss">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"660f9500-f39c-41d4-a716-446655440001"</span><span class="p">,</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="ss">"name"</span><span class="p">:</span><span class="w"> </span><span class="ss">"api-service"</span><span class="p">,</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">  </span><span class="ss">"type"</span><span class="p">:</span><span class="w"> </span><span class="ss">"git"</span><span class="p">,</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="ss">"status"</span><span class="p">:</span><span class="w"> </span><span class="ss">"running"</span><span class="p">,</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="ss">"source_type"</span><span class="p">:</span><span class="w"> </span><span class="ss">"github"</span><span class="p">,</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">  </span><span class="ss">"source_config"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="ss">"repository"</span><span class="p">:</span><span class="w"> </span><span class="ss">"mycompany/api-service"</span><span class="p">,</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">    </span><span class="ss">"branch"</span><span class="p">:</span><span class="w"> </span><span class="ss">"main"</span><span class="p">,</span>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="ss">"build_context"</span><span class="p">:</span><span class="w"> </span><span class="ss">"."</span><span class="p">,</span>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="ss">"dockerfile"</span><span class="p">:</span><span class="w"> </span><span class="ss">"Dockerfile"</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">  </span><span class="ss">"docker_config"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="ss">"image"</span><span class="p">:</span><span class="w"> </span><span class="ss">"registry.dokploy.internal/api-service:latest"</span><span class="p">,</span>
+</span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="ss">"ports"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">{</span><span class="ss">"container"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span><span class="w"> </span><span class="ss">"host"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="err">}</span><span class="p">],</span>
+</span><span id="__span-2-17"><a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="ss">"networks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="ss">"dokploy-app"</span><span class="p">],</span>
+</span><span id="__span-2-18"><a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="w">    </span><span class="ss">"healthcheck"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-2-19"><a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">      </span><span class="ss">"test"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="ss">"CMD"</span><span class="p">,</span><span class="w"> </span><span class="ss">"curl"</span><span class="p">,</span><span class="w"> </span><span class="ss">"-f"</span><span class="p">,</span><span class="w"> </span><span class="ss">"http://localhost:8080/health"</span><span class="p">],</span>
+</span><span id="__span-2-20"><a href="#__codelineno-2-20" id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="w">      </span><span class="ss">"interval"</span><span class="p">:</span><span class="w"> </span><span class="ss">"30s"</span><span class="p">,</span>
+</span><span id="__span-2-21"><a href="#__codelineno-2-21" id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="w">      </span><span class="ss">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="ss">"5s"</span><span class="p">,</span>
+</span><span id="__span-2-22"><a href="#__codelineno-2-22" id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="w">      </span><span class="ss">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-2-23"><a href="#__codelineno-2-23" id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="w">    </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-2-24"><a href="#__codelineno-2-24" id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="w">    </span><span class="ss">"resources"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-2-25"><a href="#__codelineno-2-25" id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="w">      </span><span class="ss">"limits"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="ss">"memory"</span><span class="p">:</span><span class="w"> </span><span class="ss">"512M"</span><span class="p">,</span><span class="w"> </span><span class="ss">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="ss">"0.5"</span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-2-26"><a href="#__codelineno-2-26" id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="w">      </span><span class="ss">"reservations"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="ss">"memory"</span><span class="p">:</span><span class="w"> </span><span class="ss">"256M"</span><span class="err">}</span>
+</span><span id="__span-2-27"><a href="#__codelineno-2-27" id="__codelineno-2-27" name="__codelineno-2-27"></a><span class="w">    </span><span class="err">}</span>
+</span><span id="__span-2-28"><a href="#__codelineno-2-28" id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-2-29"><a href="#__codelineno-2-29" id="__codelineno-2-29" name="__codelineno-2-29"></a><span class="w">  </span><span class="ss">"env_vars"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-2-30"><a href="#__codelineno-2-30" id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="w">    </span><span class="ss">"NODE_ENV"</span><span class="p">:</span><span class="w"> </span><span class="ss">"production"</span><span class="p">,</span>
+</span><span id="__span-2-31"><a href="#__codelineno-2-31" id="__codelineno-2-31" name="__codelineno-2-31"></a><span class="w">    </span><span class="ss">"PORT"</span><span class="p">:</span><span class="w"> </span><span class="ss">"8080"</span><span class="p">,</span>
+</span><span id="__span-2-32"><a href="#__codelineno-2-32" id="__codelineno-2-32" name="__codelineno-2-32"></a><span class="w">    </span><span class="ss">"API_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="ss">"v1"</span>
+</span><span id="__span-2-33"><a href="#__codelineno-2-33" id="__codelineno-2-33" name="__codelineno-2-33"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-2-34"><a href="#__codelineno-2-34" id="__codelineno-2-34" name="__codelineno-2-34"></a><span class="w">  </span><span class="ss">"replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-2-35"><a href="#__codelineno-2-35" id="__codelineno-2-35" name="__codelineno-2-35"></a><span class="w">  </span><span class="ss">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-06-15T09:00:00Z"</span><span class="p">,</span>
+</span><span id="__span-2-36"><a href="#__codelineno-2-36" id="__codelineno-2-36" name="__codelineno-2-36"></a><span class="w">  </span><span class="ss">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T10:00:00Z"</span>
+</span><span id="__span-2-37"><a href="#__codelineno-2-37" id="__codelineno-2-37" name="__codelineno-2-37"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h3 id="git_source">GIT_SOURCE<a class="headerlink" href="#git_source" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Git repository configuration for applications.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>application_id</code> (UUID, FK→APPLICATION, UK): Associated application
+- <code>provider</code> (VARCHAR(50)): Git provider (github, gitlab, bitbucket)
+- <code>repository</code> (VARCHAR(500)): Repository path
+- <code>branch</code> (VARCHAR(255)): Target branch
+- <code>commit_sha</code> (VARCHAR(40)): Latest deployed commit
+- <code>webhook_config</code> (JSONB): Webhook configuration and secrets</p>
+<p><strong>Constraints</strong>:
+- <code>application_id</code> is unique (one-to-one with application)
+- <code>provider</code> must be one of: github, gitlab, bitbucket, gitea</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>application_id</code></p>
+<hr/>
+<h3 id="database">DATABASE<a class="headerlink" href="#database" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Managed database instance.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>project_id</code> (UUID, FK→PROJECT): Parent project
+- <code>name</code> (VARCHAR(255), UK): Database name
+- <code>type</code> (VARCHAR(50)): Database type (postgresql, mysql, mongodb, redis)
+- <code>status</code> (VARCHAR(50)): Current status (running, stopped, initializing, failed)
+- <code>version</code> (VARCHAR(50)): Database version
+- <code>config</code> (JSONB): Database-specific configuration
+- <code>connection_string</code> (TEXT): Connection string (encrypted)
+- <code>created_at</code> (TIMESTAMPTZ): Database creation timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>(project_id, name)</code> must be unique
+- <code>type</code> must be one of: postgresql, mysql, mongodb, redis
+- <code>status</code> must be one of: initializing, running, stopped, failed</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>project_id</code>
+- Index on <code>type</code>
+- Unique index on <code>(project_id, name)</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="err">{</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"990hb800-i69f-41d4-a716-446655440004"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="ss">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"660f9500-f39c-41d4-a716-446655440001"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">  </span><span class="ss">"name"</span><span class="p">:</span><span class="w"> </span><span class="ss">"app-postgres"</span><span class="p">,</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">  </span><span class="ss">"type"</span><span class="p">:</span><span class="w"> </span><span class="ss">"postgresql"</span><span class="p">,</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">  </span><span class="ss">"status"</span><span class="p">:</span><span class="w"> </span><span class="ss">"running"</span><span class="p">,</span>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">  </span><span class="ss">"version"</span><span class="p">:</span><span class="w"> </span><span class="ss">"16.1"</span><span class="p">,</span>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">  </span><span class="ss">"config"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="ss">"max_connections"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="ss">"shared_buffers"</span><span class="p">:</span><span class="w"> </span><span class="ss">"256MB"</span><span class="p">,</span>
+</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="ss">"work_mem"</span><span class="p">:</span><span class="w"> </span><span class="ss">"4MB"</span><span class="p">,</span>
+</span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="ss">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+</span><span id="__span-3-13"><a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="ss">"volume_size"</span><span class="p">:</span><span class="w"> </span><span class="ss">"10GB"</span>
+</span><span id="__span-3-14"><a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-3-15"><a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">  </span><span class="ss">"connection_string"</span><span class="p">:</span><span class="w"> </span><span class="ss">"postgresql://dokploy:***@app-postgres:5432/app_db"</span><span class="p">,</span>
+</span><span id="__span-3-16"><a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">  </span><span class="ss">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-06-10T08:30:00Z"</span>
+</span><span id="__span-3-17"><a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h3 id="deployment">DEPLOYMENT<a class="headerlink" href="#deployment" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Deployment execution record.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>application_id</code> (UUID, FK→APPLICATION): Target application
+- <code>triggered_by</code> (UUID, FK→USER): User who triggered deployment
+- <code>status</code> (VARCHAR(50)): Deployment status
+- <code>commit_sha</code> (VARCHAR(40)): Deployed commit (if git-based)
+- <code>logs</code> (TEXT): Deployment logs
+- <code>metadata</code> (JSONB): Additional deployment metadata
+- <code>started_at</code> (TIMESTAMPTZ): Deployment start time
+- <code>completed_at</code> (TIMESTAMPTZ, nullable): Deployment completion time</p>
+<p><strong>Constraints</strong>:
+- <code>status</code> must be one of: pending, building, deploying, success, failed, rolled_back</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>application_id, started_at DESC</code>
+- Index on <code>status</code>
+- Index on <code>triggered_by</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="err">{</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"aa0ic900-j79g-41d4-a716-446655440005"</span><span class="p">,</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="ss">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"880ga700-h59e-41d4-a716-446655440003"</span><span class="p">,</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="ss">"triggered_by"</span><span class="p">:</span><span class="w"> </span><span class="ss">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">  </span><span class="ss">"status"</span><span class="p">:</span><span class="w"> </span><span class="ss">"success"</span><span class="p">,</span>
+</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="ss">"commit_sha"</span><span class="p">:</span><span class="w"> </span><span class="ss">"abc123def456"</span><span class="p">,</span>
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">  </span><span class="ss">"logs"</span><span class="p">:</span><span class="w"> </span><span class="ss">"Building image...\nPushing to registry...\nUpdating service...\nDeployment complete."</span><span class="p">,</span>
+</span><span id="__span-4-8"><a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">  </span><span class="ss">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-4-9"><a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="ss">"duration_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">125</span><span class="p">,</span>
+</span><span id="__span-4-10"><a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">    </span><span class="ss">"image_size_mb"</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="p">,</span>
+</span><span id="__span-4-11"><a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="ss">"build_cache_hit"</span><span class="p">:</span><span class="w"> </span><span class="k">true</span>
+</span><span id="__span-4-12"><a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-4-13"><a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">  </span><span class="ss">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T10:00:00Z"</span><span class="p">,</span>
+</span><span id="__span-4-14"><a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">  </span><span class="ss">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T10:02:05Z"</span>
+</span><span id="__span-4-15"><a href="#__codelineno-4-15" id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h3 id="deployment_log">DEPLOYMENT_LOG<a class="headerlink" href="#deployment_log" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Structured deployment log entries.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (BIGSERIAL, PK): Auto-incrementing identifier
+- <code>deployment_id</code> (UUID, FK→DEPLOYMENT): Parent deployment
+- <code>level</code> (VARCHAR(20)): Log level (debug, info, warn, error)
+- <code>message</code> (TEXT): Log message
+- <code>created_at</code> (TIMESTAMPTZ): Log timestamp</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>(deployment_id, created_at DESC)</code>
+- Index on <code>level</code></p>
+<hr/>
+<h3 id="env_var">ENV_VAR<a class="headerlink" href="#env_var" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Application environment variables (including secrets).</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>application_id</code> (UUID, FK→APPLICATION): Associated application
+- <code>key</code> (VARCHAR(255)): Variable name
+- <code>value</code> (TEXT): Variable value (encrypted if secret)
+- <code>is_secret</code> (BOOLEAN): Whether this is a secret
+- <code>created_at</code> (TIMESTAMPTZ): Creation timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>(application_id, key)</code> must be unique
+- <code>key</code> must match regex <code>^[A-Z_][A-Z0-9_]*$</code></p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>application_id</code>
+- Unique index on <code>(application_id, key)</code></p>
+<hr/>
+<h3 id="volume">VOLUME<a class="headerlink" href="#volume" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Persistent storage volumes.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>name</code> (VARCHAR(255), UK): Volume name
+- <code>type</code> (VARCHAR(50)): Volume type (docker_volume, nfs, s3)
+- <code>mount_path</code> (VARCHAR(500)): Container mount path
+- <code>size_gb</code> (INT): Volume size in GB
+- <code>created_at</code> (TIMESTAMPTZ): Creation timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>name</code> must be unique (Docker volume names are globally unique)
+- <code>size_gb</code> must be &gt; 0</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>name</code></p>
+<hr/>
+<h3 id="domain">DOMAIN<a class="headerlink" href="#domain" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Custom domains and routing configuration.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>project_id</code> (UUID, FK→PROJECT): Parent project
+- <code>domain</code> (VARCHAR(255), UK): Domain name
+- <code>target_type</code> (VARCHAR(50)): Target type (application, database)
+- <code>target_id</code> (UUID): Target resource ID
+- <code>tls_enabled</code> (BOOLEAN): Whether TLS is enabled
+- <code>created_at</code> (TIMESTAMPTZ): Creation timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>domain</code> must be unique (globally)
+- <code>domain</code> must be valid domain format
+- <code>target_type</code> must be one of: application, database</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Unique index on <code>domain</code>
+- Index on <code>project_id</code>
+- Index on <code>(target_type, target_id)</code></p>
+<hr/>
+<h3 id="certificate">CERTIFICATE<a class="headerlink" href="#certificate" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: TLS/SSL certificates for domains.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>domain_id</code> (UUID, FK→DOMAIN): Associated domain
+- <code>issuer</code> (VARCHAR(255)): Certificate issuer (Let's Encrypt, etc.)
+- <code>certificate</code> (TEXT): Certificate (PEM format)
+- <code>private_key</code> (TEXT): Private key (encrypted, PEM format)
+- <code>expires_at</code> (TIMESTAMPTZ): Certificate expiration
+- <code>created_at</code> (TIMESTAMPTZ): Certificate issue timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>expires_at</code> must be in future</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>domain_id</code>
+- Index on <code>expires_at</code> (for renewal monitoring)</p>
+<hr/>
+<h3 id="backup">BACKUP<a class="headerlink" href="#backup" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Database backup records.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (UUID, PK): Unique identifier
+- <code>database_id</code> (UUID, FK→DATABASE): Source database
+- <code>type</code> (VARCHAR(50)): Backup type (full, incremental, snapshot)
+- <code>status</code> (VARCHAR(50)): Backup status (pending, running, success, failed)
+- <code>storage_path</code> (VARCHAR(500)): Storage location
+- <code>size_bytes</code> (BIGINT): Backup size
+- <code>created_at</code> (TIMESTAMPTZ): Backup start time
+- <code>completed_at</code> (TIMESTAMPTZ, nullable): Backup completion time</p>
+<p><strong>Constraints</strong>:
+- <code>type</code> must be one of: full, incremental, snapshot
+- <code>status</code> must be one of: pending, running, success, failed</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>database_id, created_at DESC</code>
+- Index on <code>status</code></p>
+<hr/>
+<h3 id="audit_log">AUDIT_LOG<a class="headerlink" href="#audit_log" title="Anchor link to this section">¶</a></h3>
+<p><strong>Description</strong>: Comprehensive audit trail of all platform actions.</p>
+<p><strong>Attributes</strong>:
+- <code>id</code> (BIGSERIAL, PK): Auto-incrementing identifier
+- <code>user_id</code> (UUID, FK→USER, nullable): Acting user
+- <code>action</code> (VARCHAR(100)): Action performed
+- <code>resource_type</code> (VARCHAR(50)): Resource type affected
+- <code>resource_id</code> (UUID, nullable): Resource identifier
+- <code>details</code> (JSONB): Action details
+- <code>ip_address</code> (INET): Client IP address
+- <code>user_agent</code> (TEXT): Client user agent
+- <code>created_at</code> (TIMESTAMPTZ): Action timestamp</p>
+<p><strong>Constraints</strong>:
+- <code>resource_type</code> must be one of: user, team, project, application, database, deployment, domain</p>
+<p><strong>Indexes</strong>:
+- Primary key on <code>id</code>
+- Index on <code>(user_id, created_at DESC)</code>
+- Index on <code>(resource_type, resource_id)</code>
+- Index on <code>action</code>
+- Index on <code>created_at DESC</code></p>
+<p><strong>Sample Data</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="err">{</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="ss">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523456</span><span class="p">,</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="ss">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="ss">"action"</span><span class="p">:</span><span class="w"> </span><span class="ss">"application.deploy"</span><span class="p">,</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="ss">"resource_type"</span><span class="p">:</span><span class="w"> </span><span class="ss">"application"</span><span class="p">,</span>
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">  </span><span class="ss">"resource_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"880ga700-h59e-41d4-a716-446655440003"</span><span class="p">,</span>
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">  </span><span class="ss">"details"</span><span class="p">:</span><span class="w"> </span><span class="err">{</span>
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">    </span><span class="ss">"commit_sha"</span><span class="p">:</span><span class="w"> </span><span class="ss">"abc123def456"</span><span class="p">,</span>
+</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="ss">"deployment_id"</span><span class="p">:</span><span class="w"> </span><span class="ss">"aa0ic900-j79g-41d4-a716-446655440005"</span><span class="p">,</span>
+</span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="ss">"replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">  </span><span class="err">}</span><span class="p">,</span>
+</span><span id="__span-5-12"><a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">  </span><span class="ss">"ip_address"</span><span class="p">:</span><span class="w"> </span><span class="ss">"192.168.1.100"</span><span class="p">,</span>
+</span><span id="__span-5-13"><a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">  </span><span class="ss">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="ss">"Mozilla/5.0 ..."</span><span class="p">,</span>
+</span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="w">  </span><span class="ss">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="ss">"2024-12-30T10:00:00Z"</span>
+</span><span id="__span-5-15"><a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="err">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h2 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Anchor link to this section">¶</a></h2>
+<h3 id="one-to-many-relationships">One-to-Many Relationships<a class="headerlink" href="#one-to-many-relationships" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parent</th>
+<th>Child</th>
+<th>Relationship</th>
+<th>Cascade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USER</td>
+<td>PROJECT</td>
+<td>owns</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>DEPLOYMENT</td>
+<td>triggers</td>
+<td>SET NULL</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>AUDIT_LOG</td>
+<td>performs</td>
+<td>SET NULL</td>
+</tr>
+<tr>
+<td>TEAM</td>
+<td>TEAM_MEMBER</td>
+<td>has</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>TEAM</td>
+<td>PROJECT</td>
+<td>manages</td>
+<td>SET NULL</td>
+</tr>
+<tr>
+<td>PROJECT</td>
+<td>APPLICATION</td>
+<td>contains</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>PROJECT</td>
+<td>DATABASE</td>
+<td>contains</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>PROJECT</td>
+<td>DOMAIN</td>
+<td>uses</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>DEPLOYMENT</td>
+<td>has</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>ENV_VAR</td>
+<td>configures</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>VOLUME</td>
+<td>mounts</td>
+<td>RESTRICT</td>
+</tr>
+<tr>
+<td>DATABASE</td>
+<td>BACKUP</td>
+<td>has</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>DATABASE</td>
+<td>VOLUME</td>
+<td>uses</td>
+<td>RESTRICT</td>
+</tr>
+<tr>
+<td>DEPLOYMENT</td>
+<td>DEPLOYMENT_LOG</td>
+<td>generates</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>DOMAIN</td>
+<td>CERTIFICATE</td>
+<td>secured_by</td>
+<td>CASCADE</td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-to-one-relationships">One-to-One Relationships<a class="headerlink" href="#one-to-one-relationships" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parent</th>
+<th>Child</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPLICATION</td>
+<td>GIT_SOURCE</td>
+<td>sourced from</td>
+</tr>
+</tbody>
+</table>
+<h3 id="many-to-many-relationships">Many-to-Many Relationships<a class="headerlink" href="#many-to-many-relationships" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Entity A</th>
+<th>Entity B</th>
+<th>Join Table</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USER</td>
+<td>TEAM</td>
+<td>TEAM_MEMBER</td>
+<td>member of</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="data-constraints">Data Constraints<a class="headerlink" href="#data-constraints" title="Anchor link to this section">¶</a></h2>
+<h3 id="referential-integrity">Referential Integrity<a class="headerlink" href="#referential-integrity" title="Anchor link to this section">¶</a></h3>
+<p>All foreign key relationships enforce referential integrity with appropriate cascade rules:</p>
+<p><strong>CASCADE</strong>: Child records deleted when parent deleted
+- PROJECT → APPLICATION
+- APPLICATION → DEPLOYMENT
+- DATABASE → BACKUP</p>
+<p><strong>SET NULL</strong>: Foreign key set to NULL when parent deleted
+- USER → DEPLOYMENT (preserve deployment history)
+- USER → AUDIT_LOG (preserve audit trail)</p>
+<p><strong>RESTRICT</strong>: Prevent parent deletion if children exist
+- APPLICATION → VOLUME (volumes must be explicitly managed)
+- DATABASE → VOLUME</p>
+<h3 id="check-constraints">Check Constraints<a class="headerlink" href="#check-constraints" title="Anchor link to this section">¶</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">-- User constraints</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_username_format</span><span class="w"> </span>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">'^[a-z0-9_-]{3,50}$'</span><span class="p">);</span>
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_email_format</span><span class="w"> </span>
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">'^[^@]+@[^@]+\.[^@]+$'</span><span class="p">);</span>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="c1">-- Application constraints</span>
+</span><span id="__span-6-9"><a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_replicas_non_negative</span><span class="w"> </span>
+</span><span id="__span-6-10"><a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">replicas</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-6-11"><a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="c1">-- Volume constraints</span>
+</span><span id="__span-6-13"><a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">volumes</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_size_positive</span><span class="w"> </span>
+</span><span id="__span-6-14"><a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">size_gb</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-6-15"><a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="c1">-- Certificate constraints</span>
+</span><span id="__span-6-17"><a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_expiry_future</span><span class="w"> </span>
+</span><span id="__span-6-18"><a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">expires_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">NOW</span><span class="p">());</span>
+</span></code></pre></div>
+<h3 id="enum-constraints">Enum Constraints<a class="headerlink" href="#enum-constraints" title="Anchor link to this section">¶</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1">-- User roles</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_user_role</span><span class="w"> </span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="k">role</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'super_admin'</span><span class="p">,</span><span class="w"> </span><span class="s1">'admin'</span><span class="p">,</span><span class="w"> </span><span class="s1">'developer'</span><span class="p">,</span><span class="w"> </span><span class="s1">'viewer'</span><span class="p">));</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="c1">-- Application types</span>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_app_type</span><span class="w"> </span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="k">type</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'docker'</span><span class="p">,</span><span class="w"> </span><span class="s1">'git'</span><span class="p">,</span><span class="w"> </span><span class="s1">'compose'</span><span class="p">));</span>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="c1">-- Application status</span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_app_status</span><span class="w"> </span>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'stopped'</span><span class="p">,</span><span class="w"> </span><span class="s1">'deploying'</span><span class="p">,</span><span class="w"> </span><span class="s1">'running'</span><span class="p">,</span><span class="w"> </span><span class="s1">'failed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'scaling'</span><span class="p">));</span>
+</span><span id="__span-7-12"><a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="c1">-- Database types</span>
+</span><span id="__span-7-14"><a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">databases</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_db_type</span><span class="w"> </span>
+</span><span id="__span-7-15"><a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="k">type</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'postgresql'</span><span class="p">,</span><span class="w"> </span><span class="s1">'mysql'</span><span class="p">,</span><span class="w"> </span><span class="s1">'mongodb'</span><span class="p">,</span><span class="w"> </span><span class="s1">'redis'</span><span class="p">));</span>
+</span><span id="__span-7-16"><a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a>
+</span><span id="__span-7-17"><a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="c1">-- Deployment status</span>
+</span><span id="__span-7-18"><a href="#__codelineno-7-18" id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">deployments</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">check_deployment_status</span><span class="w"> </span>
+</span><span id="__span-7-19"><a href="#__codelineno-7-19" id="__codelineno-7-19" name="__codelineno-7-19"></a><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'pending'</span><span class="p">,</span><span class="w"> </span><span class="s1">'building'</span><span class="p">,</span><span class="w"> </span><span class="s1">'deploying'</span><span class="p">,</span><span class="w"> </span><span class="s1">'success'</span><span class="p">,</span><span class="w"> </span><span class="s1">'failed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'rolled_back'</span><span class="p">));</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="data-security">Data Security<a class="headerlink" href="#data-security" title="Anchor link to this section">¶</a></h2>
+<h3 id="encryption">Encryption<a class="headerlink" href="#encryption" title="Anchor link to this section">¶</a></h3>
+<p><strong>At Rest</strong>:
+- <code>users.password_hash</code>: Bcrypt (cost 12)
+- <code>env_vars.value</code> (when <code>is_secret=true</code>): AES-256-GCM
+- <code>certificates.private_key</code>: AES-256-GCM
+- <code>databases.connection_string</code>: AES-256-GCM</p>
+<p><strong>In Transit</strong>:
+- All database connections use TLS (<code>sslmode=require</code>)
+- API requests use HTTPS only</p>
+<h3 id="row-level-security-rls">Row-Level Security (RLS)<a class="headerlink" href="#row-level-security-rls" title="Anchor link to this section">¶</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">-- Enable RLS on projects</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="n">ENABLE</span><span class="w"> </span><span class="k">ROW</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">SECURITY</span><span class="p">;</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1">-- Users can view projects they own or are team members of</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="n">projects_select_policy</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">projects</span>
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">SELECT</span>
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">  </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-8-8"><a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="n">owner_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_setting</span><span class="p">(</span><span class="s1">'app.user_id'</span><span class="p">)::</span><span class="n">uuid</span>
+</span><span id="__span-8-9"><a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="k">OR</span><span class="w"> </span><span class="n">team_id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-8-10"><a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">      </span><span class="k">SELECT</span><span class="w"> </span><span class="n">team_id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">team_members</span><span class="w"> </span>
+</span><span id="__span-8-11"><a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">      </span><span class="k">WHERE</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_setting</span><span class="p">(</span><span class="s1">'app.user_id'</span><span class="p">)::</span><span class="n">uuid</span>
+</span><span id="__span-8-12"><a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-8-13"><a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">  </span><span class="p">);</span>
+</span><span id="__span-8-14"><a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a href="#__codelineno-8-15" id="__codelineno-8-15" name="__codelineno-8-15"></a><span class="c1">-- Only owners can delete projects</span>
+</span><span id="__span-8-16"><a href="#__codelineno-8-16" id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="n">projects_delete_policy</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">projects</span>
+</span><span id="__span-8-17"><a href="#__codelineno-8-17" id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">DELETE</span>
+</span><span id="__span-8-18"><a href="#__codelineno-8-18" id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="w">  </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span><span class="n">owner_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_setting</span><span class="p">(</span><span class="s1">'app.user_id'</span><span class="p">)::</span><span class="n">uuid</span><span class="p">);</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="data-retention">Data Retention<a class="headerlink" href="#data-retention" title="Anchor link to this section">¶</a></h2>
+<h3 id="retention-policies">Retention Policies<a class="headerlink" href="#retention-policies" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Retention Period</th>
+<th>Archival Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEPLOYMENT</td>
+<td>90 days</td>
+<td>Archive to S3, keep metadata</td>
+</tr>
+<tr>
+<td>DEPLOYMENT_LOG</td>
+<td>30 days</td>
+<td>Delete automatically</td>
+</tr>
+<tr>
+<td>AUDIT_LOG</td>
+<td>1 year (compliance)</td>
+<td>Archive to cold storage</td>
+</tr>
+<tr>
+<td>BACKUP</td>
+<td>7 days (daily), 4 weeks (weekly)</td>
+<td>Rotate automatically</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>Indefinite</td>
+<td>Soft delete (status=archived)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="soft-delete-pattern">Soft Delete Pattern<a class="headerlink" href="#soft-delete-pattern" title="Anchor link to this section">¶</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1">-- Add deleted_at column for soft deletes</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c1">-- Index for excluding deleted records</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_applications_active</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">applications</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="c1">-- Soft delete function</span>
+</span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">soft_delete_application</span><span class="p">(</span><span class="n">app_id</span><span class="w"> </span><span class="n">UUID</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">VOID</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+</span><span id="__span-9-10"><a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="k">BEGIN</span>
+</span><span id="__span-9-11"><a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="w">  </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span>
+</span><span id="__span-9-12"><a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="w">  </span><span class="k">SET</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NOW</span><span class="p">(),</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'archived'</span>
+</span><span id="__span-9-13"><a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">app_id</span><span class="p">;</span>
+</span><span id="__span-9-14"><a href="#__codelineno-9-14" id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-9-15"><a href="#__codelineno-9-15" id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="data-migration">Data Migration<a class="headerlink" href="#data-migration" title="Anchor link to this section">¶</a></h2>
+<h3 id="schema-version-control">Schema Version Control<a class="headerlink" href="#schema-version-control" title="Anchor link to this section">¶</a></h3>
+<p>Using Prisma Migrate for schema versioning:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>// prisma/schema.prisma
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>generator client {
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a>  provider = "prisma-client-js"
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a>}
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a>datasource db {
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a>  provider = "postgresql"
+</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a>  url      = env("DATABASE_URL")
+</span><span id="__span-10-9"><a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a>}
+</span><span id="__span-10-10"><a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a>// Schema definition matches entity model above
+</span></code></pre></div>
+<h3 id="migration-strategy">Migration Strategy<a class="headerlink" href="#migration-strategy" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Development</strong>: Create migration with <code>prisma migrate dev</code></li>
+<li><strong>Staging</strong>: Apply with <code>prisma migrate deploy</code></li>
+<li><strong>Production</strong>: Review SQL, apply during maintenance window</li>
+<li><strong>Rollback</strong>: Maintain rollback scripts for each migration</li>
+</ol>
+<hr/>
+<h2 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Anchor link to this section">¶</a></h2>
+<h3 id="partitioning-strategy">Partitioning Strategy<a class="headerlink" href="#partitioning-strategy" title="Anchor link to this section">¶</a></h3>
+<p><strong>AUDIT_LOG</strong>: Partition by month (time-series data)
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">audit_logs</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="w">  </span><span class="c1">-- columns as defined above</span>
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">audit_logs_2024_12</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">audit_logs</span>
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="s1">'2024-12-01'</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="p">(</span><span class="s1">'2025-01-01'</span><span class="p">);</span>
+</span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="c1">-- Automated partition creation via cron</span>
+</span></code></pre></div></p>
+<p><strong>DEPLOYMENT_LOG</strong>: Partition by deployment_id
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">deployment_logs</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">  </span><span class="c1">-- columns as defined above</span>
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">HASH</span><span class="w"> </span><span class="p">(</span><span class="n">deployment_id</span><span class="p">);</span>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="c1">-- Create 4 partitions</span>
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">deployment_logs_0</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">deployment_logs</span>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">MODULUS</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">REMAINDER</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span></code></pre></div></p>
+<h3 id="materialized-views">Materialized Views<a class="headerlink" href="#materialized-views" title="Anchor link to this section">¶</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1">-- Application status summary</span>
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">MATERIALIZED</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">application_stats</span><span class="w"> </span><span class="k">AS</span>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">  </span><span class="n">project_id</span><span class="p">,</span>
+</span><span id="__span-13-5"><a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_applications</span><span class="p">,</span>
+</span><span id="__span-13-6"><a href="#__codelineno-13-6" id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">FILTER</span><span class="w"> </span><span class="p">(</span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'running'</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">running</span><span class="p">,</span>
+</span><span id="__span-13-7"><a href="#__codelineno-13-7" id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">FILTER</span><span class="w"> </span><span class="p">(</span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'stopped'</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">stopped</span><span class="p">,</span>
+</span><span id="__span-13-8"><a href="#__codelineno-13-8" id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">FILTER</span><span class="w"> </span><span class="p">(</span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'failed'</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">failed</span>
+</span><span id="__span-13-9"><a href="#__codelineno-13-9" id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span>
+</span><span id="__span-13-10"><a href="#__codelineno-13-10" id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span>
+</span><span id="__span-13-11"><a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">project_id</span><span class="p">;</span>
+</span><span id="__span-13-12"><a href="#__codelineno-13-12" id="__codelineno-13-12" name="__codelineno-13-12"></a>
+</span><span id="__span-13-13"><a href="#__codelineno-13-13" id="__codelineno-13-13" name="__codelineno-13-13"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">application_stats</span><span class="p">(</span><span class="n">project_id</span><span class="p">);</span>
+</span><span id="__span-13-14"><a href="#__codelineno-13-14" id="__codelineno-13-14" name="__codelineno-13-14"></a>
+</span><span id="__span-13-15"><a href="#__codelineno-13-15" id="__codelineno-13-15" name="__codelineno-13-15"></a><span class="c1">-- Refresh strategy</span>
+</span><span id="__span-13-16"><a href="#__codelineno-13-16" id="__codelineno-13-16" name="__codelineno-13-16"></a><span class="n">REFRESH</span><span class="w"> </span><span class="n">MATERIALIZED</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">application_stats</span><span class="p">;</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Anchor link to this section">¶</a></h2>
+<ul>
+<li><strong>ADR-003</strong>: PostgreSQL selection decision</li>
+<li><strong>Security View</strong>: Data security and encryption strategies</li>
+<li><strong>Container Diagram</strong>: How data flows through components</li>
+<li><strong>API Specification</strong>: API endpoints that interact with this data model</li>
+</ul>
+<hr/>
+<p><strong>Document Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Next Review</strong>: 2025-03-30<br/>
+<strong>Reviewed By</strong>: Architecture Team, Database Team</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Value Stream Mapping" class="md-footer__link md-footer__link--prev" href="../../02-business/value-stream-mapping/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Value Stream Mapping
+              </div>
+</div>
+</a>
+<a aria-label="Next: Data Flow Diagram" class="md-footer__link md-footer__link--next" href="../../04-application/data-flow-diagram/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Data Flow Diagram
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>

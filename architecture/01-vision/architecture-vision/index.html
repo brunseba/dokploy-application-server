@@ -1,0 +1,2235 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/architecture/01-vision/architecture-vision/" rel="canonical"/>
+<link href="../../" rel="prev"/>
+<link href="../stakeholder-analysis/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Architecture Vision - Dokploy Application Server</title>
+<link href="../../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#architecture-vision">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Architecture Vision
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#executive-summary">
+<span class="md-ellipsis">
+      
+        Executive Summary
+      
+    </span>
+</a>
+<nav aria-label="Executive Summary" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vision-statement">
+<span class="md-ellipsis">
+      
+        Vision Statement
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mission-statement">
+<span class="md-ellipsis">
+      
+        Mission Statement
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#business-context">
+<span class="md-ellipsis">
+      
+        Business Context
+      
+    </span>
+</a>
+<nav aria-label="Business Context" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#market-opportunity">
+<span class="md-ellipsis">
+      
+        Market Opportunity
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#strategic-goals">
+<span class="md-ellipsis">
+      
+        Strategic Goals
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stakeholder-analysis">
+<span class="md-ellipsis">
+      
+        Stakeholder Analysis
+      
+    </span>
+</a>
+<nav aria-label="Stakeholder Analysis" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#primary-stakeholders">
+<span class="md-ellipsis">
+      
+        Primary Stakeholders
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#secondary-stakeholders">
+<span class="md-ellipsis">
+      
+        Secondary Stakeholders
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#business-drivers">
+<span class="md-ellipsis">
+      
+        Business Drivers
+      
+    </span>
+</a>
+<nav aria-label="Business Drivers" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cost-optimization">
+<span class="md-ellipsis">
+      
+        Cost Optimization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#developer-productivity">
+<span class="md-ellipsis">
+      
+        Developer Productivity
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#compliance-and-security">
+<span class="md-ellipsis">
+      
+        Compliance and Security
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flexibility-and-control">
+<span class="md-ellipsis">
+      
+        Flexibility and Control
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture-principles">
+<span class="md-ellipsis">
+      
+        Architecture Principles
+      
+    </span>
+</a>
+<nav aria-label="Architecture Principles" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-open-source-first">
+<span class="md-ellipsis">
+      
+        1. Open-Source First
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-self-hosting-capable">
+<span class="md-ellipsis">
+      
+        2. Self-Hosting Capable
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-security-by-design">
+<span class="md-ellipsis">
+      
+        3. Security by Design
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-developer-experience-focus">
+<span class="md-ellipsis">
+      
+        4. Developer Experience Focus
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#5-cloud-native-architecture">
+<span class="md-ellipsis">
+      
+        5. Cloud-Native Architecture
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#6-api-first-design">
+<span class="md-ellipsis">
+      
+        6. API-First Design
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#7-cost-effectiveness">
+<span class="md-ellipsis">
+      
+        7. Cost-Effectiveness
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#8-observability">
+<span class="md-ellipsis">
+      
+        8. Observability
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#scope-and-boundaries">
+<span class="md-ellipsis">
+      
+        Scope and Boundaries
+      
+    </span>
+</a>
+<nav aria-label="Scope and Boundaries" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#in-scope">
+<span class="md-ellipsis">
+      
+        In Scope
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#out-of-scope">
+<span class="md-ellipsis">
+      
+        Out of Scope
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture-constraints">
+<span class="md-ellipsis">
+      
+        Architecture Constraints
+      
+    </span>
+</a>
+<nav aria-label="Architecture Constraints" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#technical-constraints">
+<span class="md-ellipsis">
+      
+        Technical Constraints
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#business-constraints">
+<span class="md-ellipsis">
+      
+        Business Constraints
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regulatory-constraints">
+<span class="md-ellipsis">
+      
+        Regulatory Constraints
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#success-metrics">
+<span class="md-ellipsis">
+      
+        Success Metrics
+      
+    </span>
+</a>
+<nav aria-label="Success Metrics" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#adoption-metrics">
+<span class="md-ellipsis">
+      
+        Adoption Metrics
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-metrics">
+<span class="md-ellipsis">
+      
+        Performance Metrics
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#user-satisfaction">
+<span class="md-ellipsis">
+      
+        User Satisfaction
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#business-metrics">
+<span class="md-ellipsis">
+      
+        Business Metrics
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-architecture-decisions">
+<span class="md-ellipsis">
+      
+        Key Architecture Decisions
+      
+    </span>
+</a>
+<nav aria-label="Key Architecture Decisions" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#foundational-choices">
+<span class="md-ellipsis">
+      
+        Foundational Choices
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture-roadmap">
+<span class="md-ellipsis">
+      
+        Architecture Roadmap
+      
+    </span>
+</a>
+<nav aria-label="Architecture Roadmap" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-1-foundation-current">
+<span class="md-ellipsis">
+      
+        Phase 1: Foundation (Current)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-2-scale-q1-q2-2025">
+<span class="md-ellipsis">
+      
+        Phase 2: Scale (Q1-Q2 2025)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-3-enterprise-q2-q3-2025">
+<span class="md-ellipsis">
+      
+        Phase 3: Enterprise (Q2-Q3 2025)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-4-innovation-q3-q4-2025">
+<span class="md-ellipsis">
+      
+        Phase 4: Innovation (Q3-Q4 2025)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#risks-and-mitigations">
+<span class="md-ellipsis">
+      
+        Risks and Mitigations
+      
+    </span>
+</a>
+<nav aria-label="Risks and Mitigations" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#high-priority-risks">
+<span class="md-ellipsis">
+      
+        High-Priority Risks
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#medium-priority-risks">
+<span class="md-ellipsis">
+      
+        Medium-Priority Risks
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#next-steps">
+<span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#references">
+<span class="md-ellipsis">
+      
+        References
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03-data/data-model/">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/data-flow-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/security-view/">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../10-governance/architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../../">
+<span class="md-ellipsis">
+    Architecture
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="./">
+<span class="md-ellipsis">
+    Phase A - Vision
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset">
+<h1 id="architecture-vision">Architecture Vision<a class="headerlink" href="#architecture-vision" title="Anchor link to this section">¶</a></h1>
+<p><strong>Document Type</strong>: Architecture Vision<br/>
+<strong>TOGAF Phase</strong>: Preliminary &amp; Phase A<br/>
+<strong>Version</strong>: 1.0<br/>
+<strong>Date</strong>: 2024-12-30<br/>
+<strong>Status</strong>: Active  </p>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Anchor link to this section">¶</a></h2>
+<p>Dokploy represents a paradigm shift in application deployment, bringing enterprise-grade Platform-as-a-Service (PaaS) capabilities to the open-source community. This architecture vision establishes the foundation for a self-hosted, cost-effective, and developer-friendly deployment platform that rivals commercial offerings like Heroku, Vercel, and Netlify while maintaining complete user control and transparency.</p>
+<h3 id="vision-statement">Vision Statement<a class="headerlink" href="#vision-statement" title="Anchor link to this section">¶</a></h3>
+<blockquote>
+<p>To democratize cloud deployment by providing an enterprise-grade, self-hosted PaaS that is accessible, flexible, and powerful for developers and organizations of all sizes.</p>
+</blockquote>
+<h3 id="mission-statement">Mission Statement<a class="headerlink" href="#mission-statement" title="Anchor link to this section">¶</a></h3>
+<blockquote>
+<p>Enable developers to deploy and manage applications with the same ease as commercial PaaS solutions while maintaining full control, transparency, and cost-efficiency through open-source self-hosting.</p>
+</blockquote>
+<hr/>
+<h2 id="business-context">Business Context<a class="headerlink" href="#business-context" title="Anchor link to this section">¶</a></h2>
+<h3 id="market-opportunity">Market Opportunity<a class="headerlink" href="#market-opportunity" title="Anchor link to this section">¶</a></h3>
+<p>The Platform-as-a-Service market is dominated by commercial providers that charge premium prices for deployment services. Organizations face:</p>
+<ul>
+<li><strong>High operational costs</strong>: $50-500+ per application per month</li>
+<li><strong>Vendor lock-in</strong>: Proprietary APIs and workflows</li>
+<li><strong>Limited control</strong>: Black-box infrastructure</li>
+<li><strong>Data sovereignty concerns</strong>: Cloud-only solutions</li>
+<li><strong>Unpredictable pricing</strong>: Usage-based billing complexity</li>
+</ul>
+<p>Dokploy addresses these challenges by providing:</p>
+<ul>
+<li><strong>Zero recurring costs</strong>: Self-hosted with no per-app fees</li>
+<li><strong>Open-source transparency</strong>: Full codebase visibility</li>
+<li><strong>Complete control</strong>: Own your infrastructure</li>
+<li><strong>Data sovereignty</strong>: Deploy anywhere</li>
+<li><strong>Predictable costs</strong>: Fixed infrastructure costs only</li>
+</ul>
+<h3 id="strategic-goals">Strategic Goals<a class="headerlink" href="#strategic-goals" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Market Leadership</strong>: Become the <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/brunseba/dokploy-application-server/issues/1" title="GitHub Issue: brunseba/dokploy-application-server #1">#1</a> open-source PaaS alternative (current: 26k+ GitHub stars)</li>
+<li><strong>Cost Savings</strong>: Enable 70-90% cost reduction vs commercial PaaS</li>
+<li><strong>Enterprise Adoption</strong>: Achieve 20+ enterprise customers by 2025</li>
+<li><strong>Community Growth</strong>: Reach 50k+ monthly active users</li>
+<li><strong>Sustainable Business</strong>: Generate revenue through Dokploy Cloud managed service</li>
+</ol>
+<hr/>
+<h2 id="stakeholder-analysis">Stakeholder Analysis<a class="headerlink" href="#stakeholder-analysis" title="Anchor link to this section">¶</a></h2>
+<h3 id="primary-stakeholders">Primary Stakeholders<a class="headerlink" href="#primary-stakeholders" title="Anchor link to this section">¶</a></h3>
+<h4 id="1-independent-developers">1. Independent Developers<a class="headerlink" href="#1-independent-developers" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: Medium | <strong>Interest</strong>: High</p>
+<ul>
+<li><strong>Concerns</strong>: </li>
+<li>Easy setup and deployment</li>
+<li>Cost-effectiveness</li>
+<li>Learning curve</li>
+<li>Community support</li>
+<li><strong>Requirements</strong>:</li>
+<li>Quick onboarding (&lt;10 minutes)</li>
+<li>Clear documentation</li>
+<li>Active community</li>
+<li>Free forever option</li>
+</ul>
+<h4 id="2-small-medium-development-teams">2. Small-Medium Development Teams<a class="headerlink" href="#2-small-medium-development-teams" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: High | <strong>Interest</strong>: High</p>
+<ul>
+<li><strong>Concerns</strong>:</li>
+<li>Team collaboration</li>
+<li>Deployment reliability</li>
+<li>Scaling capabilities</li>
+<li>Time to market</li>
+<li><strong>Requirements</strong>:</li>
+<li>Role-based access control</li>
+<li>Multi-environment support</li>
+<li>CI/CD integration</li>
+<li>99.9% uptime</li>
+</ul>
+<h4 id="3-devops-engineers">3. DevOps Engineers<a class="headerlink" href="#3-devops-engineers" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: High | <strong>Interest</strong>: High</p>
+<ul>
+<li><strong>Concerns</strong>:</li>
+<li>Infrastructure control</li>
+<li>Security and compliance</li>
+<li>Monitoring and observability</li>
+<li>Multi-server management</li>
+<li><strong>Requirements</strong>:</li>
+<li>Advanced configuration options</li>
+<li>Security hardening capabilities</li>
+<li>Comprehensive monitoring</li>
+<li>API/CLI automation</li>
+</ul>
+<h4 id="4-enterprise-organizations">4. Enterprise Organizations<a class="headerlink" href="#4-enterprise-organizations" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: High | <strong>Interest</strong>: Medium</p>
+<ul>
+<li><strong>Concerns</strong>:</li>
+<li>Compliance (GDPR, SOC 2)</li>
+<li>Enterprise support</li>
+<li>High availability</li>
+<li>On-premise deployment</li>
+<li><strong>Requirements</strong>:</li>
+<li>Audit logging</li>
+<li>SSO integration</li>
+<li>SLA guarantees</li>
+<li>Professional support</li>
+</ul>
+<h3 id="secondary-stakeholders">Secondary Stakeholders<a class="headerlink" href="#secondary-stakeholders" title="Anchor link to this section">¶</a></h3>
+<h4 id="5-open-source-community">5. Open-Source Community<a class="headerlink" href="#5-open-source-community" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: Medium | <strong>Interest</strong>: High</p>
+<ul>
+<li><strong>Concerns</strong>:</li>
+<li>Code quality</li>
+<li>Contribution process</li>
+<li>Project sustainability</li>
+<li>Licensing</li>
+<li><strong>Requirements</strong>:</li>
+<li>Clear contribution guidelines</li>
+<li>Active maintainer engagement</li>
+<li>Transparent roadmap</li>
+<li>Permissive license</li>
+</ul>
+<h4 id="6-dokploy-project-maintainers">6. Dokploy Project Maintainers<a class="headerlink" href="#6-dokploy-project-maintainers" title="Anchor link to this section">¶</a></h4>
+<p><strong>Power</strong>: Very High | <strong>Interest</strong>: Very High</p>
+<ul>
+<li><strong>Concerns</strong>:</li>
+<li>Code maintainability</li>
+<li>Technical debt</li>
+<li>Security vulnerabilities</li>
+<li>Project funding</li>
+<li><strong>Requirements</strong>:</li>
+<li>Architectural clarity</li>
+<li>Automated testing</li>
+<li>Security scanning</li>
+<li>Sustainable funding model</li>
+</ul>
+<hr/>
+<h2 id="business-drivers">Business Drivers<a class="headerlink" href="#business-drivers" title="Anchor link to this section">¶</a></h2>
+<h3 id="cost-optimization">Cost Optimization<a class="headerlink" href="#cost-optimization" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Reduce deployment costs by 70-90% compared to commercial PaaS</li>
+<li>Eliminate per-application pricing models</li>
+<li>Optimize resource utilization through containerization</li>
+</ul>
+<h3 id="developer-productivity">Developer Productivity<a class="headerlink" href="#developer-productivity" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Reduce deployment time from hours to minutes</li>
+<li>Eliminate DevOps complexity for small teams</li>
+<li>Provide intuitive UI and powerful CLI/API</li>
+</ul>
+<h3 id="compliance-and-security">Compliance and Security<a class="headerlink" href="#compliance-and-security" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Enable on-premise deployment for regulated industries</li>
+<li>Provide full audit trail</li>
+<li>Support data sovereignty requirements</li>
+<li>Implement security best practices by default</li>
+</ul>
+<h3 id="flexibility-and-control">Flexibility and Control<a class="headerlink" href="#flexibility-and-control" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Support multiple deployment methods (Git, Docker, Docker Compose)</li>
+<li>Enable custom build processes</li>
+<li>Allow fine-grained resource control</li>
+<li>Support multi-server deployments</li>
+</ul>
+<hr/>
+<h2 id="architecture-principles">Architecture Principles<a class="headerlink" href="#architecture-principles" title="Anchor link to this section">¶</a></h2>
+<h3 id="1-open-source-first">1. Open-Source First<a class="headerlink" href="#1-open-source-first" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: All core functionality must be available in the open-source version.</p>
+<p><strong>Rationale</strong>: Ensures community trust, enables contributions, and prevents vendor lock-in.</p>
+<p><strong>Implications</strong>:
+- No feature paywalls for core deployment functionality
+- Open development process
+- Community-driven roadmap</p>
+<h3 id="2-self-hosting-capable">2. Self-Hosting Capable<a class="headerlink" href="#2-self-hosting-capable" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: The platform must be fully functional when self-hosted.</p>
+<p><strong>Rationale</strong>: Enables cost savings, data sovereignty, and user control.</p>
+<p><strong>Implications</strong>:
+- No cloud-only dependencies
+- Manageable resource requirements
+- Single-server deployability</p>
+<h3 id="3-security-by-design">3. Security by Design<a class="headerlink" href="#3-security-by-design" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: Security must be integrated at every architectural layer.</p>
+<p><strong>Rationale</strong>: Protects user applications and data, enables compliance.</p>
+<p><strong>Implications</strong>:
+- Encryption at rest and in transit
+- Principle of least privilege
+- Regular security audits
+- Fast vulnerability patching</p>
+<h3 id="4-developer-experience-focus">4. Developer Experience Focus<a class="headerlink" href="#4-developer-experience-focus" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: Optimize for developer productivity and ease of use.</p>
+<p><strong>Rationale</strong>: Reduces adoption barriers, increases user satisfaction.</p>
+<p><strong>Implications</strong>:
+- Intuitive UI design
+- Comprehensive documentation
+- Minimal configuration required
+- Fast feedback loops</p>
+<h3 id="5-cloud-native-architecture">5. Cloud-Native Architecture<a class="headerlink" href="#5-cloud-native-architecture" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: Leverage containerization and orchestration best practices.</p>
+<p><strong>Rationale</strong>: Enables scalability, portability, and modern deployment patterns.</p>
+<p><strong>Implications</strong>:
+- Docker-first approach
+- Microservices-friendly
+- Infrastructure as code
+- Declarative configuration</p>
+<h3 id="6-api-first-design">6. API-First Design<a class="headerlink" href="#6-api-first-design" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: All functionality must be accessible via API.</p>
+<p><strong>Rationale</strong>: Enables automation, integration, and programmatic control.</p>
+<p><strong>Implications</strong>:
+- Complete REST API
+- CLI tool based on API
+- Webhook support
+- OpenAPI documentation</p>
+<h3 id="7-cost-effectiveness">7. Cost-Effectiveness<a class="headerlink" href="#7-cost-effectiveness" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: Minimize infrastructure resource requirements.</p>
+<p><strong>Rationale</strong>: Reduces operational costs for users.</p>
+<p><strong>Implications</strong>:
+- Efficient resource utilization
+- Optional external dependencies
+- Minimal overhead
+- Smart caching strategies</p>
+<h3 id="8-observability">8. Observability<a class="headerlink" href="#8-observability" title="Anchor link to this section">¶</a></h3>
+<p><strong>Statement</strong>: Provide comprehensive visibility into system and application behavior.</p>
+<p><strong>Rationale</strong>: Enables troubleshooting, performance optimization, and proactive monitoring.</p>
+<p><strong>Implications</strong>:
+- Real-time metrics
+- Centralized logging
+- Performance monitoring
+- Audit trails</p>
+<hr/>
+<h2 id="scope-and-boundaries">Scope and Boundaries<a class="headerlink" href="#scope-and-boundaries" title="Anchor link to this section">¶</a></h2>
+<h3 id="in-scope">In Scope<a class="headerlink" href="#in-scope" title="Anchor link to this section">¶</a></h3>
+<h4 id="core-platform-services">Core Platform Services<a class="headerlink" href="#core-platform-services" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Application deployment and lifecycle management</li>
+<li>Database creation and management</li>
+<li>Domain and SSL certificate management</li>
+<li>Multi-server orchestration</li>
+<li>User authentication and authorization</li>
+<li>Monitoring and logging</li>
+<li>Backup and restore capabilities</li>
+</ul>
+<h4 id="supported-technologies">Supported Technologies<a class="headerlink" href="#supported-technologies" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Git providers: GitHub, GitLab, Bitbucket, Gitea</li>
+<li>Build systems: Nixpacks, Heroku Buildpacks, Dockerfile</li>
+<li>Databases: PostgreSQL, MySQL, MariaDB, MongoDB, Redis</li>
+<li>Container orchestration: Docker Swarm</li>
+<li>Reverse proxy: Traefik v3</li>
+</ul>
+<h4 id="deployment-targets">Deployment Targets<a class="headerlink" href="#deployment-targets" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Linux servers (Ubuntu, Debian, CentOS, RHEL, Amazon Linux)</li>
+<li>Virtual Private Servers (VPS)</li>
+<li>Cloud instances (AWS EC2, DigitalOcean, etc.)</li>
+<li>On-premise servers</li>
+<li>Edge locations</li>
+</ul>
+<h3 id="out-of-scope">Out of Scope<a class="headerlink" href="#out-of-scope" title="Anchor link to this section">¶</a></h3>
+<h4 id="not-included-in-core-platform">Not Included in Core Platform<a class="headerlink" href="#not-included-in-core-platform" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Kubernetes orchestration (roadmap: Q1 2025)</li>
+<li>Windows/macOS native support</li>
+<li>Managed database hosting</li>
+<li>CDN services</li>
+<li>Email services</li>
+<li>Object storage (users provide S3-compatible)</li>
+<li>DNS hosting (users manage DNS)</li>
+</ul>
+<h4 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Git repository hosting (GitHub, GitLab, etc.)</li>
+<li>Domain registrars</li>
+<li>SSL certificate authorities (Let's Encrypt)</li>
+<li>Docker registry (Docker Hub, GHCR)</li>
+<li>S3-compatible storage for backups (optional)</li>
+</ul>
+<hr/>
+<h2 id="architecture-constraints">Architecture Constraints<a class="headerlink" href="#architecture-constraints" title="Anchor link to this section">¶</a></h2>
+<h3 id="technical-constraints">Technical Constraints<a class="headerlink" href="#technical-constraints" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Docker Dependency</strong>: Requires Docker 28.5.0+ on Linux</li>
+<li><strong>Linux Only</strong>: No native Windows or macOS support for hosting</li>
+<li><strong>Port Requirements</strong>: Ports 80, 443, 3000 must be available</li>
+<li><strong>Resource Minimum</strong>: 2GB RAM, 2 CPU cores, 20GB disk</li>
+<li><strong>Network Access</strong>: Requires outbound internet for Git, registries, packages</li>
+</ol>
+<h3 id="business-constraints">Business Constraints<a class="headerlink" href="#business-constraints" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Open-Source License</strong>: Must remain open-source (permissive license)</li>
+<li><strong>No Vendor Lock-in</strong>: Users must be able to export and migrate freely</li>
+<li><strong>Community-Driven</strong>: Major decisions require community input</li>
+<li><strong>Free Self-Hosting</strong>: Core features free forever for self-hosters</li>
+</ol>
+<h3 id="regulatory-constraints">Regulatory Constraints<a class="headerlink" href="#regulatory-constraints" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>GDPR Compliance</strong>: For EU users</li>
+<li><strong>CCPA Compliance</strong>: For California users</li>
+<li><strong>Data Residency</strong>: Support data sovereignty requirements</li>
+<li><strong>Security Standards</strong>: OWASP Top 10, CIS Docker Benchmark</li>
+</ol>
+<hr/>
+<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Anchor link to this section">¶</a></h2>
+<h3 id="adoption-metrics">Adoption Metrics<a class="headerlink" href="#adoption-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>GitHub Stars: 30k+ (current: 26k)</li>
+<li>Docker Hub Pulls: 5M+ (current: 4M)</li>
+<li>Active Installations: 10k+</li>
+<li>Monthly Active Users: 50k+</li>
+<li>Community Contributors: 300+ (current: 200+)</li>
+</ul>
+<h3 id="performance-metrics">Performance Metrics<a class="headerlink" href="#performance-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Average Deployment Time: &lt;5 minutes</li>
+<li>Deployment Success Rate: &gt;95%</li>
+<li>API Response Time (P95): &lt;200ms</li>
+<li>UI Load Time (P95): &lt;2 seconds</li>
+<li>Platform Uptime: &gt;99.9%</li>
+</ul>
+<h3 id="user-satisfaction">User Satisfaction<a class="headerlink" href="#user-satisfaction" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Net Promoter Score (NPS): &gt;50</li>
+<li>Customer Satisfaction (CSAT): &gt;4.5/5</li>
+<li>Time to First Deployment: &lt;10 minutes</li>
+<li>Documentation Completeness: &gt;90%</li>
+</ul>
+<h3 id="business-metrics">Business Metrics<a class="headerlink" href="#business-metrics" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Cloud Revenue Growth: 20% MoM</li>
+<li>Sponsor Count: 100+ (current: 50+)</li>
+<li>Enterprise Customers: 20+</li>
+<li>Cost Savings vs Heroku: 70-90%</li>
+</ul>
+<hr/>
+<h2 id="key-architecture-decisions">Key Architecture Decisions<a class="headerlink" href="#key-architecture-decisions" title="Anchor link to this section">¶</a></h2>
+<h3 id="foundational-choices">Foundational Choices<a class="headerlink" href="#foundational-choices" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li><strong>Docker Swarm</strong> for orchestration (vs Kubernetes)</li>
+<li>Rationale: Simpler, lighter weight, easier for self-hosting</li>
+<li>
+<p>Trade-off: Less ecosystem, but sufficient for target use cases</p>
+</li>
+<li>
+<p><strong>Next.js</strong> for unified frontend/backend</p>
+</li>
+<li>Rationale: Reduces complexity, enables SSR, single codebase</li>
+<li>
+<p>Trade-off: Coupling, but better DX and faster development</p>
+</li>
+<li>
+<p><strong>PostgreSQL</strong> as primary database</p>
+</li>
+<li>Rationale: Mature, reliable, feature-rich, widely known</li>
+<li>
+<p>Trade-off: Single database type, but well-suited for use case</p>
+</li>
+<li>
+<p><strong>Traefik</strong> as reverse proxy</p>
+</li>
+<li>Rationale: Dynamic configuration, Docker integration, modern features</li>
+<li>
+<p>Trade-off: Learning curve, but excellent for container environments</p>
+</li>
+<li>
+<p><strong>Redis</strong> for queue management</p>
+</li>
+<li>Rationale: Fast, reliable, prevents concurrent deployment conflicts</li>
+<li>Trade-off: Additional dependency, but minimal overhead</li>
+</ol>
+<hr/>
+<h2 id="architecture-roadmap">Architecture Roadmap<a class="headerlink" href="#architecture-roadmap" title="Anchor link to this section">¶</a></h2>
+<h3 id="phase-1-foundation-current">Phase 1: Foundation (Current)<a class="headerlink" href="#phase-1-foundation-current" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Core deployment functionality</li>
+<li>Basic monitoring and logging</li>
+<li>Single-server deployments</li>
+<li>Essential security features</li>
+</ul>
+<h3 id="phase-2-scale-q1-q2-2025">Phase 2: Scale (Q1-Q2 2025)<a class="headerlink" href="#phase-2-scale-q1-q2-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Multi-server orchestration</li>
+<li>Advanced monitoring</li>
+<li>Organizations and RBAC</li>
+<li>Build server separation</li>
+</ul>
+<h3 id="phase-3-enterprise-q2-q3-2025">Phase 3: Enterprise (Q2-Q3 2025)<a class="headerlink" href="#phase-3-enterprise-q2-q3-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Kubernetes support</li>
+<li>SSO integration</li>
+<li>Advanced compliance features</li>
+<li>Audit logging</li>
+</ul>
+<h3 id="phase-4-innovation-q3-q4-2025">Phase 4: Innovation (Q3-Q4 2025)<a class="headerlink" href="#phase-4-innovation-q3-q4-2025" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>AI-powered optimizations</li>
+<li>Edge deployments</li>
+<li>Serverless functions</li>
+<li>GraphQL API</li>
+</ul>
+<hr/>
+<h2 id="risks-and-mitigations">Risks and Mitigations<a class="headerlink" href="#risks-and-mitigations" title="Anchor link to this section">¶</a></h2>
+<h3 id="high-priority-risks">High-Priority Risks<a class="headerlink" href="#high-priority-risks" title="Anchor link to this section">¶</a></h3>
+<h4 id="risk-1-docker-swarm-deprecation">Risk 1: Docker Swarm Deprecation<a class="headerlink" href="#risk-1-docker-swarm-deprecation" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Low</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Monitor Docker roadmap, plan Kubernetes migration, ensure abstraction layer</li>
+</ul>
+<h4 id="risk-2-security-vulnerabilities">Risk 2: Security Vulnerabilities<a class="headerlink" href="#risk-2-security-vulnerabilities" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Regular audits, automated scanning, fast patch cycle, bug bounty</li>
+</ul>
+<h4 id="risk-3-community-sustainability">Risk 3: Community Sustainability<a class="headerlink" href="#risk-3-community-sustainability" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: High</li>
+<li><strong>Mitigation</strong>: Diversify funding, active maintainer recruitment, clear governance</li>
+</ul>
+<h3 id="medium-priority-risks">Medium-Priority Risks<a class="headerlink" href="#medium-priority-risks" title="Anchor link to this section">¶</a></h3>
+<h4 id="risk-4-database-scalability">Risk 4: Database Scalability<a class="headerlink" href="#risk-4-database-scalability" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: Medium</li>
+<li><strong>Impact</strong>: Medium</li>
+<li><strong>Mitigation</strong>: Connection pooling, read replicas, sharding strategy</li>
+</ul>
+<h4 id="risk-5-competition">Risk 5: Competition<a class="headerlink" href="#risk-5-competition" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li><strong>Probability</strong>: High</li>
+<li><strong>Impact</strong>: Medium</li>
+<li><strong>Mitigation</strong>: Focus on unique value (self-hosting, cost, control), rapid innovation</li>
+</ul>
+<hr/>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Anchor link to this section">¶</a></h2>
+<ol>
+<li><strong>Validate Vision</strong>: Review with key stakeholders and community</li>
+<li><strong>Develop Business Architecture</strong>: Detail capabilities and value streams</li>
+<li><strong>Create C4 Diagrams</strong>: Document system context and containers</li>
+<li><strong>Document ADRs</strong>: Capture key architectural decisions</li>
+<li><strong>Establish Governance</strong>: Set up architecture review process</li>
+</ol>
+<hr/>
+<h2 id="references">References<a class="headerlink" href="#references" title="Anchor link to this section">¶</a></h2>
+<ul>
+<li>Product Requirements Document (PRD): <code>docs/product-requirements-document.md</code></li>
+<li>TOGAF 9.2 Architecture Development Method</li>
+<li>C4 Model for Software Architecture</li>
+<li>The Twelve-Factor App methodology</li>
+</ul>
+<hr/>
+<p><strong>Document Owner</strong>: Architecture Team<br/>
+<strong>Reviewers</strong>: Engineering, Product, Community<br/>
+<strong>Next Review</strong>: Q1 2025<br/>
+<strong>Related Documents</strong>: PRD, Stakeholder Analysis, Architecture Principles</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Overview" class="md-footer__link md-footer__link--prev" href="../../">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Overview
+              </div>
+</div>
+</a>
+<a aria-label="Next: Stakeholder Analysis" class="md-footer__link md-footer__link--next" href="../stakeholder-analysis/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Stakeholder Analysis
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>

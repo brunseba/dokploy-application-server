@@ -1,0 +1,2407 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/architecture/04-application/data-flow-diagram/" rel="canonical"/>
+<link href="../../03-data/data-model/" rel="prev"/>
+<link href="../application-component-diagram/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Data Flow Diagram - Dokploy Application Server</title>
+<link href="../../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#data-flow-diagram">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Data Flow Diagram
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-vision/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03-data/data-model/">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#purpose">
+<span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-flow-architecture-overview">
+<span class="md-ellipsis">
+      
+        Data Flow Architecture Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-flow-patterns">
+<span class="md-ellipsis">
+      
+        Data Flow Patterns
+      
+    </span>
+</a>
+<nav aria-label="Data Flow Patterns" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-1-user-request-response-flow">
+<span class="md-ellipsis">
+      
+        Pattern 1: User Request-Response Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-2-deployment-flow">
+<span class="md-ellipsis">
+      
+        Pattern 2: Deployment Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-3-authentication-flow">
+<span class="md-ellipsis">
+      
+        Pattern 3: Authentication Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-4-monitoring-data-flow">
+<span class="md-ellipsis">
+      
+        Pattern 4: Monitoring Data Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-5-database-backup-flow">
+<span class="md-ellipsis">
+      
+        Pattern 5: Database Backup Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pattern-6-tls-certificate-flow">
+<span class="md-ellipsis">
+      
+        Pattern 6: TLS Certificate Flow
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integration-data-flows">
+<span class="md-ellipsis">
+      
+        Integration Data Flows
+      
+    </span>
+</a>
+<nav aria-label="Integration Data Flows" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#githubgitlab-integration">
+<span class="md-ellipsis">
+      
+        GitHub/GitLab Integration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#docker-registry-integration">
+<span class="md-ellipsis">
+      
+        Docker Registry Integration
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-transformation-points">
+<span class="md-ellipsis">
+      
+        Data Transformation Points
+      
+    </span>
+</a>
+<nav aria-label="Data Transformation Points" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-input-validation">
+<span class="md-ellipsis">
+      
+        1. Input Validation
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-serializationdeserialization">
+<span class="md-ellipsis">
+      
+        2. Serialization/Deserialization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-encryptiondecryption">
+<span class="md-ellipsis">
+      
+        3. Encryption/Decryption
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-format-conversions">
+<span class="md-ellipsis">
+      
+        4. Format Conversions
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#caching-strategy">
+<span class="md-ellipsis">
+      
+        Caching Strategy
+      
+    </span>
+</a>
+<nav aria-label="Caching Strategy" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cache-layers">
+<span class="md-ellipsis">
+      
+        Cache Layers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cache-configuration">
+<span class="md-ellipsis">
+      
+        Cache Configuration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cache-invalidation">
+<span class="md-ellipsis">
+      
+        Cache Invalidation
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-quality-and-consistency">
+<span class="md-ellipsis">
+      
+        Data Quality and Consistency
+      
+    </span>
+</a>
+<nav aria-label="Data Quality and Consistency" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#validation-rules">
+<span class="md-ellipsis">
+      
+        Validation Rules
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-handling">
+<span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-consistency">
+<span class="md-ellipsis">
+      
+        Data Consistency
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#performance-optimization">
+<span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+</a>
+<nav aria-label="Performance Optimization" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#query-optimization">
+<span class="md-ellipsis">
+      
+        Query Optimization
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#batch-processing">
+<span class="md-ellipsis">
+      
+        Batch Processing
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-flow-metrics">
+<span class="md-ellipsis">
+      
+        Data Flow Metrics
+      
+    </span>
+</a>
+<nav aria-label="Data Flow Metrics" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-metrics">
+<span class="md-ellipsis">
+      
+        Key Metrics
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#monitoring-queries">
+<span class="md-ellipsis">
+      
+        Monitoring Queries
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#related-documents">
+<span class="md-ellipsis">
+      
+        Related Documents
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/security-view/">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../10-governance/architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../../">
+<span class="md-ellipsis">
+    Architecture
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="./">
+<span class="md-ellipsis">
+    Phase D - Application
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset">
+<h1 id="data-flow-diagram">Data Flow Diagram<a class="headerlink" href="#data-flow-diagram" title="Anchor link to this section">¶</a></h1>
+<p><strong>Document Type</strong>: Data Architecture<br/>
+<strong>Status</strong>: Draft<br/>
+<strong>Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Owner</strong>: Architecture Team  </p>
+<hr/>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Anchor link to this section">¶</a></h2>
+<p>This document illustrates how data moves through the Dokploy system, including request/response flows, background processing, integrations with external systems, caching strategies, and data transformation points. Understanding data flows is critical for optimizing performance, ensuring data integrity, and troubleshooting issues.</p>
+<hr/>
+<h2 id="data-flow-architecture-overview">Data Flow Architecture Overview<a class="headerlink" href="#data-flow-architecture-overview" title="Anchor link to this section">¶</a></h2>
+<pre class="mermaid"><code>graph TB
+    subgraph "External"
+        USER[User Browser]
+        GIT[Git Providers]
+        REGISTRY[Container Registry]
+        LE[Let's Encrypt]
+        S3[S3 Storage]
+    end
+
+    subgraph "Ingress Layer"
+        TRAEFIK[Traefik Proxy]
+    end
+
+    subgraph "Application Layer"
+        NEXTJS[Next.js API/Web]
+        WORKER[Background Workers]
+    end
+
+    subgraph "Cache Layer"
+        REDIS[(Redis)]
+    end
+
+    subgraph "Data Layer"
+        POSTGRES[(PostgreSQL)]
+    end
+
+    subgraph "Infrastructure Layer"
+        DOCKER[Docker Engine]
+        VOLUMES[Docker Volumes]
+    end
+
+    USER &lt;--&gt;|HTTPS| TRAEFIK
+    TRAEFIK &lt;--&gt;|HTTP| NEXTJS
+    NEXTJS &lt;--&gt;|Query/Mutation| POSTGRES
+    NEXTJS &lt;--&gt;|Get/Set| REDIS
+    NEXTJS &lt;--&gt;|API Calls| DOCKER
+    DOCKER --&gt;|Logs/Metrics| NEXTJS
+    DOCKER &lt;--&gt;|Read/Write| VOLUMES
+    POSTGRES &lt;--&gt;|Backup| S3
+    GIT --&gt;|Webhook| TRAEFIK
+    WORKER --&gt;|Build| REGISTRY
+    WORKER &lt;--&gt;|State| POSTGRES
+    LE --&gt;|ACME Challenge| TRAEFIK
+
+    style USER fill:#e1f5ff
+    style TRAEFIK fill:#fff4e6
+    style NEXTJS fill:#e8f5e9
+    style REDIS fill:#ffecb3
+    style POSTGRES fill:#f3e5f5
+    style DOCKER fill:#e0f2f1</code></pre>
+<hr/>
+<h2 id="data-flow-patterns">Data Flow Patterns<a class="headerlink" href="#data-flow-patterns" title="Anchor link to this section">¶</a></h2>
+<h3 id="pattern-1-user-request-response-flow">Pattern 1: User Request-Response Flow<a class="headerlink" href="#pattern-1-user-request-response-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant U as User Browser
+    participant T as Traefik
+    participant N as Next.js
+    participant R as Redis
+    participant P as PostgreSQL
+
+    U-&gt;&gt;T: HTTPS Request (GET /applications)
+    T-&gt;&gt;T: TLS Termination
+    T-&gt;&gt;T: Rate Limiting Check
+    T-&gt;&gt;N: HTTP Request + Headers
+    N-&gt;&gt;N: Session Validation (JWT)
+    N-&gt;&gt;N: Authorization Check (RBAC)
+
+    alt Cache Hit
+        N-&gt;&gt;R: GET cache:applications:{user_id}
+        R--&gt;&gt;N: Cached Data
+        N--&gt;&gt;T: JSON Response
+    else Cache Miss
+        N-&gt;&gt;P: SELECT * FROM applications WHERE...
+        P--&gt;&gt;N: Query Results
+        N-&gt;&gt;R: SET cache:applications:{user_id}
+        N-&gt;&gt;N: Transform to JSON
+        N--&gt;&gt;T: JSON Response
+    end
+
+    T-&gt;&gt;T: Add Security Headers
+    T--&gt;&gt;U: HTTPS Response</code></pre>
+<p><strong>Data Transformations</strong>:
+1. <strong>TLS Decryption</strong>: HTTPS → HTTP (Traefik)
+2. <strong>Session Decode</strong>: JWT token → User object (Next.js)
+3. <strong>Database Query</strong>: SQL → Result set (PostgreSQL)
+4. <strong>Serialization</strong>: Database rows → JSON (Next.js)
+5. <strong>Cache Encoding</strong>: JSON → Redis string (Redis)
+6. <strong>TLS Encryption</strong>: HTTP → HTTPS (Traefik)</p>
+<p><strong>Caching Strategy</strong>:
+- <strong>TTL</strong>: 5 minutes for list endpoints
+- <strong>Invalidation</strong>: On create/update/delete operations
+- <strong>Key Pattern</strong>: <code>cache:{resource}:{user_id}:{filter_hash}</code></p>
+<p><strong>Performance</strong>:
+- Cache hit: ~50ms
+- Cache miss: ~200ms
+- Database query optimization: Indexed queries</p>
+<hr/>
+<h3 id="pattern-2-deployment-flow">Pattern 2: Deployment Flow<a class="headerlink" href="#pattern-2-deployment-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant G as Git Provider
+    participant T as Traefik
+    participant N as Next.js
+    participant P as PostgreSQL
+    participant W as Build Worker
+    participant R as Container Registry
+    participant D as Docker Swarm
+
+    G-&gt;&gt;T: Webhook (Push Event)
+    T-&gt;&gt;N: POST /api/webhooks/git
+    N-&gt;&gt;N: Verify Signature
+    N-&gt;&gt;P: SELECT app WHERE repo = ?
+    P--&gt;&gt;N: Application Record
+
+    N-&gt;&gt;P: INSERT INTO deployments
+    P--&gt;&gt;N: Deployment ID
+
+    N-&gt;&gt;W: Queue Build Job
+    activate W
+    N--&gt;&gt;T: 202 Accepted
+    T--&gt;&gt;G: 200 OK
+
+    W-&gt;&gt;G: Clone Repository
+    G--&gt;&gt;W: Source Code
+    W-&gt;&gt;W: Build Docker Image
+    W-&gt;&gt;R: Push Image
+    R--&gt;&gt;W: Image Pushed
+
+    W-&gt;&gt;P: UPDATE deployments SET status='deploying'
+    W-&gt;&gt;D: docker service update
+    D-&gt;&gt;R: Pull Image
+    R--&gt;&gt;D: Image Layers
+    D-&gt;&gt;D: Create Containers
+    D-&gt;&gt;D: Health Check
+
+    alt Health Check Pass
+        D--&gt;&gt;W: Service Updated
+        W-&gt;&gt;P: UPDATE deployments SET status='success'
+    else Health Check Fail
+        D--&gt;&gt;W: Update Failed
+        W-&gt;&gt;D: Rollback
+        W-&gt;&gt;P: UPDATE deployments SET status='failed'
+    end
+    deactivate W
+
+    W-&gt;&gt;N: Notify Completion (WebSocket)
+    N--&gt;&gt;U: Push Notification</code></pre>
+<p><strong>Data Flows</strong>:
+1. <strong>Webhook Payload</strong>: Git provider → Next.js (JSON, ~1-5KB)
+2. <strong>Build Context</strong>: Git → Worker (Source code, variable size)
+3. <strong>Docker Image</strong>: Worker → Registry (Compressed layers, 50-500MB)
+4. <strong>Image Layers</strong>: Registry → Docker (Pulled layers)
+5. <strong>State Updates</strong>: Worker → PostgreSQL (Status changes)
+6. <strong>Real-time Notifications</strong>: Next.js → User (WebSocket, ~100 bytes)</p>
+<p><strong>Data Persistence</strong>:
+- <strong>deployments</strong> table: Status, logs, metadata
+- <strong>deployment_logs</strong> table: Structured log entries
+- <strong>applications</strong> table: Updated commit SHA</p>
+<p><strong>Error Handling</strong>:
+- Failed builds: Logs stored, notification sent
+- Network failures: Retry with exponential backoff
+- Rollback: Revert to previous image tag</p>
+<hr/>
+<h3 id="pattern-3-authentication-flow">Pattern 3: Authentication Flow<a class="headerlink" href="#pattern-3-authentication-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant U as User Browser
+    participant T as Traefik
+    participant N as Next.js
+    participant P as PostgreSQL
+    participant R as Redis
+    participant OIDC as OIDC Provider
+
+    alt Local Authentication
+        U-&gt;&gt;T: POST /api/auth/login
+        T-&gt;&gt;N: Credentials
+        N-&gt;&gt;P: SELECT * FROM users WHERE username=?
+        P--&gt;&gt;N: User Record (hashed password)
+        N-&gt;&gt;N: bcrypt.compare(password, hash)
+
+        alt Valid Credentials
+            N-&gt;&gt;N: Generate JWT
+            N-&gt;&gt;R: SET session:{token} = {user_data}
+            N-&gt;&gt;P: INSERT INTO audit_logs
+            N--&gt;&gt;T: Set-Cookie: token
+            T--&gt;&gt;U: Redirect to Dashboard
+        else Invalid Credentials
+            N-&gt;&gt;P: INSERT INTO audit_logs (failed)
+            N--&gt;&gt;T: 401 Unauthorized
+            T--&gt;&gt;U: Login Failed
+        end
+    else OIDC Authentication
+        U-&gt;&gt;T: GET /api/auth/oidc/login
+        T-&gt;&gt;N: Auth Request
+        N-&gt;&gt;N: Generate state + PKCE
+        N-&gt;&gt;R: SET oidc:{state} = {verifier}
+        N--&gt;&gt;U: Redirect to OIDC Provider
+
+        U-&gt;&gt;OIDC: Login
+        OIDC--&gt;&gt;U: Redirect with code
+
+        U-&gt;&gt;T: GET /callback?code=xxx&amp;state=yyy
+        T-&gt;&gt;N: Auth Callback
+        N-&gt;&gt;R: GET oidc:{state}
+        R--&gt;&gt;N: Verifier
+        N-&gt;&gt;OIDC: Exchange code for tokens
+        OIDC--&gt;&gt;N: ID Token + Access Token
+        N-&gt;&gt;N: Verify JWT Signature
+        N-&gt;&gt;P: UPSERT users
+        N-&gt;&gt;N: Generate Session Token
+        N-&gt;&gt;R: SET session:{token}
+        N--&gt;&gt;U: Set-Cookie + Redirect
+    end</code></pre>
+<p><strong>Data Transformations</strong>:
+1. <strong>Password Hashing</strong>: Plain text → bcrypt hash (on registration)
+2. <strong>JWT Generation</strong>: User object → Signed JWT token
+3. <strong>Session Storage</strong>: User data → Redis JSON
+4. <strong>OIDC Token</strong>: Authorization code → ID token (JWT)</p>
+<p><strong>Data Security</strong>:
+- Passwords: Never stored plain text (bcrypt, cost 12)
+- JWT: Signed with HS256/RS256
+- Session data: Encrypted in Redis
+- OIDC state: Temporary, expires in 10 minutes</p>
+<p><strong>Session Management</strong>:
+- TTL: 7 days (idle), 30 days (absolute)
+- Storage: Redis (fast access)
+- Invalidation: On logout, password change</p>
+<hr/>
+<h3 id="pattern-4-monitoring-data-flow">Pattern 4: Monitoring Data Flow<a class="headerlink" href="#pattern-4-monitoring-data-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "Data Sources"
+        CONTAINERS[Docker Containers]
+        HOST[Host System]
+        APP[Application Metrics]
+    end
+
+    subgraph "Collection"
+        CADVISOR[cAdvisor]
+        NODE_EXP[Node Exporter]
+        APP_EXP[App /metrics]
+    end
+
+    subgraph "Storage"
+        PROM[(Prometheus)]
+    end
+
+    subgraph "Visualization"
+        GRAFANA[Grafana]
+        DOKPLOY_UI[Dokploy UI]
+    end
+
+    CONTAINERS --&gt;|Stats| CADVISOR
+    HOST --&gt;|Metrics| NODE_EXP
+    APP --&gt;|Expose| APP_EXP
+
+    CADVISOR --&gt;|Scrape| PROM
+    NODE_EXP --&gt;|Scrape| PROM
+    APP_EXP --&gt;|Scrape| PROM
+
+    PROM --&gt;|PromQL| GRAFANA
+    PROM --&gt;|HTTP API| DOKPLOY_UI
+
+    style PROM fill:#f3e5f5
+    style GRAFANA fill:#e8f5e9</code></pre>
+<p><strong>Metrics Flow</strong>:
+1. <strong>Container Metrics</strong>: Docker API → cAdvisor (CPU, memory, network)
+2. <strong>System Metrics</strong>: /proc, /sys → Node Exporter (disk, load, processes)
+3. <strong>Application Metrics</strong>: App instrumentation → /metrics endpoint (custom metrics)
+4. <strong>Collection</strong>: Prometheus scrapes every 15 seconds
+5. <strong>Storage</strong>: Time-series data stored in Prometheus (15 days retention)
+6. <strong>Query</strong>: PromQL queries → Grafana/Dokploy UI</p>
+<p><strong>Log Flow</strong>:
+<pre class="mermaid"><code>graph LR
+    CONTAINERS[Docker Containers]
+    DOCKER_LOG[Docker Log Driver]
+    NEXTJS[Next.js API]
+    POSTGRES[(PostgreSQL)]
+    UI[Dokploy UI]
+
+    CONTAINERS --&gt;|stdout/stderr| DOCKER_LOG
+    DOCKER_LOG --&gt;|docker logs| NEXTJS
+    NEXTJS --&gt;|Parse &amp; Store| POSTGRES
+    POSTGRES --&gt;|Query| NEXTJS
+    NEXTJS --&gt;|WebSocket| UI
+
+    style POSTGRES fill:#f3e5f5</code></pre></p>
+<p><strong>Log Processing</strong>:
+- <strong>Capture</strong>: Docker captures stdout/stderr
+- <strong>Retrieval</strong>: <code>docker logs</code> API call
+- <strong>Parsing</strong>: Structured logging (JSON) parsed
+- <strong>Storage</strong>: Recent logs in PostgreSQL (30 days)
+- <strong>Streaming</strong>: Real-time via WebSocket</p>
+<hr/>
+<h3 id="pattern-5-database-backup-flow">Pattern 5: Database Backup Flow<a class="headerlink" href="#pattern-5-database-backup-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant CRON as Cron Job
+    participant SCRIPT as Backup Script
+    participant PG as PostgreSQL
+    participant VOL as Docker Volume
+    participant S3 as S3 Storage
+    participant DB_TABLE as backup table
+
+    CRON-&gt;&gt;SCRIPT: Trigger (Daily 2 AM)
+    activate SCRIPT
+
+    SCRIPT-&gt;&gt;PG: pg_dump -Fc
+    PG--&gt;&gt;SCRIPT: Compressed Dump
+    SCRIPT-&gt;&gt;SCRIPT: Calculate Checksum (SHA256)
+    SCRIPT-&gt;&gt;VOL: Write to /backups/
+
+    alt S3 Configured
+        SCRIPT-&gt;&gt;S3: Upload Backup
+        S3--&gt;&gt;SCRIPT: Upload Complete
+        SCRIPT-&gt;&gt;SCRIPT: Verify Upload (ETag)
+    end
+
+    SCRIPT-&gt;&gt;DB_TABLE: INSERT backup record
+    DB_TABLE--&gt;&gt;SCRIPT: Backup ID
+
+    SCRIPT-&gt;&gt;VOL: Cleanup Old Backups (&gt;7 days)
+    SCRIPT-&gt;&gt;S3: Cleanup Old Backups (&gt;30 days)
+
+    deactivate SCRIPT</code></pre>
+<p><strong>Backup Data Flow</strong>:
+1. <strong>Database Dump</strong>: PostgreSQL → Compressed binary format (pg_dump -Fc)
+2. <strong>Local Storage</strong>: Dump → Docker volume (/var/backups/)
+3. <strong>Remote Storage</strong>: Local file → S3-compatible storage
+4. <strong>Metadata</strong>: Backup info → backups table (PostgreSQL)</p>
+<p><strong>Data Verification</strong>:
+- SHA256 checksum calculated
+- S3 ETag verification
+- Test restore monthly (automated)</p>
+<p><strong>Retention Policy</strong>:
+- Local: 7 days (daily backups)
+- S3: 30 days (daily) + 12 months (weekly)</p>
+<hr/>
+<h3 id="pattern-6-tls-certificate-flow">Pattern 6: TLS Certificate Flow<a class="headerlink" href="#pattern-6-tls-certificate-flow" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant T as Traefik
+    participant LE as Let's Encrypt
+    participant VOL as Certificate Volume
+    participant DB as PostgreSQL
+
+    Note over T: Domain Added
+    T-&gt;&gt;T: Check Certificate Exists
+
+    alt No Certificate
+        T-&gt;&gt;LE: ACME HTTP-01 Challenge
+        LE-&gt;&gt;T: Challenge Request (/.well-known/)
+        T--&gt;&gt;LE: Challenge Response
+        LE-&gt;&gt;LE: Verify Domain Ownership
+        LE--&gt;&gt;T: Issue Certificate
+        T-&gt;&gt;VOL: Store cert.pem + key.pem
+        T-&gt;&gt;DB: INSERT INTO certificates
+    else Certificate Exists
+        T-&gt;&gt;T: Load from Volume
+    end
+
+    Note over T: Daily Certificate Check
+    T-&gt;&gt;VOL: Read Certificate
+    T-&gt;&gt;T: Check Expiry Date
+
+    alt Expires in &lt;30 days
+        T-&gt;&gt;LE: Renew Certificate
+        LE--&gt;&gt;T: New Certificate
+        T-&gt;&gt;VOL: Update cert.pem + key.pem
+        T-&gt;&gt;DB: UPDATE certificates
+    end</code></pre>
+<p><strong>Certificate Data</strong>:
+- <strong>Certificate</strong>: PEM format (~2KB)
+- <strong>Private Key</strong>: Encrypted PEM (~2KB)
+- <strong>Chain</strong>: Intermediate certificates
+- <strong>Metadata</strong>: Expiry date, issuer, domains</p>
+<p><strong>Storage</strong>:
+- <strong>Primary</strong>: Docker volume (file system)
+- <strong>Backup</strong>: PostgreSQL certificates table (encrypted)</p>
+<hr/>
+<h2 id="integration-data-flows">Integration Data Flows<a class="headerlink" href="#integration-data-flows" title="Anchor link to this section">¶</a></h2>
+<h3 id="githubgitlab-integration">GitHub/GitLab Integration<a class="headerlink" href="#githubgitlab-integration" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph LR
+    GIT[Git Provider] --&gt;|1. Webhook POST| TRAEFIK[Traefik]
+    TRAEFIK --&gt;|2. Forward| NEXTJS[Next.js]
+    NEXTJS --&gt;|3. Verify Signature| NEXTJS
+    NEXTJS --&gt;|4. Query App Config| POSTGRES[(PostgreSQL)]
+    POSTGRES --&gt;|5. App Data| NEXTJS
+    NEXTJS --&gt;|6. Queue Job| REDIS[(Redis)]
+    REDIS --&gt;|7. Consume| WORKER[Worker]
+    WORKER --&gt;|8. Clone Repo| GIT
+    GIT --&gt;|9. Source Code| WORKER</code></pre>
+<p><strong>Webhook Payload</strong>:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refs/heads/main"</span><span class="p">,</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="nt">"repository"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myapp"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user/myapp"</span><span class="p">,</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="nt">"clone_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/user/myapp.git"</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">  </span><span class="nt">"commits"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123..."</span><span class="p">,</span>
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fix bug"</span><span class="p">,</span>
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">  </span><span class="p">}]</span>
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Verification</strong>:
+- GitHub: HMAC-SHA256 signature
+- GitLab: Secret token comparison</p>
+<h3 id="docker-registry-integration">Docker Registry Integration<a class="headerlink" href="#docker-registry-integration" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph TB
+    WORKER[Build Worker] --&gt;|1. Build Image| IMAGE[Docker Image]
+    IMAGE --&gt;|2. Tag| IMAGE
+    WORKER --&gt;|3. docker push| REGISTRY[Container Registry]
+    REGISTRY --&gt;|4. Store Layers| STORAGE[Registry Storage]
+    SWARM[Docker Swarm] --&gt;|5. docker pull| REGISTRY
+    REGISTRY --&gt;|6. Stream Layers| SWARM</code></pre>
+<p><strong>Image Data</strong>:
+- <strong>Layers</strong>: Compressed tar archives (10-500MB each)
+- <strong>Manifest</strong>: JSON describing layers (~1KB)
+- <strong>Config</strong>: Image metadata (labels, env, etc., ~5KB)</p>
+<p><strong>Optimization</strong>:
+- Layer caching reduces transfer
+- Multi-stage builds reduce final size
+- Registry mirror for frequently used images</p>
+<hr/>
+<h2 id="data-transformation-points">Data Transformation Points<a class="headerlink" href="#data-transformation-points" title="Anchor link to this section">¶</a></h2>
+<h3 id="1-input-validation">1. Input Validation<a class="headerlink" href="#1-input-validation" title="Anchor link to this section">¶</a></h3>
+<p><strong>Location</strong>: Next.js API routes<br/>
+<strong>Purpose</strong>: Ensure data integrity before processing</p>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">// Example: Application creation</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">createAppSchema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">z.string</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mf">3</span><span class="p">).</span><span class="nx">max</span><span class="p">(</span><span class="mf">50</span><span class="p">).</span><span class="nx">regex</span><span class="p">(</span><span class="sr">/^[a-z0-9-]+$/</span><span class="p">),</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="nx">image</span><span class="o">:</span><span class="w"> </span><span class="kt">z.string</span><span class="p">().</span><span class="nx">url</span><span class="p">(),</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="nx">replicas</span><span class="o">:</span><span class="w"> </span><span class="kt">z.number</span><span class="p">().</span><span class="kr">int</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mf">0</span><span class="p">).</span><span class="nx">max</span><span class="p">(</span><span class="mf">100</span><span class="p">),</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="nx">envVars</span><span class="o">:</span><span class="w"> </span><span class="kt">z.record</span><span class="p">(</span><span class="nx">z</span><span class="p">.</span><span class="kt">string</span><span class="p">(),</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="kt">string</span><span class="p">())</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p">});</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="c1">// Transformation: Raw input → Validated object</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="kd">const</span><span class="w"> </span><span class="nx">validated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createAppSchema</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">requestBody</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Validation Rules</strong>:
+- Application name: Alphanumeric, lowercase, hyphens
+- Email: RFC 5322 format
+- URLs: Valid HTTP/HTTPS
+- Integers: Within acceptable ranges</p>
+<h3 id="2-serializationdeserialization">2. Serialization/Deserialization<a class="headerlink" href="#2-serializationdeserialization" title="Anchor link to this section">¶</a></h3>
+<p><strong>JSON → Database</strong> (Prisma ORM):
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">// API Request Body (JSON)</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="p">{</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="s2">"name"</span><span class="o">:</span><span class="w"> </span><span class="s2">"myapp"</span><span class="p">,</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="s2">"envVars"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"PORT"</span><span class="o">:</span><span class="w"> </span><span class="s2">"8080"</span><span class="p">}</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="p">}</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c1">// Database Row (PostgreSQL)</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p">{</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">UUID</span><span class="p">,</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"myapp"</span><span class="p">,</span>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">  </span><span class="nx">env_vars</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"PORT"</span><span class="o">:</span><span class="w"> </span><span class="s2">"8080"</span><span class="p">},</span><span class="w"> </span><span class="c1">// JSONB column</span>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">  </span><span class="nx">created_at</span><span class="o">:</span><span class="w"> </span><span class="kt">TIMESTAMP</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Database → JSON Response</strong>:
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">// Database Row</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="p">{</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">  </span><span class="nx">created_at</span><span class="o">:</span><span class="w"> </span><span class="kt">2024</span><span class="o">-</span><span class="mf">12</span><span class="o">-</span><span class="nx">30T10</span><span class="o">:</span><span class="kt">00</span><span class="o">:</span><span class="mo">00</span><span class="mf">.000</span><span class="nx">Z</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="p">}</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="c1">// API Response</span>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="p">{</span>
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">  </span><span class="s2">"id"</span><span class="o">:</span><span class="w"> </span><span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">  </span><span class="s2">"createdAt"</span><span class="o">:</span><span class="w"> </span><span class="s2">"2024-12-30T10:00:00Z"</span><span class="w"> </span><span class="c1">// ISO 8601</span>
+</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="3-encryptiondecryption">3. Encryption/Decryption<a class="headerlink" href="#3-encryptiondecryption" title="Anchor link to this section">¶</a></h3>
+<p><strong>Sensitive Data Encryption</strong>:</p>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">// Plain text secret</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"api_key_12345"</span><span class="p">;</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1">// Encrypted storage (AES-256-GCM)</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">encrypted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">encrypt</span><span class="p">(</span><span class="nx">secret</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="p">);</span>
+</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c1">// Stored in database: "encrypted:v1:abc123..."</span>
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="c1">// Decryption on retrieval</span>
+</span><span id="__span-4-9"><a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="kd">const</span><span class="w"> </span><span class="nx">decrypted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">encrypted</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="p">);</span>
+</span><span id="__span-4-10"><a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c1">// Used in application: "api_key_12345"</span>
+</span></code></pre></div>
+<p><strong>Encryption Points</strong>:
+- <code>env_vars.value</code> (when <code>is_secret=true</code>)
+- <code>certificates.private_key</code>
+- <code>databases.connection_string</code>
+- Session tokens in Redis</p>
+<p><strong>Key Management</strong>:
+- Encryption keys from Docker secrets
+- Key rotation support (versioned encryption)
+- Never logged or exposed in API</p>
+<h3 id="4-format-conversions">4. Format Conversions<a class="headerlink" href="#4-format-conversions" title="Anchor link to this section">¶</a></h3>
+<p><strong>Docker API → Internal Format</strong>:
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">// Docker Swarm Service</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p">{</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="s2">"ID"</span><span class="o">:</span><span class="w"> </span><span class="s2">"abc123..."</span><span class="p">,</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="s2">"Spec"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">    </span><span class="s2">"Name"</span><span class="o">:</span><span class="w"> </span><span class="s2">"myapp"</span><span class="p">,</span>
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">    </span><span class="s2">"TaskTemplate"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">      </span><span class="s2">"ContainerSpec"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">        </span><span class="s2">"Image"</span><span class="o">:</span><span class="w"> </span><span class="s2">"nginx:latest"</span>
+</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-5-12"><a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="p">}</span>
+</span><span id="__span-5-13"><a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="c1">// Internal Application Model</span>
+</span><span id="__span-5-15"><a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="p">{</span>
+</span><span id="__span-5-16"><a href="#__codelineno-5-16" id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="w">  </span><span class="s2">"id"</span><span class="o">:</span><span class="w"> </span><span class="s2">"uuid-here"</span><span class="p">,</span>
+</span><span id="__span-5-17"><a href="#__codelineno-5-17" id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="w">  </span><span class="s2">"name"</span><span class="o">:</span><span class="w"> </span><span class="s2">"myapp"</span><span class="p">,</span>
+</span><span id="__span-5-18"><a href="#__codelineno-5-18" id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="w">  </span><span class="s2">"image"</span><span class="o">:</span><span class="w"> </span><span class="s2">"nginx:latest"</span><span class="p">,</span>
+</span><span id="__span-5-19"><a href="#__codelineno-5-19" id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="w">  </span><span class="s2">"status"</span><span class="o">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
+</span><span id="__span-5-20"><a href="#__codelineno-5-20" id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="w">  </span><span class="s2">"replicas"</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span>
+</span><span id="__span-5-21"><a href="#__codelineno-5-21" id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<hr/>
+<h2 id="caching-strategy">Caching Strategy<a class="headerlink" href="#caching-strategy" title="Anchor link to this section">¶</a></h2>
+<h3 id="cache-layers">Cache Layers<a class="headerlink" href="#cache-layers" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph TB
+    USER[User Request]
+    CDN[CDN Cache&lt;br/&gt;Static Assets]
+    BROWSER[Browser Cache&lt;br/&gt;HTTP Headers]
+    REDIS[Redis Cache&lt;br/&gt;API Responses]
+    PG[PostgreSQL&lt;br/&gt;Source of Truth]
+
+    USER --&gt; BROWSER
+    BROWSER --&gt; CDN
+    CDN --&gt; REDIS
+    REDIS --&gt; PG
+
+    style REDIS fill:#ffecb3
+    style PG fill:#f3e5f5</code></pre>
+<h3 id="cache-configuration">Cache Configuration<a class="headerlink" href="#cache-configuration" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>TTL</th>
+<th>Invalidation</th>
+<th>Key Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application list</td>
+<td>5 min</td>
+<td>On mutation</td>
+<td><code>apps:{user_id}:{filters}</code></td>
+</tr>
+<tr>
+<td>Application detail</td>
+<td>2 min</td>
+<td>On update</td>
+<td><code>app:{app_id}</code></td>
+</tr>
+<tr>
+<td>Deployment list</td>
+<td>1 min</td>
+<td>On new deployment</td>
+<td><code>deploys:{app_id}</code></td>
+</tr>
+<tr>
+<td>User profile</td>
+<td>15 min</td>
+<td>On profile update</td>
+<td><code>user:{user_id}</code></td>
+</tr>
+<tr>
+<td>Metrics</td>
+<td>30 sec</td>
+<td>Time-based expiry</td>
+<td><code>metrics:{resource}:{time}</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cache-invalidation">Cache Invalidation<a class="headerlink" href="#cache-invalidation" title="Anchor link to this section">¶</a></h3>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">// On application update</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">updateApplication</span><span class="p">(</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">UpdateData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="c1">// 1. Update database</span>
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">updated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">    </span><span class="nx">data</span>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">  </span><span class="c1">// 2. Invalidate caches</span>
+</span><span id="__span-6-10"><a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">redis</span><span class="p">.</span><span class="nx">del</span><span class="p">(</span><span class="sb">`app:</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span><span id="__span-6-11"><a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">redis</span><span class="p">.</span><span class="nx">del</span><span class="p">(</span><span class="sb">`apps:</span><span class="si">${</span><span class="nx">updated</span><span class="p">.</span><span class="nx">projectId</span><span class="si">}</span><span class="sb">:*`</span><span class="p">);</span><span class="w"> </span><span class="c1">// Pattern delete</span>
+</span><span id="__span-6-12"><a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="w">  </span><span class="c1">// 3. Publish invalidation event</span>
+</span><span id="__span-6-14"><a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">redis</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'cache:invalidate'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">'application'</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-6-15"><a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">updated</span><span class="p">;</span>
+</span><span id="__span-6-17"><a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="data-quality-and-consistency">Data Quality and Consistency<a class="headerlink" href="#data-quality-and-consistency" title="Anchor link to this section">¶</a></h2>
+<h3 id="validation-rules">Validation Rules<a class="headerlink" href="#validation-rules" title="Anchor link to this section">¶</a></h3>
+<p><strong>At API Layer</strong>:
+- Schema validation (Zod)
+- Business rule validation
+- Authorization checks</p>
+<p><strong>At Database Layer</strong>:
+- Foreign key constraints
+- Check constraints
+- Unique constraints
+- Not null constraints</p>
+<h3 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph TB
+    INPUT[User Input]
+    VALIDATE{Valid?}
+    PROCESS[Process Data]
+    DB_WRITE{DB Write&lt;br/&gt;Success?}
+    ROLLBACK[Rollback Transaction]
+    SUCCESS[Return Success]
+    ERROR[Return Error]
+
+    INPUT --&gt; VALIDATE
+    VALIDATE --&gt;|Yes| PROCESS
+    VALIDATE --&gt;|No| ERROR
+    PROCESS --&gt; DB_WRITE
+    DB_WRITE --&gt;|Yes| SUCCESS
+    DB_WRITE --&gt;|No| ROLLBACK
+    ROLLBACK --&gt; ERROR</code></pre>
+<p><strong>Error Response Format</strong>:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VALIDATION_ERROR"</span><span class="p">,</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Application name must be alphanumeric"</span><span class="p">,</span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">    </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">      </span><span class="nt">"constraint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regex"</span><span class="p">,</span>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My App!"</span>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="data-consistency">Data Consistency<a class="headerlink" href="#data-consistency" title="Anchor link to this section">¶</a></h3>
+<p><strong>Transaction Management</strong>:
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">// Atomic operation: Create application + deployment</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$transaction</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">tx</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span><span class="w"> </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">appData</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">deployment</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">applicationId</span><span class="o">:</span><span class="w"> </span><span class="kt">app.id</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">deployData</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">app</span><span class="p">,</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-8-8"><a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="p">});</span>
+</span></code></pre></div></p>
+<p><strong>Consistency Checks</strong>:
+- Application → Deployment (foreign key)
+- User → Project (ownership)
+- Project → Application (containment)</p>
+<hr/>
+<h2 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Anchor link to this section">¶</a></h2>
+<h3 id="query-optimization">Query Optimization<a class="headerlink" href="#query-optimization" title="Anchor link to this section">¶</a></h3>
+<p><strong>Indexed Queries</strong>:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1">-- Find user's applications (indexed on owner_id)</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">applications</span><span class="w"> </span>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">project_id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">owner_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="p">);</span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="c1">-- Execution plan uses index</span>
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="c1">-- Index: idx_projects_owner (owner_id)</span>
+</span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="c1">-- Index: idx_applications_project (project_id)</span>
+</span></code></pre></div></p>
+<p><strong>Pagination</strong>:
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1">// Cursor-based pagination (efficient)</span>
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">applications</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">findMany</span><span class="p">({</span>
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">  </span><span class="nx">take</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span>
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">  </span><span class="nx">skip</span><span class="o">:</span><span class="w"> </span><span class="kt">cursor</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">  </span><span class="nx">cursor</span><span class="o">:</span><span class="w"> </span><span class="kt">cursor</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">cursor</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span>
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">  </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">projectId</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">  </span><span class="nx">orderBy</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="s1">'desc'</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="p">});</span>
+</span></code></pre></div></p>
+<h3 id="batch-processing">Batch Processing<a class="headerlink" href="#batch-processing" title="Anchor link to this section">¶</a></h3>
+<p><strong>Bulk Operations</strong>:
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c1">// Inefficient: N queries</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">applications</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">updateStatus</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="s1">'running'</span><span class="p">);</span>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="p">}</span>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="c1">// Efficient: 1 query</span>
+</span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">updateMany</span><span class="p">({</span>
+</span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">  </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">in</span><span class="o">:</span><span class="w"> </span><span class="kt">applicationIds</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-11-9"><a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'running'</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-10"><a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="p">});</span>
+</span></code></pre></div></p>
+<hr/>
+<h2 id="data-flow-metrics">Data Flow Metrics<a class="headerlink" href="#data-flow-metrics" title="Anchor link to this section">¶</a></h2>
+<h3 id="key-metrics">Key Metrics<a class="headerlink" href="#key-metrics" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Current</th>
+<th>Monitoring</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Response Time (p95)</td>
+<td>&lt;200ms</td>
+<td>~150ms</td>
+<td>Prometheus</td>
+</tr>
+<tr>
+<td>Cache Hit Rate</td>
+<td>&gt;80%</td>
+<td>~85%</td>
+<td>Redis INFO</td>
+</tr>
+<tr>
+<td>Database Query Time (p95)</td>
+<td>&lt;50ms</td>
+<td>~35ms</td>
+<td>PostgreSQL stats</td>
+</tr>
+<tr>
+<td>Deployment Time</td>
+<td>&lt;5 min</td>
+<td>2-8 min</td>
+<td>Deployment logs</td>
+</tr>
+<tr>
+<td>Webhook Processing Time</td>
+<td>&lt;1s</td>
+<td>~400ms</td>
+<td>Application logs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="monitoring-queries">Monitoring Queries<a class="headerlink" href="#monitoring-queries" title="Anchor link to this section">¶</a></h3>
+<div class="language-promql highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># API response time (p95)</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="kr">histogram_quantile</span><span class="o">(</span><span class="mf">0.95</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">  </span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_request_duration_seconds_bucket</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="o">)</span>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="c1"># Cache hit rate</span>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="kr">rate</span><span class="o">(</span><span class="nv">redis_keyspace_hits_total</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span>
+</span><span id="__span-12-8"><a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">redis_keyspace_hits_total</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kr">rate</span><span class="o">(</span><span class="nv">redis_keyspace_misses_total</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">))</span>
+</span><span id="__span-12-9"><a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="c1"># Database connection pool</span>
+</span><span id="__span-12-11"><a href="#__codelineno-12-11" id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="nv">pg_stat_activity_count</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Anchor link to this section">¶</a></h2>
+<ul>
+<li><strong>Data Model</strong>: Entity definitions and relationships</li>
+<li><strong>Container Diagram</strong>: Component interactions and boundaries</li>
+<li><strong>Security View</strong>: Encryption and security controls</li>
+<li><strong>ADR-003</strong>: PostgreSQL selection and configuration</li>
+<li><strong>Deployment Diagram</strong>: Infrastructure and network topology</li>
+</ul>
+<hr/>
+<p><strong>Document Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Next Review</strong>: 2025-03-30<br/>
+<strong>Reviewed By</strong>: Architecture Team, Data Team</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Data Model" class="md-footer__link md-footer__link--prev" href="../../03-data/data-model/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Data Model
+              </div>
+</div>
+</a>
+<a aria-label="Next: Application Component Diagram" class="md-footer__link md-footer__link--next" href="../application-component-diagram/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Application Component Diagram
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>

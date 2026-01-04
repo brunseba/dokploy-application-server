@@ -1,0 +1,2407 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Complete documentation for Dokploy configuration scripts and TOGAF 9.2-compliant architecture" name="description"/>
+<meta content="Sebastien Brun" name="author"/>
+<link href="https://brunseba.github.io/dokploy-application-server/architecture/10-governance/governance-model/" rel="canonical"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.1" name="generator"/>
+<title>Architecture Governance Model - Dokploy Application Server</title>
+<link href="../../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#architecture-governance-model">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Dokploy Application Server" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Dokploy Application Server
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Architecture Governance Model
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../traefik-ovh-dns-setup/">
+          
+  
+  
+    
+  
+  Configuration
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/single-server/">
+          
+  
+  
+    
+  
+  Deployment
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../operations/monitoring/">
+          
+  
+  
+    
+  
+  Operations
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../reference/api/">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../contributing/">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Dokploy Application Server" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Dokploy Application Server">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Dokploy Application Server
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brunseba/dokploy-application-server" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    brunseba/dokploy-application-server
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_1" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../getting-started/">
+<span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../quick-start/">
+<span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../traefik-ovh-dns-setup/">
+<span class="md-ellipsis">
+    
+  
+    Traefik OVH DNS Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/script-reference/">
+<span class="md-ellipsis">
+    
+  
+    Script Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../configuration/troubleshooting/">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase A - Vision
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase A - Vision
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-vision/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Vision
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/stakeholder-analysis/">
+<span class="md-ellipsis">
+    
+  
+    Stakeholder Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01-vision/architecture-principles/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Principles
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase B - Business
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase B - Business
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/business-capability-model/">
+<span class="md-ellipsis">
+    
+  
+    Business Capability Model
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02-business/value-stream-mapping/">
+<span class="md-ellipsis">
+    
+  
+    Value Stream Mapping
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase C - Data
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase C - Data
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03-data/data-model/">
+<span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase D - Application
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase D - Application
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/data-flow-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Data Flow Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/application-component-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Application Component Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04-application/api-specification/">
+<span class="md-ellipsis">
+    
+  
+    API Specification
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase E - Technology
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase E - Technology
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05-technology/technology-stack/">
+<span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Architectural Views
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architectural Views
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/context-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Context Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/container-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Container Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/security-view/">
+<span class="md-ellipsis">
+    
+  
+    Security View
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06-views/deployment-diagram/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Diagram
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase F - Requirements
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase F - Requirements
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07-requirements/requirements-traceability-matrix/">
+<span class="md-ellipsis">
+    
+  
+    Requirements Traceability Matrix
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_9" id="__nav_3_9_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase G - Migration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase G - Migration
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../09-implementation/implementation-roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Phase H - Governance
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase H - Governance
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../architecture-governance-model/">
+<span class="md-ellipsis">
+    
+  
+    Architecture Governance Model
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_11" id="__nav_3_11_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-001-docker-swarm-orchestration/">
+<span class="md-ellipsis">
+    
+  
+    ADR-001 Docker Swarm
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-002-nextjs-framework/">
+<span class="md-ellipsis">
+    
+  
+    ADR-002 Next.js Framework
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../08-decisions/ADR-003-postgresql-database/">
+<span class="md-ellipsis">
+    
+  
+    ADR-003 PostgreSQL Database
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/single-server/">
+<span class="md-ellipsis">
+    
+  
+    Single Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/multi-server/">
+<span class="md-ellipsis">
+    
+  
+    Multi Server
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/high-availability/">
+<span class="md-ellipsis">
+    
+  
+    High Availability
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/docker-compose-examples/">
+<span class="md-ellipsis">
+    
+  
+    Docker Compose Examples
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/monitoring/">
+<span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/maintenance/">
+<span class="md-ellipsis">
+    
+  
+    Maintenance
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/backup-restore/">
+<span class="md-ellipsis">
+    
+  
+    Backup &amp; Restore
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../operations/security/">
+<span class="md-ellipsis">
+    
+  
+    Security Best Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/api/">
+<span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/cli/">
+<span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/configuration-files/">
+<span class="md-ellipsis">
+    
+  
+    Configuration Files
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../reference/environment-variables/">
+<span class="md-ellipsis">
+    
+  
+    Environment Variables
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/development/">
+<span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/coding-standards/">
+<span class="md-ellipsis">
+    
+  
+    Coding Standards
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../contributing/release-process/">
+<span class="md-ellipsis">
+    
+  
+    Release Process
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="architecture-governance-model">Architecture Governance Model<a class="headerlink" href="#architecture-governance-model" title="Anchor link to this section">¶</a></h1>
+<p><strong>Document Type</strong>: Architecture Governance<br/>
+<strong>Status</strong>: Draft<br/>
+<strong>Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Owner</strong>: Architecture Team, Executive Leadership  </p>
+<hr/>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Anchor link to this section">¶</a></h2>
+<p>This document defines the architecture governance framework for Dokploy, establishing processes, roles, responsibilities, and decision-making authorities to ensure architectural integrity, compliance, and continuous improvement throughout the product lifecycle.</p>
+<hr/>
+<h2 id="governance-principles">Governance Principles<a class="headerlink" href="#governance-principles" title="Anchor link to this section">¶</a></h2>
+<h3 id="1-transparency">1. Transparency<a class="headerlink" href="#1-transparency" title="Anchor link to this section">¶</a></h3>
+<p>All architectural decisions are documented, communicated, and accessible to relevant stakeholders.</p>
+<h3 id="2-accountability">2. Accountability<a class="headerlink" href="#2-accountability" title="Anchor link to this section">¶</a></h3>
+<p>Clear ownership and responsibility for architectural decisions and outcomes.</p>
+<h3 id="3-continuous-improvement">3. Continuous Improvement<a class="headerlink" href="#3-continuous-improvement" title="Anchor link to this section">¶</a></h3>
+<p>Regular review and refinement of architecture based on learnings and feedback.</p>
+<h3 id="4-risk-based-approach">4. Risk-Based Approach<a class="headerlink" href="#4-risk-based-approach" title="Anchor link to this section">¶</a></h3>
+<p>Governance activities proportional to risk and impact.</p>
+<h3 id="5-lightweight-process">5. Lightweight Process<a class="headerlink" href="#5-lightweight-process" title="Anchor link to this section">¶</a></h3>
+<p>Minimum necessary governance to maintain quality without impeding velocity.</p>
+<hr/>
+<h2 id="governance-structure">Governance Structure<a class="headerlink" href="#governance-structure" title="Anchor link to this section">¶</a></h2>
+<pre class="mermaid"><code>graph TB
+    EXEC[Executive Steering Committee]
+    ARB[Architecture Review Board]
+    ARCH_TEAM[Architecture Team]
+    DEV_TEAMS[Development Teams]
+    SECURITY[Security Team]
+    DEVOPS[DevOps Team]
+
+    EXEC --&gt;|Strategic Direction| ARB
+    ARB --&gt;|Architecture Standards| ARCH_TEAM
+    ARCH_TEAM --&gt;|Guidance &amp; Review| DEV_TEAMS
+    SECURITY --&gt;|Security Requirements| ARB
+    DEVOPS --&gt;|Operational Input| ARB
+    DEV_TEAMS --&gt;|Feedback &amp; Proposals| ARCH_TEAM
+    ARCH_TEAM --&gt;|Escalations| ARB
+    ARB --&gt;|Major Decisions| EXEC
+
+    style EXEC fill:#ffe6e6
+    style ARB fill:#fff4e6
+    style ARCH_TEAM fill:#e8f5e9</code></pre>
+<hr/>
+<h2 id="governance-bodies">Governance Bodies<a class="headerlink" href="#governance-bodies" title="Anchor link to this section">¶</a></h2>
+<h3 id="executive-steering-committee">Executive Steering Committee<a class="headerlink" href="#executive-steering-committee" title="Anchor link to this section">¶</a></h3>
+<p><strong>Composition</strong>:
+- CEO/CTO
+- Product VP
+- Engineering VP
+- Community Lead (for open source)</p>
+<p><strong>Responsibilities</strong>:
+- Set strategic architecture direction
+- Approve major architecture changes (&gt;$50k impact)
+- Resolve conflicts between ARB and business needs
+- Review quarterly architecture health reports</p>
+<p><strong>Meeting Cadence</strong>: Quarterly + ad-hoc for major decisions</p>
+<p><strong>Decision Authority</strong>: Final authority on:
+- Platform strategy changes
+- Major technology pivots
+- Multi-phase initiatives
+- Budget allocation for architecture work</p>
+<hr/>
+<h3 id="architecture-review-board-arb">Architecture Review Board (ARB)<a class="headerlink" href="#architecture-review-board-arb" title="Anchor link to this section">¶</a></h3>
+<p><strong>Composition</strong>:
+- Lead Architect (Chair)
+- Senior Backend Engineer
+- Senior Frontend Engineer
+- DevOps Lead
+- Security Lead
+- Product Manager</p>
+<p><strong>Responsibilities</strong>:
+- Review and approve Architecture Decision Records (ADRs)
+- Evaluate architectural compliance
+- Approve exceptions to architecture standards
+- Review architecture evolution proposals
+- Ensure alignment with principles and standards</p>
+<p><strong>Meeting Cadence</strong>: Weekly (1 hour) + ad-hoc for urgent reviews</p>
+<p><strong>Decision Authority</strong>:
+- All ADRs and significant architectural decisions
+- Technology stack additions/changes
+- Architecture standard exceptions
+- Design pattern adoption
+- Cross-cutting concerns</p>
+<p><strong>Quorum</strong>: 4 members (including Lead Architect)</p>
+<hr/>
+<h3 id="architecture-team">Architecture Team<a class="headerlink" href="#architecture-team" title="Anchor link to this section">¶</a></h3>
+<p><strong>Composition</strong>:
+- Lead Architect
+- Solution Architects (as needed)
+- Technical Leads from each team</p>
+<p><strong>Responsibilities</strong>:
+- Create and maintain architecture documentation
+- Develop architecture standards and guidelines
+- Provide architecture consultation to teams
+- Conduct architecture reviews
+- Identify technical debt and improvement opportunities
+- Monitor architecture compliance</p>
+<p><strong>Meeting Cadence</strong>: 
+- Weekly sync (30 min)
+- Monthly deep dive (2 hours)</p>
+<hr/>
+<h2 id="decision-making-framework">Decision-Making Framework<a class="headerlink" href="#decision-making-framework" title="Anchor link to this section">¶</a></h2>
+<h3 id="decision-levels">Decision Levels<a class="headerlink" href="#decision-levels" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph TB
+    L1[Level 1: Strategic]
+    L2[Level 2: Significant]
+    L3[Level 3: Standard]
+    L4[Level 4: Tactical]
+
+    L1 --&gt;|Examples| L1E[Platform changes, Major pivots]
+    L2 --&gt;|Examples| L2E[New technology, Cross-cutting changes]
+    L3 --&gt;|Examples| L3E[Component design, Pattern adoption]
+    L4 --&gt;|Examples| L4E[Implementation details, Library choices]
+
+    L1 --&gt;|Authority| ESC[Executive Committee]
+    L2 --&gt;|Authority| ARB[Architecture Review Board]
+    L3 --&gt;|Authority| ARCH[Architecture Team]
+    L4 --&gt;|Authority| TEAM[Development Teams]
+
+    style L1 fill:#ffe6e6
+    style L2 fill:#fff4e6
+    style L3 fill:#e8f5e9
+    style L4 fill:#e3f2fd</code></pre>
+<h3 id="level-1-strategic-decisions">Level 1: Strategic Decisions<a class="headerlink" href="#level-1-strategic-decisions" title="Anchor link to this section">¶</a></h3>
+<p><strong>Authority</strong>: Executive Steering Committee<br/>
+<strong>Examples</strong>:
+- Switch from Docker Swarm to Kubernetes
+- Change primary programming language
+- Major platform pivot (e.g., multi-cloud to single-cloud)
+- Acquisitions affecting architecture</p>
+<p><strong>Process</strong>: 
+1. Proposal with business case
+2. ARB review and recommendation
+3. Executive committee approval
+4. Formal communication plan</p>
+<p><strong>Timeline</strong>: 2-4 weeks</p>
+<hr/>
+<h3 id="level-2-significant-decisions">Level 2: Significant Decisions<a class="headerlink" href="#level-2-significant-decisions" title="Anchor link to this section">¶</a></h3>
+<p><strong>Authority</strong>: Architecture Review Board<br/>
+<strong>Examples</strong>:
+- Add new database technology (e.g., add MongoDB)
+- Change authentication framework
+- Adopt new architectural pattern
+- Major version upgrade with breaking changes</p>
+<p><strong>Process</strong>:
+1. ADR proposal submitted
+2. ARB review meeting
+3. Feedback period (1 week)
+4. ARB decision
+5. Documentation update</p>
+<p><strong>Timeline</strong>: 1-2 weeks</p>
+<p><strong>Approval Criteria</strong>:
+- ✅ Aligned with architecture principles
+- ✅ Addresses clear need/problem
+- ✅ Alternatives evaluated
+- ✅ Risks identified and mitigated
+- ✅ Implementation plan defined
+- ✅ No unresolved objections</p>
+<hr/>
+<h3 id="level-3-standard-decisions">Level 3: Standard Decisions<a class="headerlink" href="#level-3-standard-decisions" title="Anchor link to this section">¶</a></h3>
+<p><strong>Authority</strong>: Architecture Team<br/>
+<strong>Examples</strong>:
+- Component interface design
+- API endpoint design patterns
+- Data model changes
+- Security implementation approach</p>
+<p><strong>Process</strong>:
+1. Design proposal
+2. Peer review (async)
+3. Architecture team approval
+4. Implementation</p>
+<p><strong>Timeline</strong>: 2-5 days</p>
+<hr/>
+<h3 id="level-4-tactical-decisions">Level 4: Tactical Decisions<a class="headerlink" href="#level-4-tactical-decisions" title="Anchor link to this section">¶</a></h3>
+<p><strong>Authority</strong>: Development Teams<br/>
+<strong>Examples</strong>:
+- Library selection within approved stack
+- Implementation details
+- UI component choices
+- Test strategies</p>
+<p><strong>Process</strong>:
+1. Team decision
+2. Document in code/PR
+3. No formal approval needed</p>
+<p><strong>Timeline</strong>: Same day</p>
+<hr/>
+<h2 id="architecture-decision-records-adrs">Architecture Decision Records (ADRs)<a class="headerlink" href="#architecture-decision-records-adrs" title="Anchor link to this section">¶</a></h2>
+<h3 id="adr-process">ADR Process<a class="headerlink" href="#adr-process" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Dev as Developer/Team
+    participant Arch as Architecture Team
+    participant ARB as Review Board
+    participant Doc as Documentation
+
+    Dev-&gt;&gt;Arch: 1. Submit ADR Proposal
+    Arch-&gt;&gt;Arch: 2. Initial Review
+
+    alt Needs Discussion
+        Arch-&gt;&gt;ARB: 3. Schedule ARB Review
+        ARB-&gt;&gt;ARB: 4. Review &amp; Discuss
+        ARB-&gt;&gt;Dev: 5. Feedback
+        Dev-&gt;&gt;ARB: 6. Updated Proposal
+    end
+
+    ARB-&gt;&gt;ARB: 7. Vote &amp; Decision
+    ARB-&gt;&gt;Doc: 8. Publish ADR
+    ARB-&gt;&gt;Dev: 9. Notify Decision
+    Dev-&gt;&gt;Dev: 10. Implementation</code></pre>
+<h3 id="adr-template">ADR Template<a class="headerlink" href="#adr-template" title="Anchor link to this section">¶</a></h3>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gh"># ADR-XXX: [Decision Title]</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="gs">**Status**</span>: Proposed | Accepted | Rejected | Superseded | Deprecated  
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="gs">**Date**</span>: YYYY-MM-DD  
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="gs">**Decision Makers**</span>: [Names]  
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="gs">**Consulted**</span>: [Names]  
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="gu">## Context</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>[What is the issue we're addressing?]
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="gu">## Decision</span>
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>[What we've decided to do]
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="gu">## Rationale</span>
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a>[Why this decision was made]
+</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="gu">## Consequences</span>
+</span><span id="__span-0-18"><a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="gu">### Positive</span>
+</span><span id="__span-0-19"><a href="#__codelineno-0-19" id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="k">-</span><span class="w"> </span>[Benefit 1]
+</span><span id="__span-0-20"><a href="#__codelineno-0-20" id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">-</span><span class="w"> </span>[Benefit 2]
+</span><span id="__span-0-21"><a href="#__codelineno-0-21" id="__codelineno-0-21" name="__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a href="#__codelineno-0-22" id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="gu">### Negative</span>
+</span><span id="__span-0-23"><a href="#__codelineno-0-23" id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="k">-</span><span class="w"> </span>[Drawback 1]
+</span><span id="__span-0-24"><a href="#__codelineno-0-24" id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">-</span><span class="w"> </span>[Drawback 2]
+</span><span id="__span-0-25"><a href="#__codelineno-0-25" id="__codelineno-0-25" name="__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a href="#__codelineno-0-26" id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="gu">### Risks</span>
+</span><span id="__span-0-27"><a href="#__codelineno-0-27" id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">-</span><span class="w"> </span>[<span class="nl">Risk 1</span>]: <span class="na">Mitigation: [...]</span>
+</span><span id="__span-0-28"><a href="#__codelineno-0-28" id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">-</span><span class="w"> </span>[<span class="nl">Risk 2</span>]: <span class="na">Mitigation: [...]</span>
+</span><span id="__span-0-29"><a href="#__codelineno-0-29" id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a href="#__codelineno-0-30" id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="gu">## Alternatives Considered</span>
+</span><span id="__span-0-31"><a href="#__codelineno-0-31" id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="gu">### Option A: [Alternative Name]</span>
+</span><span id="__span-0-32"><a href="#__codelineno-0-32" id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">-</span><span class="w"> </span>Pros: [...]
+</span><span id="__span-0-33"><a href="#__codelineno-0-33" id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">-</span><span class="w"> </span>Cons: [...]
+</span><span id="__span-0-34"><a href="#__codelineno-0-34" id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">-</span><span class="w"> </span>Why not chosen: [...]
+</span><span id="__span-0-35"><a href="#__codelineno-0-35" id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a href="#__codelineno-0-36" id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="gu">## Implementation</span>
+</span><span id="__span-0-37"><a href="#__codelineno-0-37" id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="k">-</span><span class="w"> </span>Timeline: [...]
+</span><span id="__span-0-38"><a href="#__codelineno-0-38" id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">-</span><span class="w"> </span>Effort: [...]
+</span><span id="__span-0-39"><a href="#__codelineno-0-39" id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="k">-</span><span class="w"> </span>Dependencies: [...]
+</span><span id="__span-0-40"><a href="#__codelineno-0-40" id="__codelineno-0-40" name="__codelineno-0-40"></a>
+</span><span id="__span-0-41"><a href="#__codelineno-0-41" id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="gu">## Validation</span>
+</span><span id="__span-0-42"><a href="#__codelineno-0-42" id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="k">-</span><span class="w"> </span>Success criteria: [...]
+</span><span id="__span-0-43"><a href="#__codelineno-0-43" id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">-</span><span class="w"> </span>Monitoring: [...]
+</span><span id="__span-0-44"><a href="#__codelineno-0-44" id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a href="#__codelineno-0-45" id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="gu">## References</span>
+</span><span id="__span-0-46"><a href="#__codelineno-0-46" id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">-</span><span class="w"> </span>[Related ADRs]
+</span><span id="__span-0-47"><a href="#__codelineno-0-47" id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="k">-</span><span class="w"> </span>[Documentation]
+</span></code></pre></div>
+<h3 id="adr-lifecycle-states">ADR Lifecycle States<a class="headerlink" href="#adr-lifecycle-states" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Next States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Proposed</strong></td>
+<td>Under consideration</td>
+<td>Accepted, Rejected</td>
+</tr>
+<tr>
+<td><strong>Accepted</strong></td>
+<td>Approved and active</td>
+<td>Superseded, Deprecated</td>
+</tr>
+<tr>
+<td><strong>Rejected</strong></td>
+<td>Not approved</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Superseded</strong></td>
+<td>Replaced by newer ADR</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Deprecated</strong></td>
+<td>No longer recommended</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="architecture-review-process">Architecture Review Process<a class="headerlink" href="#architecture-review-process" title="Anchor link to this section">¶</a></h2>
+<h3 id="pre-implementation-review">Pre-Implementation Review<a class="headerlink" href="#pre-implementation-review" title="Anchor link to this section">¶</a></h3>
+<p><strong>Trigger</strong>: Before starting implementation of significant features</p>
+<p><strong>Process</strong>:
+1. <strong>Request Submission</strong> (Dev Team)
+   - Feature description
+   - Proposed design
+   - Architecture impacts</p>
+<ol>
+<li><strong>Initial Triage</strong> (Architecture Team - 1 day)</li>
+<li>Classify review level</li>
+<li>Identify reviewers</li>
+<li>
+<p>Schedule if needed</p>
+</li>
+<li>
+<p><strong>Review Meeting</strong> (if needed - 1 hour)</p>
+</li>
+<li>Present design</li>
+<li>Q&amp;A</li>
+<li>
+<p>Feedback</p>
+</li>
+<li>
+<p><strong>Approval Decision</strong> (1-2 days)</p>
+</li>
+<li>Approved: Proceed</li>
+<li>Conditional: Changes required</li>
+<li>Rejected: Alternative needed</li>
+</ol>
+<p><strong>Review Checklist</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>Architecture Principles
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>[ ] Open Source First
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>[ ] Self-Hosting Capable
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>[ ] Security by Design
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>[ ] Developer Experience Focus
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>[ ] Cloud-Native Architecture
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>[ ] API-First Design
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>[ ] Cost-Effectiveness
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>[ ] Observability Built-In
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>Technical Quality
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>[ ] Scalable design
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a>[ ] Maintainable code structure
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a>[ ] Adequate error handling
+</span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a>[ ] Security considerations addressed
+</span><span id="__span-1-16"><a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a>[ ] Performance implications understood
+</span><span id="__span-1-17"><a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>[ ] Testing strategy defined
+</span><span id="__span-1-18"><a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a>Documentation
+</span><span id="__span-1-20"><a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a>[ ] Architecture documentation updated
+</span><span id="__span-1-21"><a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a>[ ] API documentation provided
+</span><span id="__span-1-22"><a href="#__codelineno-1-22" id="__codelineno-1-22" name="__codelineno-1-22"></a>[ ] ADR created (if applicable)
+</span></code></pre></div></p>
+<hr/>
+<h3 id="post-implementation-review">Post-Implementation Review<a class="headerlink" href="#post-implementation-review" title="Anchor link to this section">¶</a></h3>
+<p><strong>Trigger</strong>: After completing significant features (quarterly)</p>
+<p><strong>Process</strong>:
+1. <strong>Review Preparation</strong> (1 week)
+   - Gather metrics
+   - Collect feedback
+   - Document learnings</p>
+<ol>
+<li><strong>Review Session</strong> (2 hours)</li>
+<li>Present outcomes</li>
+<li>Compare to predictions</li>
+<li>
+<p>Identify improvements</p>
+</li>
+<li>
+<p><strong>Actions</strong> (ongoing)</p>
+</li>
+<li>Document learnings</li>
+<li>Update standards</li>
+<li>Plan improvements</li>
+</ol>
+<p><strong>Review Areas</strong>:
+- Architecture decision outcomes
+- Performance vs. targets
+- Security incidents
+- Technical debt growth
+- Developer experience feedback</p>
+<hr/>
+<h2 id="compliance-management">Compliance Management<a class="headerlink" href="#compliance-management" title="Anchor link to this section">¶</a></h2>
+<h3 id="compliance-framework">Compliance Framework<a class="headerlink" href="#compliance-framework" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph TB
+    STANDARDS[Standards &amp; Regulations]
+    CONTROLS[Architecture Controls]
+    MONITORING[Compliance Monitoring]
+    REPORTING[Compliance Reporting]
+    REMEDIATION[Issue Remediation]
+
+    STANDARDS --&gt; CONTROLS
+    CONTROLS --&gt; MONITORING
+    MONITORING --&gt; REPORTING
+    REPORTING --&gt; REMEDIATION
+    REMEDIATION --&gt; CONTROLS
+
+    style STANDARDS fill:#ffe6e6
+    style MONITORING fill:#e8f5e9</code></pre>
+<h3 id="applicable-standards">Applicable Standards<a class="headerlink" href="#applicable-standards" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Scope</th>
+<th>Compliance Status</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OWASP Top 10</strong></td>
+<td>Security</td>
+<td>✅ Compliant</td>
+<td>Security Team</td>
+</tr>
+<tr>
+<td><strong>CIS Docker Benchmark</strong></td>
+<td>Container Security</td>
+<td>✅ Compliant</td>
+<td>DevOps Team</td>
+</tr>
+<tr>
+<td><strong>GDPR</strong></td>
+<td>Data Privacy</td>
+<td>✅ Compliant</td>
+<td>Legal + Arch</td>
+</tr>
+<tr>
+<td><strong>SOC 2 Type II</strong></td>
+<td>Enterprise Security</td>
+<td>🚧 In Progress</td>
+<td>Security Team</td>
+</tr>
+<tr>
+<td><strong>ISO 27001</strong></td>
+<td>Information Security</td>
+<td>📋 Planned v3.0</td>
+<td>Security Team</td>
+</tr>
+<tr>
+<td><strong>WCAG 2.1 AA</strong></td>
+<td>Accessibility</td>
+<td>🚧 In Progress</td>
+<td>Frontend Team</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compliance-controls">Compliance Controls<a class="headerlink" href="#compliance-controls" title="Anchor link to this section">¶</a></h3>
+<h4 id="security-controls">Security Controls<a class="headerlink" href="#security-controls" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Automated security scanning (Snyk, npm audit)</li>
+<li>Dependency vulnerability monitoring</li>
+<li>Container image scanning</li>
+<li>Code review requirements</li>
+<li>Penetration testing (annually)</li>
+</ul>
+<h4 id="data-privacy-controls">Data Privacy Controls<a class="headerlink" href="#data-privacy-controls" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Data classification framework</li>
+<li>Encryption at rest and in transit</li>
+<li>Data retention policies</li>
+<li>Right to deletion implementation</li>
+<li>Privacy impact assessments</li>
+</ul>
+<h4 id="operational-controls">Operational Controls<a class="headerlink" href="#operational-controls" title="Anchor link to this section">¶</a></h4>
+<ul>
+<li>Change management process</li>
+<li>Incident response procedures</li>
+<li>Backup and recovery</li>
+<li>Business continuity planning</li>
+<li>Disaster recovery testing</li>
+</ul>
+<hr/>
+<h2 id="architecture-standards">Architecture Standards<a class="headerlink" href="#architecture-standards" title="Anchor link to this section">¶</a></h2>
+<h3 id="mandatory-standards">Mandatory Standards<a class="headerlink" href="#mandatory-standards" title="Anchor link to this section">¶</a></h3>
+<h4 id="code-standards">Code Standards<a class="headerlink" href="#code-standards" title="Anchor link to this section">¶</a></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TypeScript</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- Version</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.3+</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- Strict mode</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- ESLint</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- Prettier</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="nt">Testing</span><span class="p">:</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Unit test coverage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">≥80%</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Integration tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required for APIs</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">E2E tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required for critical flows</span>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="nt">Documentation</span><span class="p">:</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">JSDoc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required for public APIs</span>
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">README</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required per component</span>
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ADR</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required for significant decisions</span>
+</span></code></pre></div>
+<h4 id="api-standards">API Standards<a class="headerlink" href="#api-standards" title="Anchor link to this section">¶</a></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">Style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RESTful</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nt">Format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">JSON</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="nt">Versioning</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">URL-based (/api/v1/)</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nt">Authentication</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">JWT Bearer tokens</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="nt">Rate Limiting</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="nt">Error Format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RFC 7807 (Problem Details)</span>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="nt">Documentation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OpenAPI 3.1+</span>
+</span></code></pre></div>
+<h4 id="security-standards">Security Standards<a class="headerlink" href="#security-standards" title="Anchor link to this section">¶</a></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">Secrets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Docker Secrets or env vars</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nt">Encryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AES-256-GCM minimum</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nt">TLS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.3 minimum</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nt">Password Hashing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bcrypt (cost 12)</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nt">JWT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RS256 or HS256</span>
+</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="nt">Input Validation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Zod schemas</span>
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="nt">SQL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Parameterized queries only</span>
+</span></code></pre></div>
+<h4 id="database-standards">Database Standards<a class="headerlink" href="#database-standards" title="Anchor link to this section">¶</a></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nt">ORM</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prisma required</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nt">Migrations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Version controlled</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="nt">Indexes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required for frequent queries</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nt">Foreign Keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="nt">Naming</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snake_case tables/columns</span>
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nt">Backups</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Daily minimum</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="exception-process">Exception Process<a class="headerlink" href="#exception-process" title="Anchor link to this section">¶</a></h2>
+<h3 id="when-exceptions-are-needed">When Exceptions Are Needed<a class="headerlink" href="#when-exceptions-are-needed" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Temporary workaround for urgent issue</li>
+<li>Legacy system integration</li>
+<li>Third-party constraints</li>
+<li>Performance optimization</li>
+<li>Proof of concept</li>
+</ul>
+<h3 id="exception-request-process">Exception Request Process<a class="headerlink" href="#exception-request-process" title="Anchor link to this section">¶</a></h3>
+<ol>
+<li>
+<p><strong>Submit Exception Request</strong>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>Standard being violated: [...]
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>Reason for exception: [...]
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>Duration: Temporary | Permanent
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>Risk assessment: [...]
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>Mitigation plan: [...]
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>Alternatives considered: [...]
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Review by Architecture Team</strong></p>
+</li>
+<li>Evaluate risk</li>
+<li>Consider alternatives</li>
+<li>
+<p>Recommend decision</p>
+</li>
+<li>
+<p><strong>ARB Approval</strong> (if high risk)</p>
+</li>
+<li>Present in ARB meeting</li>
+<li>Vote on approval</li>
+<li>
+<p>Document decision</p>
+</li>
+<li>
+<p><strong>Documentation</strong></p>
+</li>
+<li>Exception logged</li>
+<li>Review date set (if temporary)</li>
+<li>
+<p>Tracking in backlog</p>
+</li>
+<li>
+<p><strong>Monitoring</strong></p>
+</li>
+<li>Regular review</li>
+<li>Remediation planning</li>
+<li>Eventual compliance</li>
+</ol>
+<h3 id="exception-approval-authority">Exception Approval Authority<a class="headerlink" href="#exception-approval-authority" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk Level</th>
+<th>Approval Authority</th>
+<th>Max Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low</td>
+<td>Architecture Team</td>
+<td>1 year</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>ARB</td>
+<td>6 months</td>
+</tr>
+<tr>
+<td>High</td>
+<td>ARB + Executive</td>
+<td>3 months</td>
+</tr>
+<tr>
+<td>Critical</td>
+<td>Not permitted</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="metrics-monitoring">Metrics &amp; Monitoring<a class="headerlink" href="#metrics-monitoring" title="Anchor link to this section">¶</a></h2>
+<h3 id="architecture-health-metrics">Architecture Health Metrics<a class="headerlink" href="#architecture-health-metrics" title="Anchor link to this section">¶</a></h3>
+<h4 id="quality-metrics">Quality Metrics<a class="headerlink" href="#quality-metrics" title="Anchor link to this section">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Current</th>
+<th>Trend</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Test Coverage</td>
+<td>≥80%</td>
+<td>85%</td>
+<td>↑</td>
+<td>Dev Teams</td>
+</tr>
+<tr>
+<td>Security Vulnerabilities (Critical)</td>
+<td>0</td>
+<td>0</td>
+<td>→</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>API Response Time (p95)</td>
+<td>&lt;200ms</td>
+<td>150ms</td>
+<td>↑</td>
+<td>Backend</td>
+</tr>
+<tr>
+<td>Deployment Success Rate</td>
+<td>≥95%</td>
+<td>97%</td>
+<td>↑</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td>System Uptime</td>
+<td>≥99.9%</td>
+<td>99.95%</td>
+<td>→</td>
+<td>DevOps</td>
+</tr>
+</tbody>
+</table>
+<h4 id="technical-debt-metrics">Technical Debt Metrics<a class="headerlink" href="#technical-debt-metrics" title="Anchor link to this section">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Current</th>
+<th>Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code Smells (SonarQube)</td>
+<td>&lt;100</td>
+<td>45</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>Outdated Dependencies</td>
+<td>&lt;5%</td>
+<td>3%</td>
+<td>→</td>
+</tr>
+<tr>
+<td>TODO Comments</td>
+<td>&lt;50</td>
+<td>38</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>Deprecated API Usage</td>
+<td>0</td>
+<td>2</td>
+<td>→</td>
+</tr>
+</tbody>
+</table>
+<h4 id="compliance-metrics">Compliance Metrics<a class="headerlink" href="#compliance-metrics" title="Anchor link to this section">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Current</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADRs for Major Decisions</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Architecture Reviews Completed</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Standards Compliance</td>
+<td>≥95%</td>
+<td>98%</td>
+</tr>
+<tr>
+<td>Exception Remediation Rate</td>
+<td>≥80%</td>
+<td>85%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="monitoring-dashboard">Monitoring Dashboard<a class="headerlink" href="#monitoring-dashboard" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "Data Sources"
+        GITHUB[GitHub]
+        SONAR[SonarQube]
+        PROM[Prometheus]
+        SENTRY[Sentry]
+    end
+
+    subgraph "Aggregation"
+        METRICS[Metrics Collector]
+    end
+
+    subgraph "Reporting"
+        DASHBOARD[Grafana Dashboard]
+        REPORT[Quarterly Report]
+    end
+
+    GITHUB --&gt; METRICS
+    SONAR --&gt; METRICS
+    PROM --&gt; METRICS
+    SENTRY --&gt; METRICS
+    METRICS --&gt; DASHBOARD
+    METRICS --&gt; REPORT
+
+    style METRICS fill:#e8f5e9</code></pre>
+<hr/>
+<h2 id="change-management">Change Management<a class="headerlink" href="#change-management" title="Anchor link to this section">¶</a></h2>
+<h3 id="architecture-change-process">Architecture Change Process<a class="headerlink" href="#architecture-change-process" title="Anchor link to this section">¶</a></h3>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Proposed
+    Proposed --&gt; UnderReview: Submit for Review
+    UnderReview --&gt; Approved: Pass Review
+    UnderReview --&gt; NeedsWork: Changes Required
+    UnderReview --&gt; Rejected: Not Approved
+    NeedsWork --&gt; UnderReview: Resubmit
+    Rejected --&gt; [*]
+    Approved --&gt; InProgress: Start Implementation
+    InProgress --&gt; Testing: Complete Development
+    Testing --&gt; Deployed: Tests Pass
+    Testing --&gt; InProgress: Tests Fail
+    Deployed --&gt; Validated: Validate in Production
+    Validated --&gt; [*]</code></pre>
+<h3 id="change-categories">Change Categories<a class="headerlink" href="#change-categories" title="Anchor link to this section">¶</a></h3>
+<h4 id="category-1-breaking-changes">Category 1: Breaking Changes<a class="headerlink" href="#category-1-breaking-changes" title="Anchor link to this section">¶</a></h4>
+<p><strong>Examples</strong>: API version changes, major refactoring<br/>
+<strong>Approval</strong>: ARB required<br/>
+<strong>Communication</strong>: All stakeholders, 2 week notice<br/>
+<strong>Testing</strong>: Full regression suite</p>
+<h4 id="category-2-additive-changes">Category 2: Additive Changes<a class="headerlink" href="#category-2-additive-changes" title="Anchor link to this section">¶</a></h4>
+<p><strong>Examples</strong>: New features, new APIs<br/>
+<strong>Approval</strong>: Architecture Team<br/>
+<strong>Communication</strong>: Development team<br/>
+<strong>Testing</strong>: Feature + integration tests</p>
+<h4 id="category-3-minor-changes">Category 3: Minor Changes<a class="headerlink" href="#category-3-minor-changes" title="Anchor link to this section">¶</a></h4>
+<p><strong>Examples</strong>: Bug fixes, optimizations<br/>
+<strong>Approval</strong>: Code review<br/>
+<strong>Communication</strong>: Team sync<br/>
+<strong>Testing</strong>: Unit + affected tests</p>
+<hr/>
+<h2 id="risk-management">Risk Management<a class="headerlink" href="#risk-management" title="Anchor link to this section">¶</a></h2>
+<h3 id="architecture-risk-register">Architecture Risk Register<a class="headerlink" href="#architecture-risk-register" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk ID</th>
+<th>Risk Description</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AR-001</td>
+<td>Docker Swarm adoption concerns</td>
+<td>Medium</td>
+<td>High</td>
+<td>Plan K8s support v4.0, excellent docs</td>
+<td>Lead Arch</td>
+</tr>
+<tr>
+<td>AR-002</td>
+<td>Build performance degradation</td>
+<td>High</td>
+<td>Medium</td>
+<td>Cache optimization, monitoring</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td>AR-003</td>
+<td>Security vulnerability exposure</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Automated scanning, rapid patching</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>AR-004</td>
+<td>Technical debt accumulation</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Quarterly debt reduction sprints</td>
+<td>Dev Teams</td>
+</tr>
+<tr>
+<td>AR-005</td>
+<td>Third-party dependency issues</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Regular updates, fallback options</td>
+<td>Arch Team</td>
+</tr>
+<tr>
+<td>AR-006</td>
+<td>Scalability limits</td>
+<td>Low</td>
+<td>High</td>
+<td>Load testing, scaling plan</td>
+<td>Arch Team</td>
+</tr>
+<tr>
+<td>AR-007</td>
+<td>Data loss</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Backup automation, DR testing</td>
+<td>DevOps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="risk-assessment-matrix">Risk Assessment Matrix<a class="headerlink" href="#risk-assessment-matrix" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Probability/Impact</th>
+<th>Low</th>
+<th>Medium</th>
+<th>High</th>
+<th>Critical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High</strong></td>
+<td>🟨 Monitor</td>
+<td>🟧 Mitigate</td>
+<td>🟥 Urgent</td>
+<td>🟥 Urgent</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td>🟩 Accept</td>
+<td>🟨 Monitor</td>
+<td>🟧 Mitigate</td>
+<td>🟥 Urgent</td>
+</tr>
+<tr>
+<td><strong>Low</strong></td>
+<td>🟩 Accept</td>
+<td>🟩 Accept</td>
+<td>🟨 Monitor</td>
+<td>🟧 Mitigate</td>
+</tr>
+</tbody>
+</table>
+<h3 id="risk-review-cadence">Risk Review Cadence<a class="headerlink" href="#risk-review-cadence" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>High/Critical</strong>: Weekly review</li>
+<li><strong>Medium</strong>: Monthly review</li>
+<li><strong>Low</strong>: Quarterly review</li>
+</ul>
+<hr/>
+<h2 id="communication-reporting">Communication &amp; Reporting<a class="headerlink" href="#communication-reporting" title="Anchor link to this section">¶</a></h2>
+<h3 id="stakeholder-communication-plan">Stakeholder Communication Plan<a class="headerlink" href="#stakeholder-communication-plan" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stakeholder</th>
+<th>Content</th>
+<th>Frequency</th>
+<th>Channel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executive Team</td>
+<td>Strategic decisions, health metrics</td>
+<td>Quarterly</td>
+<td>Written report + presentation</td>
+</tr>
+<tr>
+<td>Development Teams</td>
+<td>Standards, ADRs, guidance</td>
+<td>Weekly</td>
+<td>Slack, wiki, meetings</td>
+</tr>
+<tr>
+<td>Product Management</td>
+<td>Architecture roadmap, capabilities</td>
+<td>Monthly</td>
+<td>Meeting</td>
+</tr>
+<tr>
+<td>Open Source Community</td>
+<td>Major decisions, roadmap</td>
+<td>Per release</td>
+<td>GitHub, blog, Discord</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quarterly-architecture-report">Quarterly Architecture Report<a class="headerlink" href="#quarterly-architecture-report" title="Anchor link to this section">¶</a></h3>
+<p><strong>Contents</strong>:
+1. <strong>Executive Summary</strong> (1 page)
+   - Key decisions made
+   - Major changes
+   - Strategic recommendations</p>
+<ol>
+<li><strong>Architecture Health</strong> (2 pages)</li>
+<li>Metrics dashboard</li>
+<li>Compliance status</li>
+<li>
+<p>Technical debt status</p>
+</li>
+<li>
+<p><strong>Decisions Made</strong> (1-2 pages)</p>
+</li>
+<li>ADRs approved</li>
+<li>Major changes implemented</li>
+<li>
+<p>Exceptions granted</p>
+</li>
+<li>
+<p><strong>Looking Forward</strong> (1 page)</p>
+</li>
+<li>Planned changes</li>
+<li>Emerging risks</li>
+<li>Resource needs</li>
+</ol>
+<hr/>
+<h2 id="continuous-improvement">Continuous Improvement<a class="headerlink" href="#continuous-improvement" title="Anchor link to this section">¶</a></h2>
+<h3 id="retrospective-process">Retrospective Process<a class="headerlink" href="#retrospective-process" title="Anchor link to this section">¶</a></h3>
+<p><strong>Cadence</strong>: After each phase/major release</p>
+<p><strong>Process</strong>:
+1. <strong>Gather Feedback</strong> (1 week)
+   - Developer surveys
+   - Stakeholder interviews
+   - Metrics review</p>
+<ol>
+<li><strong>Retrospective Meeting</strong> (2 hours)</li>
+<li>What went well</li>
+<li>What didn't go well</li>
+<li>
+<p>Actions for improvement</p>
+</li>
+<li>
+<p><strong>Action Planning</strong> (1 week)</p>
+</li>
+<li>Prioritize improvements</li>
+<li>Assign owners</li>
+<li>
+<p>Set deadlines</p>
+</li>
+<li>
+<p><strong>Implementation</strong> (ongoing)</p>
+</li>
+<li>Track progress</li>
+<li>Report on improvements</li>
+</ol>
+<h3 id="areas-for-review">Areas for Review<a class="headerlink" href="#areas-for-review" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li>Architecture process effectiveness</li>
+<li>Decision-making speed</li>
+<li>Documentation quality</li>
+<li>Standard adherence</li>
+<li>Tool effectiveness</li>
+<li>Communication clarity</li>
+</ul>
+<hr/>
+<h2 id="tool-support">Tool Support<a class="headerlink" href="#tool-support" title="Anchor link to this section">¶</a></h2>
+<h3 id="governance-tools">Governance Tools<a class="headerlink" href="#governance-tools" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>Code review, PR approvals</td>
+<td>Dev Teams</td>
+</tr>
+<tr>
+<td><strong>SonarQube</strong></td>
+<td>Code quality, security scanning</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td><strong>Snyk</strong></td>
+<td>Dependency vulnerability scanning</td>
+<td>Security</td>
+</tr>
+<tr>
+<td><strong>Grafana</strong></td>
+<td>Architecture metrics dashboard</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td><strong>Confluence/Wiki</strong></td>
+<td>Architecture documentation</td>
+<td>Arch Team</td>
+</tr>
+<tr>
+<td><strong>Slack</strong></td>
+<td>Communication, notifications</td>
+<td>All</td>
+</tr>
+<tr>
+<td><strong>Jira</strong></td>
+<td>ADR tracking, exception tracking</td>
+<td>Arch Team</td>
+</tr>
+</tbody>
+</table>
+<h3 id="automation">Automation<a class="headerlink" href="#automation" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Pre-commit hooks</strong>: Linting, formatting</li>
+<li><strong>CI/CD gates</strong>: Tests, security scans, coverage</li>
+<li><strong>Automated ADR creation</strong>: Template generation</li>
+<li><strong>Metrics collection</strong>: Automated dashboard updates</li>
+<li><strong>Compliance checks</strong>: Automated standard verification</li>
+</ul>
+<hr/>
+<h2 id="training-onboarding">Training &amp; Onboarding<a class="headerlink" href="#training-onboarding" title="Anchor link to this section">¶</a></h2>
+<h3 id="architecture-onboarding">Architecture Onboarding<a class="headerlink" href="#architecture-onboarding" title="Anchor link to this section">¶</a></h3>
+<p><strong>New Team Members</strong>:
+1. Architecture overview presentation (2 hours)
+2. Documentation reading (self-paced)
+3. Shadow architecture review (1 session)
+4. Architecture office hours (ongoing)</p>
+<p><strong>Content</strong>:
+- Architecture principles
+- ADR process
+- Key decisions and rationale
+- Standards and guidelines
+- Review process</p>
+<h3 id="ongoing-training">Ongoing Training<a class="headerlink" href="#ongoing-training" title="Anchor link to this section">¶</a></h3>
+<ul>
+<li><strong>Monthly Architecture Workshop</strong> (1 hour)</li>
+<li>Deep dive on specific topics</li>
+<li>New patterns and practices</li>
+<li>
+<p>Q&amp;A session</p>
+</li>
+<li>
+<p><strong>Quarterly Standards Update</strong> (30 min)</p>
+</li>
+<li>New standards</li>
+<li>Updated guidelines</li>
+<li>Tool changes</li>
+</ul>
+<hr/>
+<h2 id="governance-maturity-model">Governance Maturity Model<a class="headerlink" href="#governance-maturity-model" title="Anchor link to this section">¶</a></h2>
+<h3 id="current-state-level-3-managed">Current State: Level 3 (Managed)<a class="headerlink" href="#current-state-level-3-managed" title="Anchor link to this section">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Description</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Initial</td>
+<td>Ad-hoc, reactive</td>
+<td>✅ Passed</td>
+</tr>
+<tr>
+<td>2. Developing</td>
+<td>Some processes defined</td>
+<td>✅ Passed</td>
+</tr>
+<tr>
+<td>3. Managed</td>
+<td>Documented processes, consistent execution</td>
+<td>✅ <strong>Current</strong></td>
+</tr>
+<tr>
+<td>4. Optimized</td>
+<td>Measured, monitored, improved</td>
+<td>🎯 Target (12 months)</td>
+</tr>
+<tr>
+<td>5. Leading</td>
+<td>Industry best practices, innovation</td>
+<td>📋 Future</td>
+</tr>
+</tbody>
+</table>
+<h3 id="path-to-level-4-next-12-months">Path to Level 4 (Next 12 Months)<a class="headerlink" href="#path-to-level-4-next-12-months" title="Anchor link to this section">¶</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Automated compliance monitoring</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Predictive risk analytics</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Architecture fitness functions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Continuous documentation validation</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> AI-assisted architecture reviews</li>
+</ul>
+<hr/>
+<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Anchor link to this section">¶</a></h2>
+<ul>
+<li><strong>Architecture Principles</strong>: Core principles governing decisions</li>
+<li><strong>ADR-001, ADR-002, ADR-003</strong>: Example architecture decisions</li>
+<li><strong>Implementation Roadmap</strong>: Delivery timeline and phases</li>
+<li><strong>Requirements Traceability Matrix</strong>: Requirements compliance</li>
+<li><strong>Security View</strong>: Security governance aspects</li>
+</ul>
+<hr/>
+<h2 id="document-maintenance">Document Maintenance<a class="headerlink" href="#document-maintenance" title="Anchor link to this section">¶</a></h2>
+<p><strong>Review Schedule</strong>: Quarterly<br/>
+<strong>Owner</strong>: Lead Architect<br/>
+<strong>Approver</strong>: Executive Steering Committee  </p>
+<p><strong>Version History</strong>:
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0 | 2024-12-30 | Initial governance model | Architecture Team |</p>
+<hr/>
+<p><strong>Document Version</strong>: 1.0<br/>
+<strong>Last Updated</strong>: 2024-12-30<br/>
+<strong>Next Review</strong>: 2025-03-30<br/>
+<strong>Approved By</strong>: Executive Team, Architecture Review Board</p>
+<form class="md-feedback" hidden="" name="feedback">
+<fieldset>
+<legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+<div class="md-feedback__inner">
+<div class="md-feedback__list">
+<button class="md-feedback__icon md-icon" data-md-value="1" title="This page was helpful" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+</button>
+<button class="md-feedback__icon md-icon" data-md-value="0" title="This page could be improved" type="submit">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+</button>
+</div>
+<div class="md-feedback__note">
+<div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+<div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve by <a href="https://github.com/your-username/dokploy/issues/new" rel="noopener" target="_blank">opening an issue</a>.
+            </div>
+</div>
+</div>
+</fieldset>
+</form>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2025 Sebastien Brun
+    </div>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brunseba/dokploy-application-server" rel="noopener" target="_blank" title="GitHub Repository">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+<a class="md-social__link" href="https://hub.docker.com/" rel="noopener" target="_blank" title="Docker Hub">
+<svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+</body>
+</html>
