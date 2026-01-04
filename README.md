@@ -1,6 +1,11 @@
-# Dokploy Configuration Scripts
+# Dokploy Application Server
 
-This repository contains scripts and documentation for configuring Dokploy with advanced features.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue.svg)](https://brunseba.github.io/dokploy-application-server/)
+[![TOGAF](https://img.shields.io/badge/Architecture-TOGAF%209.2-green.svg)](docs/architecture/)
+[![Task](https://img.shields.io/badge/Task-Taskfile-orange.svg)](Taskfile.yml)
+
+Complete Dokploy application server configuration with TOGAF 9.2-compliant architecture documentation, Traefik OVH DNS integration, and comprehensive automation.
 
 ## Contents
 
